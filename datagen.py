@@ -18,17 +18,21 @@ if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
     for x in range(0, samples):
         sample = dict()
+        # información personal
         sample['informacion_personal'] = {}
         sample['informacion_personal']['id'] = ''
         sample['informacion_personal']['primer_apellido'] = ''
         sample['informacion_personal']['segundo_apellido'] = ''
         sample['informacion_personal']['datos_curriculares'] = {}
         sample['informacion_personal']['datos_curriculares']['grado_maximo_escolaridad'] = ''
+        # Intereses
         sample['intereses'] = {}
+        # Ingresos
         sample['ingresos'] = {}
+        # Activos
         sample['activos'] = {}
+        # Pasivos
         sample['pasivos'] = {}
-
         pprint(sample)
 elif sys_number == 1:
     print ('Sistema 2 -> Servidores públicos que intervienen en contrataciones')
