@@ -17,7 +17,11 @@ samples = args.samples
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
     for x in range(0, samples):
-        print('dec')
+        sample = dict()
+        sample['id'] = ''
+        sample['primer_apellido'] = ''
+        sample['segundo_apellido'] = ''
+        pprint(sample)
 elif sys_number == 1:
     print ('Sistema 2 -> Servidores públicos que intervienen en contrataciones')
 elif sys_number == 2:
