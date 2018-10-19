@@ -12,11 +12,12 @@ parser.add_argument('-o','--out', default='JSON', help='Output format', choices=
 args = parser.parse_args()
 
 sys_number = args.sys
-samples = args.samples
+number_of_samples = args.samples
 
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
-    for x in range(0, samples):
+    samples = []
+    for x in range(0, number_of_samples):
         sample = dict()
         # información personal
         sample['informacion_personal'] = {}
@@ -33,7 +34,11 @@ if sys_number == 1:
         sample['activos'] = {}
         # Pasivos
         sample['pasivos'] = {}
-        pprint(sample)
+        #pprint(sample)
+        samples.append(sample)
+
+    with open('data.json', 'w') as outfile:
+        json.dump(samples, outfile)
 elif sys_number == 1:
     print ('Sistema 2 -> Servidores públicos que intervienen en contrataciones')
 elif sys_number == 2:
