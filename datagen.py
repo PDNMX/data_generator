@@ -19,11 +19,12 @@ if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
     samples = []
 
-
+    # nombres y apellidos
     hombres = pd.read_csv('./corpus/hombres.csv')
     mujeres = pd.read_csv('./corpus/mujeres.csv')
     apellidos = pd.read_csv('./corpus/apellidos-20.csv')
-    #conn = sqlite3.connect('corpus.db')
+    # conn = sqlite3.connect('corpus.db')
+
     for x in range(0, number_of_samples):
         sample = dict()
         # información personal
@@ -44,6 +45,15 @@ if sys_number == 1:
         sample['informacion_personal']['rfc']['homoclave'] = ''
         sample['informacion_personal']['fecha_nacimiento'] = ''
         sample['informacion_personal']['numero_identificacion_oficial'] = ''
+        sample['informacion_personal']['correo_electronico'] = {}
+        sample['informacion_personal']['correo_electronico']['laboral'] = ''
+        sample['informacion_personal']['correo_electronico']['personal'] = ''
+        sample['informacion_personal']['telefono']={}
+        sample['informacion_personal']['telefono']['laboral']={}
+        sample['informacion_personal']['telefono']['personal']= ''
+        sample['informacion_personal']['telefono']['celular']= ''
+        sample['informacion_personal']['domicilio'] = {}
+
 
 
         sample['informacion_personal']['datos_curriculares'] = {}
