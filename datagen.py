@@ -6,6 +6,7 @@ import argparse
 #import sqlite3
 import uuid
 import random
+import unicodedata
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
 parser.add_argument('-s','--sys', default=0, type=int,  help='System number', choices=[1, 2, 3])
@@ -16,8 +17,12 @@ args = parser.parse_args()
 sys_number = args.sys
 number_of_samples = args.samples
 
-def get_email(nombre, primer_apellido):
-    return "{0}.{1}@example.com".format(nombre,primer_apellido)
+def get_email(sample):
+    nombres = sample['informacion_personal']['nombres']
+    primer_apellido = sample['informacion_personal']['primer_apellido']
+    n = unicodedata.normalize('NFKD', nombres).encode('ASCII', 'ignore')
+    a = unicodedata.normalize('NFKD', primer_apellido).encode('ASCII', 'ignore')
+    return "{0}.{1}@example.com".format(n, a)
 
 def get_telephone():
     return str(random.randint(5500000000,7779999999))
@@ -54,8 +59,8 @@ if sys_number == 1:
         sample['informacion_personal']['fecha_nacimiento'] = ''
         sample['informacion_personal']['numero_identificacion_oficial'] = ''
         sample['informacion_personal']['correo_electronico'] = {}
-        sample['informacion_personal']['correo_electronico']['laboral'] = ''
-        sample['informacion_personal']['correo_electronico']['personal'] = ''
+        sample['informacion_personal']['correo_electronico']['laboral'] = get_email(sample)
+        sample['informacion_personal']['correo_electronico']['personal'] = get_email(sample)
         sample['informacion_personal']['telefono'] = {}
         sample['informacion_personal']['telefono']['laboral']= get_telephone()
         sample['informacion_personal']['telefono']['personal']= get_telephone()
