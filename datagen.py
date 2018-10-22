@@ -1,5 +1,5 @@
 # data generator
-from pprint import pprint
+#from pprint import pprint
 import pandas as pd
 import json
 import argparse
@@ -36,6 +36,7 @@ if sys_number == 1:
     mujeres = pd.read_csv('./corpus/mujeres.csv')
     apellidos = pd.read_csv('./corpus/apellidos-20.csv')
     # domicilios
+    # catálogos de códigos
     # conn = sqlite3.connect('corpus.db')
 
     for x in range(0, number_of_samples):
