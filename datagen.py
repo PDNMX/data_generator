@@ -44,13 +44,16 @@ if sys_number == 1:
         # información personal
         sample['id'] = str(uuid.uuid1())
         sample['informacion_personal'] = {}
-        sample['informacion_personal']['informacion_general'] = {}
-        sample['informacion_personal']['informacion_general']['nombres'] = 'Juan'
-        sample['informacion_personal']['informacion_general']['primer_apellido'] = 'Pérez'
-        sample['informacion_personal']['informacion_general']['segundo_apellido'] = 'García'
-        sample['informacion_personal']['informacion_general']['nacionalidad_representante'] = {}
-        sample['informacion_personal']['informacion_general']['nacionalidad_representante']['pais'] = 'México'
-        sample['informacion_personal']['informacion_general']['nacionalidad_representante']['codigo'] = 'MX'
+
+        sample['informacion_personal']['informacion_general'] = {
+            'nombres' : 'Juan',
+            'primer_apellido' : 'Pérez',
+            'segundo_apellido' : 'García',
+            "nacionalidad_representante": {
+                "pais": "México",
+                "codigo": "MX"
+            }
+        }
         sample['informacion_personal']['informacion_general']['entidad_federativa_nacimiento'] = {}
         sample['informacion_personal']['informacion_general']['entidad_federativa_nacimiento']['nom_ent'] = 'México'
         sample['informacion_personal']['informacion_general']['entidad_federativa_nacimiento']['cve_ent'] = '15'
@@ -94,10 +97,38 @@ if sys_number == 1:
         sample['informacion_personal']['informacion_general']['regimen_matrimonial']['valor'] = 'Separación de bienes'
         sample['informacion_personal']['informacion_general']['fecha_declaracion'] = '2018-01-01'
 
-        sample['informacion_personal']['datos_curriculares']={}
-        sample['informacion_personal']['datos_curriculares']['grado_maximo_escolaridad'] = ''
+        sample['informacion_personal']['datos_curriculares'] = {
+            'grado_maximo_escolaridad' : "Licenciatura",
+            "grados_academicos": [
+                {
+                    'institucion_educativa': "Universidad Nacionalista de México",
+                    'lugar_institucion_educativa': "México",
+                    'entidad_federativa' : {
+                        'nom_ent' : 'México',
+                        'cve_ent':  '15'
+                    },
+                    'municipio' : {
+                        'nom_mun': 'Ecatepec de Morelos',
+                        'cve_mun': '033'
+                    },
+                    'carrera': 'Ingeniería en sistemas computacionales',
+                    'status': 'Terminado',
+                    'ano_conclusion': "2005",
+                    'documento_obtenido': "Título",
+                    'cedula_profesional': "2094884"
+                }
+            ]
+        }
 
-        sample['informacion_personal']['datos_encargo_actual'] = {}
+        sample['informacion_personal']['datos_encargo_actual'] = {
+            'ente_publico': 'Presidencia de la República',
+            'empleo_cargo_comision': 'Director General de Datos Abiertos',
+            'nivel_gobierno': {
+                "codigo": "EST",
+                "valor": "Estatal"
+            }
+        }
+
         sample['informacion_personal']['experiencia_laboral'] = {}
         sample['informacion_personal']['datos_dependientes_economicos'] = []
 
