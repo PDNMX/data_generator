@@ -96,9 +96,13 @@ if sys_number == 1:
 
         sample['informacion_personal']['datos_curriculares']={}
         sample['informacion_personal']['datos_curriculares']['grado_maximo_escolaridad'] = ''
+
+        sample['informacion_personal']['datos_encargo_actual'] = {}
+        sample['informacion_personal']['experiencia_laboral'] = {}
+        sample['informacion_personal']['datos_dependientes_economicos'] = []
+
         # Intereses
         sample['intereses'] = {}
-        sample['intereses'][''] =''
         # Ingresos
         sample['ingresos'] = {}
         # Activos
