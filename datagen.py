@@ -42,96 +42,264 @@ if sys_number == 1:
         sample['informacion_personal'] = {}
 
         sample['informacion_personal']['informacion_general'] = {
-            'nombres' : 'Juan',
-            'primer_apellido' : 'Pérez',
-            'segundo_apellido' : 'García',
-            "nacionalidad_representante": {
-                "pais": "México",
+            "nombres": "Carlos",
+            "primer_apellido": "Pérez",
+            "segundo_apellido": "López",
+            "nacionalidades": [{
+                "valor": "México",
+                "codigo": "MX"
+            }],
+            "pais_nacimiento": {
+                "valor": "México",
                 "codigo": "MX"
             },
-            "entidad_federativa_nacimiento":{
+            "entidad_federativa_nacimiento": {
                 "nom_ent": "México",
-                "cve_ent": "15"
+                "cve_ent": 15
             },
-            "curp": "",
-            "rfc":{
-                "valor": "",
-                "homoclave": ""
-            },
-            "fecha_nacimiento": "",
-            "numero_identificacion_oficial":"",
+            "curp": "BEML920313HMCLNS09",
+            "rfc": "GOAP780710RH7",
+            "fecha_nacimiento": "31/07/1980",
+            "numero_identificacion_oficial": "a1b2c3d4",
             "correo_electronico": {
-                "laboral": get_email('juan','perez'),
-                "personal": get_email('juan','perez')
+                "personal": "jperez@ejemplo.com.mx",
+                "laboral": "jperez@ejemplo.com.mx"
             },
             "telefono": {
-                "laboral": get_telephone(),
-                "personal": get_telephone(),
-                "celular": get_telephone()
-            }
+                "personal": "+525510203040",
+                "celular": "+525510203040"
+            },
+            "domicilio": {
+                "pais": {
+                    "valor": "México",
+                    "codigo": "MX"
+                },
+                "entidad_federativa": {
+                    "nom_ent": "México",
+                    "cve_ent": 15
+                },
+                "municipio": {
+                    "nom_mun": "Ecatepec de Morelos",
+                    "cve_mun": 27
+                },
+                "cp": 55018,
+                "localidad": {
+                    "nom_loc": "Ecatepec de Morelos",
+                    "cve_loc": 1
+                },
+                "vialidad": {
+                    "tipo_vial": "CALLE",
+                    "nom_vial": "El Rosal"
+                },
+                "numExt": 24,
+                "numInt": 48
+            },
+            "estado_civil": {
+                "codigo": "CAS",
+                "valor": "Casado (a)"
+            },
+            "regimen_matrimonial": {
+                "codigo": "SBI",
+                "valor": "Separación de bienes"
+            },
+            "fecha_declaracion": "31/07/1980"
         }
 
-        sample['informacion_personal']['informacion_general']['domicilio'] = {}
-        sample['informacion_personal']['informacion_general']['domicilio']['pais'] = 'MX'
-        sample['informacion_personal']['informacion_general']['domicilio']['entidad_federativa'] = {}
-        sample['informacion_personal']['informacion_general']['domicilio']['entidad_federativa']['nom_ent'] = 'México'
-        sample['informacion_personal']['informacion_general']['domicilio']['entidad_federativa']['cve_ent'] = '15'
-        sample['informacion_personal']['informacion_general']['domicilio']['municipio']= {}
-        sample['informacion_personal']['informacion_general']['domicilio']['municipio']['nom_mun']= 'Ecatepec de Morelos'
-        sample['informacion_personal']['informacion_general']['domicilio']['municipio']['cve_mun']= '033'
-        sample['informacion_personal']['informacion_general']['domicilio']['cp']='55018'
-        sample['informacion_personal']['informacion_general']['domicilio']['localidad']={}
-        sample['informacion_personal']['informacion_general']['domicilio']['localidad']['nom_loc']='Ecatepec de Morelos'
-        sample['informacion_personal']['informacion_general']['domicilio']['localidad']['cve_loc'] = '001'
-        sample['informacion_personal']['informacion_general']['domicilio']['vialidad']={}
-        sample['informacion_personal']['informacion_general']['domicilio']['vialidad']['tipo_vial']= 'CALLE'
-        sample['informacion_personal']['informacion_general']['domicilio']['vialidad']['nom_vial']='El Rosal'
-        sample['informacion_personal']['informacion_general']['domicilio']['numExt'] ={}
-        sample['informacion_personal']['informacion_general']['domicilio']['numExt']['numExt_num']= 24
-        sample['informacion_personal']['informacion_general']['domicilio']['numInt']= {}
-        sample['informacion_personal']['informacion_general']['domicilio']['numInt']['numInt_alf'] = 'S/N'
-        sample['informacion_personal']['informacion_general']['estado_civil_situacion_personal'] ={}
-        sample['informacion_personal']['informacion_general']['estado_civil_situacion_personal']['codigo'] = 'CAS'
-        sample['informacion_personal']['informacion_general']['estado_civil_situacion_personal']['valor'] = 'Casado (a)'
-        sample['informacion_personal']['informacion_general']['regimen_matrimonial'] = {}
-        sample['informacion_personal']['informacion_general']['regimen_matrimonial']['codigo'] = 'SBI'
-        sample['informacion_personal']['informacion_general']['regimen_matrimonial']['valor'] = 'Separación de bienes'
-        sample['informacion_personal']['informacion_general']['fecha_declaracion'] = '2018-01-01'
-
         sample['informacion_personal']['datos_curriculares'] = {
-            'grado_maximo_escolaridad' : "Licenciatura",
-            "grados_academicos": [
-                {
-                    'institucion_educativa': "Universidad Nacionalista de México",
-                    'lugar_institucion_educativa': "México",
-                    'entidad_federativa' : {
-                        'nom_ent' : 'México',
-                        'cve_ent':  '15'
-                    },
-                    'municipio' : {
-                        'nom_mun': 'Ecatepec de Morelos',
-                        'cve_mun': '033'
-                    },
-                    'carrera': 'Ingeniería en sistemas computacionales',
-                    'status': 'Terminado',
-                    'ano_conclusion': "2005",
-                    'documento_obtenido': "Título",
-                    'cedula_profesional': "2094884"
-                }
-            ]
+            "grado_maximo_escolaridad": "Licenciatura",
+            "grados_academicos": [{
+                "grado_obtenido": "Licenciatura",
+                "institucion_educativa": "La Universidad Nacionalista México",
+                "lugar_institucion_educativa": {
+                    "nom_ent": "México",
+                    "cve_ent": 15
+                },
+                "carrera": "Ing. en Sistemas Computacionales",
+                "estatus": {
+                    "codigo": "CURS",
+                    "valor": "Cursando"
+                },
+                "ano_conclusion": "2005",
+                "documento_obtenido": {
+                    "codigo": "BOL",
+                    "valor": "Boleta"
+                },
+                "cedula_profesional": "2094884"
+            }]
         }
 
         sample['informacion_personal']['datos_encargo_actual'] = {
-            'ente_publico': 'Presidencia de la República',
-            'empleo_cargo_comision': 'Director General de Datos Abiertos',
-            'nivel_gobierno': {
+            "ente_publico": "Presidencia de la República",
+            "empleo_cargo_comision": "Director General de Datos Abiertos",
+            "nivel_gobierno": {
                 "codigo": "EST",
                 "valor": "Estatal"
-            }
+            },
+            "poder_juridico": {
+                "codigo": "JUD",
+                "valor": "Judicial"
+            },
+            "contratado_honorarios": False,
+            "nivel_encargo": "CA0001",
+            "area_adscripcion": "Unidad de Política Regulatoria",
+            "fecha_posesion": "31/07/1980",
+            "lugar_ubicacion": {
+                "valor": "México",
+                "codigo": "MX"
+            },
+            "direccion_encargo": {
+                "pais": {
+                    "valor": "México",
+                    "codigo": "MX"
+                },
+                "entidad_federativa": {
+                    "nom_ent": "México",
+                    "cve_ent": 15
+                },
+                "municipio": {
+                    "nom_mun": "Ecatepec de Morelos",
+                    "cve_mun": 27
+                },
+                "cp": 55018,
+                "localidad": {
+                    "nom_loc": "Ecatepec de Morelos",
+                    "cve_loc": 1
+                },
+                "vialidad": {
+                    "tipo_vial": "CALLE",
+                    "nom_vial": "El Rosal"
+                },
+                "numExt": 24,
+                "numInt": 48
+            },
+            "sector_industria": {
+                "codigo": "SFS",
+                "valor": "Servicios de salud y asistencia social"
+            },
+            "funciones_principales": [{
+                "codigo": "ABI",
+                "valor": "Administración de bienes"
+            }]
         }
 
-        sample['informacion_personal']['experiencia_laboral'] = {}
-        sample['informacion_personal']['datos_dependientes_economicos'] = []
+        sample['informacion_personal']['experiencia_laboral'] = [
+            {
+                "ambito": {
+                    "codigo": "Pub",
+                    "valor": "Público"
+                },
+                "nivel_gobierno": {
+                    "codigo": "EST",
+                    "valor": "Estatal"
+                },
+                "poder_ente": {
+                    "codigo": "JUD",
+                    "valor": "Judicial"
+                },
+                "nombre_institucion": "Instituto Federal de Telecomunicaciones",
+                "unidad_administrativa": "Unidad de Política Regulatoria",
+                "direccion": {
+                    "pais": {
+                        "valor": "México",
+                        "codigo": "MX"
+                    },
+                    "entidad_federativa": {
+                        "nom_ent": "México",
+                        "cve_ent": 15
+                    },
+                    "municipio": {
+                        "nom_mun": "Ecatepec de Morelos",
+                        "cve_mun": 27
+                    },
+                    "cp": 55018,
+                    "localidad": {
+                        "nom_loc": "Ecatepec de Morelos",
+                        "cve_loc": 1
+                    },
+                    "vialidad": {
+                        "tipo_vial": "CALLE",
+                        "nom_vial": "El Rosal"
+                    },
+                    "numExt": 24,
+                    "numInt": 48
+                },
+                "sector_industria": {
+                    "codigo": "SFS",
+                    "valor": "Servicios de salud y asistencia social"
+                },
+                "jerarquia_rango": "string",
+                "cargo_puesto": "Jefe de Departamento",
+                "fecha_ingreso": "31/07/1980",
+                "fecha_salida": "31/07/1980",
+                "funciones_principales": [{
+                    "codigo": "ABI",
+                    "valor": "Administración de bienes"
+                }]
+            }
+        ]
+
+        sample['informacion_personal']['datos_dependientes_economicos'] = [
+            {
+                "nombres": "Carlos",
+                "primer_apellido": "Pérez",
+                "segundo_apellido": "López",
+                "tipo_relacion": {
+                    "codigo": "CONY",
+                    "valor": "Cónyuge"
+                },
+                "nacionalidad": {
+                    "valor": "México",
+                    "codigo": "MX"
+                },
+                "curp": "BEML920313HMCLNS09",
+                "rfc": "GOAP780710RH7",
+                "fecha_nacimiento": "31/07/1980",
+                "numero_identificacion_nacional": "ABCD1234",
+                "habita_domicilio_declarante": True,
+                "domicilio": {
+                    "pais": {
+                        "valor": "México",
+                        "codigo": "MX"
+                    },
+                    "entidad_federativa": {
+                        "nom_ent": "México",
+                        "cve_ent": 15
+                    },
+                    "municipio": {
+                        "nom_mun": "Ecatepec de Morelos",
+                        "cve_mun": 27
+                    },
+                    "cp": 55018,
+                    "localidad": {
+                        "nom_loc": "Ecatepec de Morelos",
+                        "cve_loc": 1
+                    },
+                    "vialidad": {
+                        "tipo_vial": "CALLE",
+                        "nom_vial": "El Rosal"
+                    },
+                    "numExt": 24,
+                    "numInt": 48
+                },
+                "medio_contacto": "usuario@correo.com",
+                "ingresos_propios": True,
+                "ocupacion_profesion": "Administrador de empresas",
+                "sector_industria": {
+                    "codigo": "SFS",
+                    "valor": "Servicios de salud y asistencia social"
+                },
+                "proveedor_contratista_gobierno": True,
+                "tiene_intereses_mismo_sector_declarante": True,
+                "desarrolla_cabildeo_sector_declarante": True,
+                "beneficiario_programa_publico": [{
+                    "nombre_programa": "Prospera",
+                    "institucion_otorga_apoyo": "XE-IPN Canal 11",
+                    "tipo_apoyo": "Servicio",
+                    "valor_apoyo": 4000
+                }],
+                "observaciones": "Esto es una observación"
+            }
+        ]
 
         # Intereses
         sample['intereses'] = {}
@@ -147,13 +315,10 @@ if sys_number == 1:
     with open('data.json', 'w') as outfile:
         json.dump(samples,outfile, indent=4)
 
-   #conn.close()
+#conn.close()
 elif sys_number == 1:
     print ('Sistema 2 -> Servidores públicos que intervienen en contrataciones')
 elif sys_number == 2:
     print ('Sistema 3 -> Servidores públicos y particulares sancionados')
 else:
     parser.print_help()
-
-
-
