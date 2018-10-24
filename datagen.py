@@ -20,8 +20,15 @@ number_of_samples = args.samples
 def get_email(n,a):
     return "{0}.{1}@example.com".format(n, a)
 
-def get_telephone():
-    return str(random.randint(5500000000,7779999999))
+def get_telephone(type):
+    prefix = '+52' + ('1' if type == 'celular' else '')
+    return prefix + str(random.randint(5500000000,7779999999))
+
+def get_bith_date():
+    dia = str(random.randint(1,28))
+    mes = str(random.randint(1,12))
+    anio = str(random.randint(1950,1999))
+    return "{0}/{1}/{2}".format(dia, mes, anio)
 
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
@@ -59,15 +66,15 @@ if sys_number == 1:
             },
             "curp": "BEML920313HMCLNS09",
             "rfc": "GOAP780710RH7",
-            "fecha_nacimiento": "31/07/1980",
+            "fecha_nacimiento": get_bith_date(),
             "numero_identificacion_oficial": "a1b2c3d4",
             "correo_electronico": {
                 "personal": "jperez@ejemplo.com.mx",
                 "laboral": "jperez@ejemplo.com.mx"
             },
             "telefono": {
-                "personal": "+525510203040",
-                "celular": "+525510203040"
+                "personal": get_telephone('fijo'),
+                "celular": get_telephone('celular')
             },
             "domicilio": {
                 "pais": {
@@ -253,7 +260,7 @@ if sys_number == 1:
                 },
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
-                "fecha_nacimiento": "31/07/1980",
+                "fecha_nacimiento": get_bith_date(),
                 "numero_identificacion_nacional": "ABCD1234",
                 "habita_domicilio_declarante": True,
                 "domicilio": {
