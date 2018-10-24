@@ -17,11 +17,7 @@ args = parser.parse_args()
 sys_number = args.sys
 number_of_samples = args.samples
 
-def get_email(sample):
-    nombres = sample['informacion_personal']['informacion_general']['nombres']
-    primer_apellido = sample['informacion_personal']['informacion_general']['primer_apellido']
-    n = unicodedata.normalize('NFKD', nombres).encode('ASCII', 'ignore')
-    a = unicodedata.normalize('NFKD', primer_apellido).encode('ASCII', 'ignore')
+def get_email(n,a):
     return "{0}.{1}@example.com".format(n, a)
 
 def get_telephone():
@@ -52,24 +48,29 @@ if sys_number == 1:
             "nacionalidad_representante": {
                 "pais": "México",
                 "codigo": "MX"
+            },
+            "entidad_federativa_nacimiento":{
+                "nom_ent": "México",
+                "cve_ent": "15"
+            },
+            "curp": "",
+            "rfc":{
+                "valor": "",
+                "homoclave": ""
+            },
+            "fecha_nacimiento": "",
+            "numero_identificacion_oficial":"",
+            "correo_electronico": {
+                "laboral": get_email('juan','perez'),
+                "personal": get_email('juan','perez')
+            },
+            "telefono": {
+                "laboral": get_telephone(),
+                "personal": get_telephone(),
+                "celular": get_telephone()
             }
         }
-        sample['informacion_personal']['informacion_general']['entidad_federativa_nacimiento'] = {}
-        sample['informacion_personal']['informacion_general']['entidad_federativa_nacimiento']['nom_ent'] = 'México'
-        sample['informacion_personal']['informacion_general']['entidad_federativa_nacimiento']['cve_ent'] = '15'
-        sample['informacion_personal']['informacion_general']['curp'] = ''
-        sample['informacion_personal']['informacion_general']['rfc'] = {}
-        sample['informacion_personal']['informacion_general']['rfc']['valor'] = ''
-        sample['informacion_personal']['informacion_general']['rfc']['homoclave'] = ''
-        sample['informacion_personal']['informacion_general']['fecha_nacimiento'] = ''
-        sample['informacion_personal']['informacion_general']['numero_identificacion_oficial'] = ''
-        sample['informacion_personal']['informacion_general']['correo_electronico'] = {}
-        sample['informacion_personal']['informacion_general']['correo_electronico']['laboral'] = get_email(sample)
-        sample['informacion_personal']['informacion_general']['correo_electronico']['personal'] = get_email(sample)
-        sample['informacion_personal']['informacion_general']['telefono'] = {}
-        sample['informacion_personal']['informacion_general']['telefono']['laboral']= get_telephone()
-        sample['informacion_personal']['informacion_general']['telefono']['personal']= get_telephone()
-        sample['informacion_personal']['informacion_general']['telefono']['celular']= get_telephone()
+
         sample['informacion_personal']['informacion_general']['domicilio'] = {}
         sample['informacion_personal']['informacion_general']['domicilio']['pais'] = 'MX'
         sample['informacion_personal']['informacion_general']['domicilio']['entidad_federativa'] = {}
