@@ -47,6 +47,42 @@ def get_college():
 
     return colleges[ random.randint(0, (len(colleges)-1))]
 
+def get_degree():
+    degrees =[
+        'Ingeniería en Sistemas Computacionales',
+        'Licenciatura en Matemáticas Aplicadas',
+        'Ingeniería en Computación',
+        'Ingeniería en Comunicaciones y Electrónica',
+        'Licenciatura en Derecho',
+        'Licenciatura en Ciencias Políticas',
+        'Licenciatura en Física',
+        'Ingeniería Industrial'
+    ]
+    return degrees[random.randint(0, (len(degrees) - 1))]
+
+def get_position():
+    positions = [
+        'Enlace de Alto Nivel de Responsabilidad',
+        'Jefe de Departamento',
+        'Subdirector de Area',
+        'Director de Area',
+        'Director General Adjunto',
+        'Director General',
+        'Titular de Unidad'
+    ]
+    return positions[random.randint(0, (len(positions) - 1))]
+
+
+def get_institution():
+    institutions=[
+        'Instituto Federal de Telecomunicaciones',
+        'Presidencia de la República',
+        'Comisión Federal de Competencia Económica',
+        'Secretaría de Comunicaciones y Transportes',
+        'Secretaría Ejecutiva del Sistema Nacional Anticorrupción',
+        'Secretaría de la Función Pública'
+    ]
+    return institutions[random.randint(0, (len(institutions)-1))]
 
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
@@ -139,7 +175,7 @@ if sys_number == 1:
                     "nom_ent": "México",
                     "cve_ent": 15
                 },
-                "carrera": "Ing. en Sistemas Computacionales",
+                "carrera": get_degree(),
                 "estatus": {
                     "codigo": "CURS",
                     "valor": "Cursando"
@@ -154,8 +190,8 @@ if sys_number == 1:
         }
 
         sample['informacion_personal']['datos_encargo_actual'] = {
-            "ente_publico": "Presidencia de la República",
-            "empleo_cargo_comision": "Director General de Datos Abiertos",
+            "ente_publico": get_institution(),
+            "empleo_cargo_comision": get_position(),
             "nivel_gobierno": {
                 "codigo": "EST",
                 "valor": "Estatal"
