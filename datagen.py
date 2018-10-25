@@ -34,6 +34,20 @@ def get_bith_date():
     anio = str(random.randint(1950,1999))
     return "{0}/{1}/{2}".format(dia, mes, anio)
 
+
+def get_college():
+
+    colleges= [
+        'Instituto Politécnico Nacional',
+        'Instituto Tecnológico Autónomo de México',
+        'Universidad Nacional Autónoma de México',
+        'Universidad Iberoamericana',
+        'Universidad de Guadalajara'
+    ]
+
+    return colleges[ random.randint(0, (len(colleges)-1))]
+
+
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
     samples = []
@@ -120,7 +134,7 @@ if sys_number == 1:
             "grado_maximo_escolaridad": "Licenciatura",
             "grados_academicos": [{
                 "grado_obtenido": "Licenciatura",
-                "institucion_educativa": "La Universidad Nacionalista México",
+                "institucion_educativa": get_college(),
                 "lugar_institucion_educativa": {
                     "nom_ent": "México",
                     "cve_ent": 15
