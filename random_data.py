@@ -1,5 +1,6 @@
 import random, string
 import pandas as pd
+import uuid
 
 # nombres y apellidos
 hombres = pd.read_csv('./corpus/hombres.csv')
@@ -9,6 +10,11 @@ mujeres = mujeres.values
 apellidos = pd.read_csv('./corpus/apellidos-20.csv')
 apellidos = apellidos.values
 
+def get_id():
+    return str(uuid.uuid1())
+
+def rand_bool():
+    return random.choice([True, False])
 def get_name():
     gender = random.choice(['F', 'M'])
     return hombres[random.randint(0, (len(hombres))-1)][0] if gender is 'M' else\
