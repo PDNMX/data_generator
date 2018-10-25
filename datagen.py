@@ -199,7 +199,7 @@ if sys_number == 1:
                     "codigo": "JUD",
                     "valor": "Judicial"
                 },
-                "nombre_institucion": "Instituto Federal de Telecomunicaciones",
+                "nombre_institucion": get_institution(),
                 "unidad_administrativa": "Unidad de Política Regulatoria",
                 "direccion": {
                     "pais": {
@@ -231,9 +231,9 @@ if sys_number == 1:
                     "valor": "Servicios de salud y asistencia social"
                 },
                 "jerarquia_rango": "string",
-                "cargo_puesto": "Jefe de Departamento",
+                "cargo_puesto": get_position(),
                 "fecha_ingreso": "31/07/1980",
-                "fecha_salida": "31/07/1980",
+                "fecha_salida": "31/07/1990",
                 "funciones_principales": [{
                     "codigo": "ABI",
                     "valor": "Administración de bienes"
