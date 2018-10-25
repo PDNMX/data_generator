@@ -6,6 +6,7 @@ import argparse
 #import sqlite3
 import uuid
 import random
+import string
 import unicodedata
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
@@ -17,8 +18,11 @@ args = parser.parse_args()
 sys_number = args.sys
 number_of_samples = args.samples
 
-def get_email(n,a):
-    return "{0}.{1}@example.com".format(n, a)
+def get_email(domain):
+    length = 12
+    letters = string.ascii_lowercase
+    user = ''.join(random.choice(letters) for i in range(length))
+    return "{0}@{1}".format(user, domain)
 
 def get_telephone(type):
     prefix = '+52' + ('1' if type == 'celular' else '')
@@ -69,8 +73,8 @@ if sys_number == 1:
             "fecha_nacimiento": get_bith_date(),
             "numero_identificacion_oficial": "a1b2c3d4",
             "correo_electronico": {
-                "personal": "jperez@ejemplo.com.mx",
-                "laboral": "jperez@ejemplo.com.mx"
+                "personal": get_email('abcmail.com'),
+                "laboral": get_email('dependencia.gob.mx')
             },
             "telefono": {
                 "personal": get_telephone('fijo'),
@@ -288,7 +292,7 @@ if sys_number == 1:
                     "numExt": 24,
                     "numInt": 48
                 },
-                "medio_contacto": "usuario@correo.com",
+                "medio_contacto": get_email('coldmail.com'),
                 "ingresos_propios": True,
                 "ocupacion_profesion": "Administrador de empresas",
                 "sector_industria": {
