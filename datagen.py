@@ -1,6 +1,4 @@
 # data generator
-#from pprint import pprint
-import pandas as pd
 import json
 import argparse
 #import sqlite3
@@ -19,11 +17,6 @@ number_of_samples = args.samples
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
     samples = []
-
-    # nombres y apellidos
-    hombres = pd.read_csv('./corpus/hombres.csv')
-    mujeres = pd.read_csv('./corpus/mujeres.csv')
-    apellidos = pd.read_csv('./corpus/apellidos-20.csv')
     # domicilios
     # catálogos de códigos
     # conn = sqlite3.connect('corpus.db')
@@ -35,9 +28,9 @@ if sys_number == 1:
         sample['informacion_personal'] = {}
 
         sample['informacion_personal']['informacion_general'] = {
-            "nombres": "Carlos",
-            "primer_apellido": "Pérez",
-            "segundo_apellido": "López",
+            "nombres": get_name(),
+            "primer_apellido": get_last_name(),
+            "segundo_apellido": get_last_name(),
             "nacionalidades": [{
                 "valor": "México",
                 "codigo": "MX"

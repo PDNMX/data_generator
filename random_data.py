@@ -1,4 +1,21 @@
 import random, string
+import pandas as pd
+
+# nombres y apellidos
+hombres = pd.read_csv('./corpus/hombres.csv')
+hombres = hombres.values
+mujeres = pd.read_csv('./corpus/mujeres.csv')
+mujeres = mujeres.values
+apellidos = pd.read_csv('./corpus/apellidos-20.csv')
+apellidos = apellidos.values
+
+def get_name():
+    gender = random.choice(['F', 'M'])
+    return hombres[random.randint(0, (len(hombres))-1)][0] if gender is 'M' else\
+        mujeres[random.randint(0, (len(mujeres))-1)][0]
+
+def get_last_name():
+    return apellidos[random.randint(0, (len(apellidos)) - 1)][0]
 
 def get_email(domain):
     length = 12
