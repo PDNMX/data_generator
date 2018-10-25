@@ -78,7 +78,8 @@ def get_position():
     ]
     return positions[random.randint(0, (len(positions) - 1))]
 
-
+def lorem_ipsum():
+    return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 def get_institution():
     institutions=[
         "ADMINISTRACION DEL PATRIMONIO DE LA BENEFICENCIA PUBLICA",
