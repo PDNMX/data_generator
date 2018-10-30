@@ -499,8 +499,8 @@ if sys_number == 1:
             "clientes_principales": [{
                 "id": 123,
                 "nombre_negocio": "Nombre negocio",
-                "numero_Registro": "HTC896DSFA",
-                "dueño_encargado": "Salvador Hernández Torres",
+                "numero_registro": "HTC896DSFA",
+                "dueno_encargado": "Salvador Hernández Torres",
                 "nombre_cliente": "AMEX.S.A.",
                 "rfc_cliente": "GOAP780710RH7",
                 "domicilio_cliente": {
