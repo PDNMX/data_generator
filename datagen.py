@@ -437,6 +437,7 @@ if sys_number == 1:
                 "curp_parte": "BEML920313HMCLNS09",
                 "rfc_parte": "GOAP780710RH7",
                 "fecha_nacimiento_parte": "31/07/1980",
+                "ocupacion_profesion_parte": lorem_ipsum(),
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
