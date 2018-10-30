@@ -5,6 +5,7 @@ import argparse
 from pymongo import MongoClient
 from random_data import *
 import os
+from urllib.parse import quote_plus
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
 parser.add_argument('-s','--sys', default=0, type=int,  help='System number', choices=[1, 2, 3])
@@ -23,8 +24,9 @@ password = os.environ.get('DATAGEN_MONGO_PASS', None)
 
 uri = "mongodb://%s:%s" % (host, port)
 if user is not None and password is not None:
-    uri = "mongodb://%s:%s@%s:%s" % (user, password, host, port)
+    uri = "mongodb://%s:%s@%s" % (quote_plus(user), quote_plus(password), host)
 
+print(uri)
 client = MongoClient(uri)
 
 db = client.datagen
