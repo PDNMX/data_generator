@@ -270,10 +270,10 @@ if sys_number == 1:
                     "codigo": "CONY",
                     "valor": "Cónyuge"
                 },
-                "nacionalidad": {
+                "nacionalidades": [{
                     "valor": "México",
                     "codigo": "MX"
-                },
+                }],
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
                 "fecha_nacimiento": get_bith_date(),
@@ -542,10 +542,10 @@ if sys_number == 1:
                 },
                 "nombre_denominacion_parte": "Sergio Rodríguez",
                 "fecha_inicio_relacion": "31/07/1980",
-                "nacionalidad": {
+                "nacionalidades": [{
                     "valor": "México",
                     "codigo": "MX"
-                },
+                }],
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
                 "fecha_nacimiento": "31/07/1980",
