@@ -4,6 +4,7 @@ import argparse
 #import sqlite3
 from pymongo import MongoClient
 from random_data import *
+import os
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
 parser.add_argument('-s','--sys', default=0, type=int,  help='System number', choices=[1, 2, 3])
@@ -14,7 +15,18 @@ args = parser.parse_args()
 sys_number = args.sys
 number_of_samples = args.samples
 
-client = MongoClient('localhost', 27017)
+
+host = os.environ.get('DATAGEN_MONGO_HOST', 'localhost')
+port = os.environ.get('DATAGEN_MONGO_PORT', 27017)
+user = os.environ.get('DATAGEN_MONGO_USER', None)
+password = os.environ.get('DATAGEN_MONGO_PASS', None)
+
+uri = "mongodb://%s:%s" % (host, port)
+if user is not None and password is not None:
+    uri = "mongodb://%s@%s:%s" % ((user+":"+password), host, port)
+
+client = MongoClient(uri)
+
 db = client.datagen
 
 if sys_number == 1:
@@ -29,7 +41,13 @@ if sys_number == 1:
     for x in range(0, number_of_samples):
         sample = dict()
         # información personal
-        sample['id'] = str(uuid.uuid1())
+        #sample['id'] = str(uuid.uuid1())
+        sample['metadatos'] = {
+            "fecha_actualizacion": '2018-10-01T:00:00:00Z',
+            "institucion_responsable": "Secretaría de la Administración de Declaraciones",
+            "contacto": "declaraciones@sad.mx"
+        }
+
         sample['informacion_personal'] = {}
 
         sample['informacion_personal']['informacion_general'] = {
