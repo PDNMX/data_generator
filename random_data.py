@@ -52,6 +52,9 @@ def get_college():
 
     return colleges[ random.randint(0, (len(colleges)-1))]
 
+def get_amount(a,b):
+    return random.uniform(a,b)
+
 def get_degree():
     degrees =[
         'Ingeniería en Sistemas Computacionales',

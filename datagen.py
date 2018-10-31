@@ -1310,7 +1310,7 @@ if sys_number == 1:
                     "valor": "Cesión"
                 },
                 "fecha_inicio": "31/07/1980",
-                "monto_original": 80000,
+                "monto_original": get_amount(80000, 100000),
                 "tipo_moneda": {
                     "codigo": "MXN",
                     "moneda": "Peso mexicano"
@@ -1339,7 +1339,7 @@ if sys_number == 1:
                     "codigo": "MXN",
                     "moneda": "Peso mexicano"
                 },
-                "monto": 78555,
+                "monto": get_amount(70000,100000),
                 "tipo_metal": {
                     "codigo": "ORO",
                     "valor": "Oro"
@@ -1544,7 +1544,7 @@ if sys_number == 1:
                     "valor": "Servicios de salud y asistencia social"
                 },
                 "fecha_prestamo": "31/07/1980",
-                "monto_original_prestamo": 488844,
+                "monto_original_prestamo": get_amount(70000,100000),
                 "tasa_interes": 10.01,
                 "saldo_pendiente": 4555,
                 "fecha_vencimiento": "31/07/1980",
@@ -1659,7 +1659,7 @@ if sys_number == 1:
                     "numInt": "48"
                 },
                 "fecha_adeudo": "31/07/1980",
-                "monto_original": 277900,
+                "monto_original": get_amount(70000,100000),
                 "tipo_moneda": {
                     "codigo": "MXN",
                     "moneda": "Peso mexicano"
@@ -1667,7 +1667,7 @@ if sys_number == 1:
                 "tasa_interes": 12,
                 "saldo_pendiente": 28000,
                 "montos_abonados": [
-                    28000
+                    get_amount(7000, 10000)
                 ],
                 "plazo_adeudo": 24,
                 "unidad_medida_adeudo": {
@@ -1731,7 +1731,7 @@ if sys_number == 1:
                     "numInt": "48"
                 },
                 "fecha_obligacion": "31/07/1980",
-                "monto_original": 300000,
+                "monto_original": get_amount(40000,500000),
                 "tipo_moneda": {
                     "codigo": "MXN",
                     "moneda": "Peso mexicano"
