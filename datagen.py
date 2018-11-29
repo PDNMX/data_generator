@@ -77,7 +77,7 @@ if sys_number == 1:
                 "laboral": get_email('dependencia.gob.mx')
             },
             "telefono": {
-                "personal": get_telephone('fijo'),
+                "particular": get_telephone('fijo'),
                 "celular": get_telephone('celular')
             },
             "domicilio": {
