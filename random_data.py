@@ -37,7 +37,7 @@ def get_bith_date():
     dia = str(random.randint(1,28))
     mes = str(random.randint(1,12))
     anio = str(random.randint(1950,1999))
-    return "{0}/{1}/{2}".format(dia, mes, anio)
+    return "{0}-{1}-{2}T00:00:00Z".format(anio, mes, dia)
 
 
 def get_college():

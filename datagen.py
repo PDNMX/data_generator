@@ -113,7 +113,7 @@ if sys_number == 1:
                 "codigo": "SBI",
                 "valor": "Separación de bienes"
             },
-            "fecha_declaracion": "31/07/1980"
+            "fecha_declaracion": "1980-07-31T00:00:00Z"
         }
 
         sample['informacion_personal']['datos_curriculares'] = {
@@ -159,7 +159,7 @@ if sys_number == 1:
             "contratado_honorarios": False,
             "nivel_encargo": "CA0001",
             "area_adscripcion": "Unidad de Política Regulatoria",
-            "fecha_posesion": "31/07/1980",
+            "fecha_posesion": "1980-07-31T00:00:00Z",
             "lugar_ubicacion": {
                 "pais": {
                     "valor": "México",
@@ -252,7 +252,7 @@ if sys_number == 1:
                 },
                 "jerarquia_rango": "string",
                 "cargo_puesto": get_position(),
-                "fecha_ingreso": "31/07/1980",
+                "fecha_ingreso": "1980-07-31T00:00:00Z",
                 "fecha_salida": "31/07/1990",
                 "funciones_principales": [{
                     "codigo": "ABI",
@@ -333,7 +333,7 @@ if sys_number == 1:
                     "valor": "México",
                     "codigo": "MX"
                 },
-                "fecha_constitucion": "31/07/1980",
+                "fecha_constitucion": "1980-07-31T00:00:00Z",
                 "numero_registro": "ABC123",
                 "rfc": "GOAP780710RH7",
                 "domicilio": {
@@ -407,7 +407,7 @@ if sys_number == 1:
                     "valor": "Servicios de salud y asistencia social"
                 },
                 "puesto_rol": "Titular",
-                "fecha_inicio": "31/07/1980",
+                "fecha_inicio": "1980-07-31T00:00:00Z",
                 "pagado": rand_bool(),
                 "observaciones": lorem_ipsum()
             }],
@@ -436,13 +436,13 @@ if sys_number == 1:
                 "nombre_parte_representada": "Cecilia Gómez Urrutia",
                 "curp_parte": "BEML920313HMCLNS09",
                 "rfc_parte": "GOAP780710RH7",
-                "fecha_nacimiento_parte": "31/07/1980",
+                "fecha_nacimiento_parte": "1980-07-31T00:00:00Z",
                 "ocupacion_profesion_parte": lorem_ipsum(),
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "fecha_inicio": "31/07/1980",
+                "fecha_inicio": "1980-07-31T00:00:00Z",
                 "pagado": rand_bool(),
                 "observaciones": lorem_ipsum()
             }],
@@ -453,14 +453,14 @@ if sys_number == 1:
                     "valor": "Apoderado"
                 },
                 "nombre_representante": "Augusto Fernández Castro",
-                "fecha_inicio_representacion": "31/07/1980",
+                "fecha_inicio_representacion": "1980-07-31T00:00:00Z",
                 "nacionalidades_representante": [{
                     "valor": "México",
                     "codigo": "MX"
                 }],
                 "curp_representante": "BEML920313HMCLNS09",
                 "rfc_representante": "GOAP780710RH7",
-                "fecha_nacimiento_representante": "31/07/1980",
+                "fecha_nacimiento_representante": "1980-07-31T00:00:00Z",
                 "tiene_intereses": rand_bool(),
                 "ocupacion_profesion": "Contador",
                 "sector_industria": {
@@ -488,7 +488,7 @@ if sys_number == 1:
                         "cve_ent": "15"
                     }
                 },
-                "fecha_nacimiento_socio": "31/07/1980",
+                "fecha_nacimiento_socio": "1980-07-31T00:00:00Z",
                 "porcentaje_participacion": 70,
                 "sector_industria": {
                     "codigo": "SFS",
@@ -542,14 +542,14 @@ if sys_number == 1:
                     "valor": "Garantes de Préstamos Recibidos"
                 },
                 "nombre_denominacion_parte": "Sergio Rodríguez",
-                "fecha_inicio_relacion": "31/07/1980",
+                "fecha_inicio_relacion": "1980-07-31T00:00:00Z",
                 "nacionalidades": [{
                     "valor": "México",
                     "codigo": "MX"
                 }],
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
-                "fecha_nacimiento": "31/07/1980",
+                "fecha_nacimiento": "1980-07-31T00:00:00Z",
                 "ocupacion": "Administrador de empresas",
                 "tiene_interes": True,
                 "sector_industria": {
@@ -591,7 +591,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -645,7 +645,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -699,7 +699,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -753,7 +753,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": "Esto es una observación"
             }],
@@ -807,7 +807,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -861,7 +861,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -915,7 +915,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -969,7 +969,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -1023,7 +1023,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }],
@@ -1077,7 +1077,7 @@ if sys_number == 1:
                         "valor": "Meses"
                     },
                     "duracion_frecuencia": 10,
-                    "fecha_transaccion": "31/07/1980"
+                    "fecha_transaccion": "1980-07-31T00:00:00Z"
                 },
                 "observaciones": lorem_ipsum()
             }]
@@ -1107,7 +1107,7 @@ if sys_number == 1:
                     "numero_escritura_publica": 202020,
                     "numero_registro_publico": 404040,
                     "folio_real": "jsjs74747",
-                    "fecha_contrato": "31/07/1980"
+                    "fecha_contrato": "1980-07-31T00:00:00Z"
                 },
                 "domicilio_bien": {
                     "pais": {
@@ -1149,7 +1149,7 @@ if sys_number == 1:
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "fecha_adquisicion": "31/07/1980",
+                "fecha_adquisicion": "1980-07-31T00:00:00Z",
                 "precio_adquisicion": {
                     "valor": 4000,
                     "moneda": {
@@ -1207,7 +1207,7 @@ if sys_number == 1:
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "fecha_adquisicion": "31/07/1980",
+                "fecha_adquisicion": "1980-07-31T00:00:00Z",
                 "precio_adquisicion": {
                     "valor": 4000,
                     "moneda": {
@@ -1245,7 +1245,7 @@ if sys_number == 1:
                     "codigo": "CONY",
                     "valor": "Cónyuge"
                 },
-                "fecha_adquisicion": "31/07/1980",
+                "fecha_adquisicion": "1980-07-31T00:00:00Z",
                 "precio_adquisicion": {
                     "valor": 4000,
                     "moneda": {
@@ -1309,7 +1309,7 @@ if sys_number == 1:
                     "codigo": "CES",
                     "valor": "Cesión"
                 },
-                "fecha_inicio": "31/07/1980",
+                "fecha_inicio": "1980-07-31T00:00:00Z",
                 "monto_original": get_amount(80000, 100000),
                 "tipo_moneda": {
                     "codigo": "MXN",
@@ -1364,8 +1364,8 @@ if sys_number == 1:
                 },
                 "objetivo": "Objetivo del fideicomiso",
                 "numero_registro": "788544abc",
-                "fecha_creacion": "31/07/1980",
-                "vigencia": "31/07/1980",
+                "fecha_creacion": "1980-07-31T00:00:00Z",
+                "vigencia": "1980-07-31T00:00:00Z",
                 "residencia": {
                     "valor": "México",
                     "codigo": "MX"
@@ -1462,9 +1462,9 @@ if sys_number == 1:
                     "numExt": "24",
                     "numInt": "48"
                 },
-                "fecha_nacimiento_constitucion_fideicomitente": "31/07/1980",
-                "fecha_nacimiento_constitucion_fideicomisario": "31/07/1980",
-                "fecha_nacimiento_constitucion_fiduciario": "31/07/1980",
+                "fecha_nacimiento_constitucion_fideicomitente": "1980-07-31T00:00:00Z",
+                "fecha_nacimiento_constitucion_fideicomisario": "1980-07-31T00:00:00Z",
+                "fecha_nacimiento_constitucion_fiduciario": "1980-07-31T00:00:00Z",
                 "observaciones": lorem_ipsum()
             }],
             "bienes_intangibles": [{
@@ -1481,7 +1481,7 @@ if sys_number == 1:
                     "segundo_apellido": "López"
                 },
                 "numero_registro": 754444,
-                "fecha_registro": "31/07/1980",
+                "fecha_registro": "1980-07-31T00:00:00Z",
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
@@ -1497,7 +1497,7 @@ if sys_number == 1:
                     "codigo": "CES",
                     "valor": "Cesión"
                 },
-                "fecha_vencimiento": "31/07/1980",
+                "fecha_vencimiento": "1980-07-31T00:00:00Z",
                 "porcentaje_copropiedad": 70,
                 "precio_total_copropiedad": {
                     "valor": 4000,
@@ -1543,11 +1543,11 @@ if sys_number == 1:
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "fecha_prestamo": "31/07/1980",
+                "fecha_prestamo": "1980-07-31T00:00:00Z",
                 "monto_original_prestamo": get_amount(70000,100000),
                 "tasa_interes": 10.01,
                 "saldo_pendiente": 4555,
-                "fecha_vencimiento": "31/07/1980",
+                "fecha_vencimiento": "1980-07-31T00:00:00Z",
                 "porcentaje_copropiedad": 70,
                 "nombre_copropietario": "Max Power Bansky",
                 "observaciones": lorem_ipsum()
@@ -1576,7 +1576,7 @@ if sys_number == 1:
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "fecha_inicio": "31/07/1980",
+                "fecha_inicio": "1980-07-31T00:00:00Z",
                 "domicilio_persona": {
                     "pais": {
                         "valor": "México",
@@ -1658,7 +1658,7 @@ if sys_number == 1:
                     "numExt": "24",
                     "numInt": "48"
                 },
-                "fecha_adeudo": "31/07/1980",
+                "fecha_adeudo": "1980-07-31T00:00:00Z",
                 "monto_original": get_amount(70000,100000),
                 "tipo_moneda": {
                     "codigo": "MXN",
@@ -1730,7 +1730,7 @@ if sys_number == 1:
                     "numExt": "24",
                     "numInt": "48"
                 },
-                "fecha_obligacion": "31/07/1980",
+                "fecha_obligacion": "1980-07-31T00:00:00Z",
                 "monto_original": get_amount(40000,500000),
                 "tipo_moneda": {
                     "codigo": "MXN",
