@@ -1475,11 +1475,7 @@ if sys_number == 1:
                 },
                 "propietario_registrado": "Sergio Perez",
                 "descripcion": lorem_ipsum(),
-                "ente_publico_encargado": {
-                    "nombres": "Carlos",
-                    "primer_apellido": "Pérez",
-                    "segundo_apellido": "López"
-                },
+                "ente_publico_encargado": get_institution(),
                 "numero_registro": 754444,
                 "fecha_registro": "1980-07-31T00:00:00Z",
                 "sector_industria": {
