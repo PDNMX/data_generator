@@ -35,6 +35,7 @@ export DATAGEN_MONGO_HOST=host
 export DATAGEN_MONGO_PORT=port
 export DATAGEN_MONGO_USER=user
 export DATAGEN_MONGO_PASS=password
+export DATAGEN_MONGO_DBADMIN=admin
 ```
 3. Uso para generar 10 declaraciones ficticias
 ```
