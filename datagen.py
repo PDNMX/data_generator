@@ -21,10 +21,11 @@ host = os.environ.get('DATAGEN_MONGO_HOST', 'localhost')
 port = os.environ.get('DATAGEN_MONGO_PORT', 27017)
 user = os.environ.get('DATAGEN_MONGO_USER', None)
 password = os.environ.get('DATAGEN_MONGO_PASS', None)
+dbadmin = os.environ.get('DATAGEN_MONGO_DBADMIN', 'test')
 
 uri = "mongodb://%s:%s" % (host, port)
 if user is not None and password is not None:
-    uri = "mongodb://%s:%s@%s" % (quote_plus(user), quote_plus(password), host)
+    uri = "mongodb://%s:%s@%s:%s/%s" % (quote_plus(user), quote_plus(password), host, port, dbadmin)
 
 print(uri)
 client = MongoClient(uri)
