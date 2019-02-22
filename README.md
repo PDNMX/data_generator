@@ -7,8 +7,10 @@ Es un generador de datos sintético para los 6 sistemas de la PDN.
 
 ## Dependendecias Generales
 ```
-pip install pymongo
-pip install pandas
+$ conda create --name <env> --file requirements.txt
+
+donde:
+  env -> nombre del ambiente donde se cargaran las dependencias
 ```
 
 
@@ -27,12 +29,12 @@ optional arguments:
 ### Sistema 1 .- Declaraciones
 #### Pasos
 1. Contar con una base de datos mongo previamente configurada.
-2. Configurar las lineas de acceso a la base de datos mongo directamente en el archivo datagen.py o use las variables de entorno
+2. Setear las variables de entorno para la conexion a la base de datos mongo
 ```
-host = os.environ.get('DATAGEN_MONGO_HOST', 'localhost')
-port = os.environ.get('DATAGEN_MONGO_PORT', 27017)
-user = os.environ.get('DATAGEN_MONGO_USER', None)
-password = os.environ.get('DATAGEN_MONGO_PASS', None)
+export DATAGEN_MONGO_HOST=host
+export DATAGEN_MONGO_PORT=port
+export DATAGEN_MONGO_USER=user
+export DATAGEN_MONGO_PASS=password
 ```
 3. Uso para generar 10 declaraciones ficticias
 ```
