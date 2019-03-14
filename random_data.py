@@ -34,10 +34,13 @@ def get_telephone(type):
     return prefix + str(random.randint(5500000000,7779999999))
 
 def get_bith_date():
-    dia = str(random.randint(1,28))
-    mes = str(random.randint(1,12))
-    anio = str(random.randint(1950,1999))
-    return "{0}-{1}-{2}T00:00:00Z".format(anio, mes, dia)
+    dia = (random.randint(1, 28))
+    mes = (random.randint(1, 12))
+    anio = (random.randint(1950, 1999))
+
+    dia = "0{0}".format(dia) if dia < 10 else "{0}".format(dia)
+    mes = "0{0}".format(mes) if mes < 10 else "{0}".format(mes)
+    return "{0}-{1}-{2}".format(anio, mes, dia)
 
 
 def get_college():
@@ -53,7 +56,7 @@ def get_college():
     return colleges[ random.randint(0, (len(colleges)-1))]
 
 def get_amount(a,b):
-    return random.uniform(a,b)
+    return round(random.uniform(a,b),2)
 
 def get_degree():
     degrees =[
