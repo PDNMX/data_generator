@@ -1,5 +1,6 @@
 *~
 .idea/
 data*
-catalogs/catalogos
+catalogos/
 __pycache__/
+catun_localidad.csv

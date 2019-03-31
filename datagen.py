@@ -6,6 +6,7 @@ from pymongo import MongoClient
 from random_data import *
 import os
 from urllib.parse import quote_plus
+import urllib.request
 import git
 # import os
 
@@ -35,18 +36,23 @@ client = MongoClient(uri)
 db = client.datagen
 
 # descarga los catálogos
-# print (os.getcwd())
-if not os.path.isdir('./catalogs/catalogos'):
+if not os.path.isdir('./catalogos'):
     print('Descargando repositorio de catálogos...')
-    git.Git('./catalogs').clone('https://github.com/PDNMX/catalogos.git')
+    git.Git('.').clone('https://github.com/PDNMX/catalogos.git')
+
+# (https://www.inegi.org.mx/app/ageeml/)
+if not os.path.isfile('./catun_localidad.csv'):
+    print ('Descargando catálogo de localidades')
+    urllib.request.urlretrieve('https://www.inegi.org.mx/contenidos/app/ageeml/catuni/loc_mincona/catun_localidad.csv',
+                               './catun_localidad.csv')
+
 
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
 
     collection = db.s1
     #samples = []
-    # domicilios
-    # catálogos de códigos
+
     # conn = sqlite3.connect('corpus.db')
 
     for x in range(0, number_of_samples):
@@ -57,7 +63,7 @@ if sys_number == 1:
         sample['metadata'] = {
             "actualizacion": '2018-10-01T00:00:00Z',
             "institucion": "Secretaria de la Administracion de Declaraciones",
-            "contacto": "usuario@dominioorg",
+            "contacto": "usuario@dominio.org",
             "persona_contacto": "José John",
             "diccionario": "https://diccionariomx/archivocsv"
         }
@@ -277,31 +283,7 @@ if sys_number == 1:
                 "fecha_nacimiento": get_bith_date(),
                 "numero_identificacion_nacional": "ABCD1234",
                 "habita_domicilio_declarante": rand_bool(),
-                "domicilio": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio": get_address(),
                 "medio_contacto": get_email('coldmailcom'),
                 "ingresos_propios": True,
                 "ocupacion_profesion": "Administrador de empresas",
@@ -340,31 +322,7 @@ if sys_number == 1:
                 "fecha_constitucion": get_bith_date(),
                 "numero_registro": "ABC123",
                 "rfc": "GOAP780710RH7",
-                "domicilio": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio": get_address(),
                 "rol": "Dueño",
                 "actividad_economica": True,
                 "sector_industria": {
@@ -384,31 +342,7 @@ if sys_number == 1:
                   "codigo": "ASC",
                   "valor": "Asociacion Civil"
                 },
-                "domicilio": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio": get_address(),
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
@@ -509,31 +443,7 @@ if sys_number == 1:
                 "dueno_encargado": "Salvador Hernandez Torres",
                 "nombre_cliente": "AMEXSA",
                 "rfc_cliente": "GOAP780710RH7",
-                "domicilio_cliente": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_cliente": get_address(),
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
@@ -615,31 +525,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio_persona_paga": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_persona_paga": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -669,31 +555,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio_persona_paga": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_persona_paga": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -723,31 +585,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio_actividad_empresarial": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_actividad_empresarial": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -777,31 +615,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_actividad_servicio": "Descripcion del servicio",
-                "domicilio_actividad": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_actividad": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -831,31 +645,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_actividad_servicio": "Descripcion del servicio",
-                "domicilio_actividad": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_actividad": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -885,31 +675,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -939,31 +705,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_premio": lorem_ipsum(),
-                "domicilio": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -997,31 +739,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_bien": lorem_ipsum(),
-                "domicilio_bien_enajenado": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_bien_enajenado": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -1051,31 +769,7 @@ if sys_number == 1:
                     "valor": "Salud"
                 },
                 "descripcion_actividad": lorem_ipsum(),
-                "domicilio_actividad": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_actividad": get_address(),
                 "ingreso_bruto_anual": {
                     "valor": 10000,
                     "moneda": {
@@ -1123,31 +817,7 @@ if sys_number == 1:
                     "folio_real": "jsjs74747",
                     "fecha_contrato": "2010-07-26"
                 },
-                "domicilio_bien": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_bien": get_address(),
                 "forma_adquisicion": {
                     "codigo": "CES",
                     "valor": "Cesion"
@@ -1294,31 +964,7 @@ if sys_number == 1:
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "domicilio_institucion": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_institucion": get_address(),
                 "forma_adquisicion": {
                     "codigo": "CES",
                     "valor": "Cesion"
@@ -1397,93 +1043,21 @@ if sys_number == 1:
                   "nombre": "Banco Robmen1",
                   "rfc": "GOAP780710RH7",
                   "curp": "BEML920313HMCLNS09",
-                  "domicilio": {
-                    "pais": {
-                      "valor": "México",
-                      "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                      "nom_ent": "México",
-                      "cve_ent": "15"
-                    },
-                    "municipio": {
-                      "nom_mun": "Ecatepec de Morelos",
-                      "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                      "nom_loc": "Ecatepec de Morelos",
-                      "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                      "tipo_vial": "CALLE",
-                      "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                  },
+                  "domicilio": get_address(),
                   "fecha_constitucion": "2010-07-26"
                 },
                 "fideicomisario": {
                   "nombre": "Banco Robmen1",
                   "rfc": "GOAP780710RH7",
                   "curp": "BEML920313HMCLNS09",
-                  "domicilio": {
-                    "pais": {
-                      "valor": "México",
-                      "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                      "nom_ent": "México",
-                      "cve_ent": "15"
-                    },
-                    "municipio": {
-                      "nom_mun": "Ecatepec de Morelos",
-                      "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                      "nom_loc": "Ecatepec de Morelos",
-                      "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                      "tipo_vial": "CALLE",
-                      "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                  },
+                  "domicilio": get_address(),
                   "fecha_constitucion": "2010-07-26"
                 },
                 "fiduciario": {
                   "nombre": "Banco Robmen1",
                   "rfc": "GOAP780710RH7",
                   "curp": "BEML920313HMCLNS09",
-                  "domicilio": {
-                    "pais": {
-                      "valor": "México",
-                      "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                      "nom_ent": "México",
-                      "cve_ent": "15"
-                    },
-                    "municipio": {
-                      "nom_mun": "Ecatepec de Morelos",
-                      "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                      "nom_loc": "Ecatepec de Morelos",
-                      "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                      "tipo_vial": "CALLE",
-                      "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                  },
+                  "domicilio": get_address(),
                   "fecha_constitucion": "2010-07-26"
                 },
                 "observaciones": lorem_ipsum()
@@ -1531,31 +1105,7 @@ if sys_number == 1:
                 "id": 123,
                 "nombre_prestatario": "Max Power Tier",
                 "numero_registro": "488755avvv",
-                "domicilio_prestatarios": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_prestatarios": get_address(),
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
@@ -1591,31 +1141,7 @@ if sys_number == 1:
                     "valor": "Servicios de salud y asistencia social"
                 },
                 "fecha_inicio": get_bith_date(),
-                "domicilio_persona": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_persona": get_address(),
                 "observaciones": lorem_ipsum()
             }]
         }
@@ -1647,31 +1173,7 @@ if sys_number == 1:
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "domicilio_acreedor": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_acreedor": get_address(),
                 "fecha_adeudo": get_bith_date(),
                 "monto_original": get_amount(70000,100000),
                 "tipo_moneda": {
@@ -1722,31 +1224,7 @@ if sys_number == 1:
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
                 },
-                "domicilio_acreedor": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
-                    },
-                    "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "domicilio_acreedor": get_address(),
                 "fecha_obligacion": get_bith_date(),
                 "monto_original": get_amount(40000,500000),
                 "tipo_moneda": {
