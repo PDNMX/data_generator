@@ -6,6 +6,8 @@ from pymongo import MongoClient
 from random_data import *
 import os
 from urllib.parse import quote_plus
+import git
+import os
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
 parser.add_argument('-s','--sys', default=0, type=int,  help='System number', choices=[1, 2, 3])
@@ -31,6 +33,11 @@ print(uri)
 client = MongoClient(uri)
 
 db = client.datagen
+
+# descarga los catálogos
+if not os.path.isdir('./catalogs/catalogos'):
+    print('Descargando repositorio de catálogos...')
+    git.Git('./catalogs').clone('https://github.com/PDNMX/catalogos.git')
 
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
@@ -84,31 +91,7 @@ if sys_number == 1:
                 "particular": get_telephone('fijo'),
                 "celular": get_telephone('celular')
             },
-            "domicilio": {
-                "pais": {
-                    "valor": "México",
-                    "codigo": "MX"
-                },
-                "entidad_federativa": {
-                    "nom_ent": "México",
-                    "cve_ent": "15"
-                },
-                "municipio": {
-                    "nom_mun": "Ecatepec de Morelos",
-                    "cve_mun": "033"
-                },
-                "cp": "55018",
-                "localidad": {
-                    "nom_loc": "Ecatepec de Morelos",
-                    "cve_loc": "0001"
-                },
-                "vialidad": {
-                    "tipo_vial": "CALLE",
-                    "nom_vial": "El Rosal"
-                },
-                "numExt": "24",
-                "numInt": "48"
-            },
+            "domicilio": get_address(),
             "estado_civil": {
                 "codigo": "CAS",
                 "valor": "Casado (a)"

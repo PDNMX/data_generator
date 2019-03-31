@@ -10,6 +10,11 @@ mujeres = mujeres.values
 apellidos = pd.read_csv('./corpus/apellidos-20.csv')
 apellidos = apellidos.values
 
+# Catálogos
+
+# Marco Geoestadístico
+
+
 def get_id():
     return str(uuid.uuid1())
 
@@ -92,6 +97,35 @@ def get_position():
 
 def lorem_ipsum():
     return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+
+def get_address():
+    return {
+        "pais": {
+            "valor": "México",
+            "codigo": "MX"
+        },
+        "entidad_federativa": {
+            "nom_ent": "México",
+            "cve_ent": "15"
+        },
+        "municipio": {
+            "nom_mun": "Ecatepec de Morelos",
+            "cve_mun": "033"
+        },
+        "cp": "55018",
+        "localidad": {
+            "nom_loc": "Ecatepec de Morelos",
+            "cve_loc": "0001"
+        },
+        "vialidad": {
+            "tipo_vial": "CALLE",
+            "nom_vial": "El Rosal"
+        },
+        "numExt": "24",
+        "numInt": "48"
+    }
+
+
 def get_institution():
     institutions=[
         "ADMINISTRACION DEL PATRIMONIO DE LA BENEFICENCIA PUBLICA",
@@ -418,3 +452,5 @@ def get_institution():
         "XE-IPN CANAL 11"
     ]
     return institutions[random.randint(0, (len(institutions)-1))]
+
+
