@@ -7,7 +7,7 @@ from random_data import *
 import os
 from urllib.parse import quote_plus
 import git
-import os
+# import os
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
 parser.add_argument('-s','--sys', default=0, type=int,  help='System number', choices=[1, 2, 3])
@@ -35,6 +35,7 @@ client = MongoClient(uri)
 db = client.datagen
 
 # descarga los catálogos
+# print (os.getcwd())
 if not os.path.isdir('./catalogs/catalogos'):
     print('Descargando repositorio de catálogos...')
     git.Git('./catalogs').clone('https://github.com/PDNMX/catalogos.git')

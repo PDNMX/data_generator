@@ -1,6 +1,7 @@
 import random, string
 import pandas as pd
 import uuid
+# import os
 
 # nombres y apellidos
 hombres = pd.read_csv('./corpus/hombres.csv')
