@@ -6,8 +6,8 @@ from pymongo import MongoClient
 from random_data import *
 import os
 from urllib.parse import quote_plus
-import urllib.request
-import git
+# import urllib.request
+# import git
 # import os
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
