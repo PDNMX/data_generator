@@ -35,23 +35,11 @@ client = MongoClient(uri)
 
 db = client.datagen
 
-# descarga los catálogos
-if not os.path.isdir('./catalogos'):
-    print('Descargando repositorio de catálogos...')
-    git.Git('.').clone('https://github.com/PDNMX/catalogos.git')
-
-# (https://www.inegi.org.mx/app/ageeml/)
-if not os.path.isfile('./catun_localidad.csv'):
-    print ('Descargando catálogo de localidades')
-    urllib.request.urlretrieve('https://www.inegi.org.mx/contenidos/app/ageeml/catuni/loc_mincona/catun_localidad.csv',
-                               './catun_localidad.csv')
-
-
 if sys_number == 1:
     print ('Sistema 1 -> Declaraciones ')
 
     collection = db.s1
-    #samples = []
+    # samples = []
 
     # conn = sqlite3.connect('corpus.db')
 

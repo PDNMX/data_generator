@@ -1,7 +1,9 @@
 import random, string
 import pandas as pd
 import uuid
-# import os
+import os
+import git
+import urllib.request
 
 # nombres y apellidos
 hombres = pd.read_csv('./corpus/hombres.csv')
@@ -11,7 +13,20 @@ mujeres = mujeres.values
 apellidos = pd.read_csv('./corpus/apellidos-20.csv')
 apellidos = apellidos.values
 
-# Catálogos
+# descarga los catálogos
+if not os.path.isdir('./catalogos'):
+    print('Descargando repositorio de catálogos...')
+    git.Git('.').clone('https://github.com/PDNMX/catalogos.git')
+    print ('Listo!')
+
+# (https://www.inegi.org.mx/app/ageeml/)
+if not os.path.isfile('./catun_localidad.xlsx'):
+    print ('Descargando catálogo de localidades...')
+    urllib.request.urlretrieve('https://www.inegi.org.mx/contenidos/app/ageeml/catuni/loc_mincona/catun_localidad.xlsx',
+                               './catun_localidad.xlsx')
+    print('Listo!')
+
+catun = pd.read_excel('./catun_localidad.xlsx', header=3)
 
 # Marco Geoestadístico (https://www.inegi.org.mx/app/ageeml/)
 
@@ -101,23 +116,28 @@ def lorem_ipsum():
     return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
 def get_address():
+
+    rows = len(catun)
+    index = random.randint(0, rows - 1)
+    loc = catun.iloc[index]
+
     return {
         "pais": {
             "valor": "México",
             "codigo": "MX"
         },
         "entidad_federativa": {
-            "nom_ent": "México",
-            "cve_ent": "15"
+            "nom_ent":  loc['nom_ent'],
+            "cve_ent":  int(loc['cve_ent'])
         },
         "municipio": {
-            "nom_mun": "Ecatepec de Morelos",
-            "cve_mun": "033"
+            "nom_mun": loc['nom_mun'],
+            "cve_mun": int(loc['cve_mun'])
         },
         "cp": "55018",
         "localidad": {
-            "nom_loc": "Ecatepec de Morelos",
-            "cve_loc": "0001"
+            "nom_loc": loc['nom_loc'],
+            "cve_loc": int(loc['cve_loc'])
         },
         "vialidad": {
             "tipo_vial": "CALLE",
