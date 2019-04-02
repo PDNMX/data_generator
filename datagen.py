@@ -55,7 +55,7 @@ if sys_number == 1:
             "actualizacion": '2018-10-01T00:00:00Z',
             "institucion": "Secretaria de la Administracion de Declaraciones",
             "contacto": "usuario@dominio.org",
-            "persona_contacto": "José John",
+            "persona_contacto": get_name() +" "+ get_last_name() +" "+ get_last_name(),
             "diccionario": "https://diccionariomx/archivocsv"
         }
 
@@ -114,7 +114,7 @@ if sys_number == 1:
                 "institucion_educativa": get_college(),
                 "lugar_institucion_educativa": {
                     "pais": {
-                        "valor": "México",
+                        "valor": "MEXICO",
                         "codigo": "MX"
                     },
                     "entidad_federativa": {
@@ -151,50 +151,21 @@ if sys_number == 1:
                 "codigo": "JUD",
                 "valor": "Judicial"
             },
-            "contratado_honorarios": False,
+            "contratado_honorarios": rand_bool(),
             "nivel_encargo": "CA0001",
             "area_adscripcion": "Unidad de Politica Regulatoria",
             "fecha_posesion": get_bith_date(),
             "lugar_ubicacion": {
                 "pais": {
-                    "valor": "México",
+                    "valor": "MEXICO",
                     "codigo": "MX"
                 },
                 "entidad": {
-                    "nom_agee": "México",
+                    "nom_agee": "MEXICO",
                     "cve_agee": "15"
                 }
             },
-            "direccion_encargo": {
-                "pais": {
-                    "valor": "México",
-                    "codigo": "MX"
-                },
-                "entidad_federativa": {
-                    "nom_agee": "México",
-                    "cve_agee": "15"
-                },
-                "municipio": {
-                    "nom_agem": "Ecatepec de Morelos",
-                    "cve_agem": "033"
-                },
-                "cp": "55018",
-                "localidad": {
-                    "nom_loc": "Ecatepec de Morelos",
-                    "cve_loc": "0001"
-                },
-                "asentamiento": {
-                  "cve_asen": 1,
-                  "nom_asen": "AGUA CLARA",
-                  "cve_tipo_asen": 16
-                },
-                "vialidad": {
-                    "tipo_vial": "CALLE",
-                    "nom_vial": "El Rosal"
-                },
-                "numExt": "24",
-                "numInt": "48"
-            },
+            "direccion_encargo": get_address(),
             "telefono_laboral": {
                 "numero": get_telephone('fijo'),
                 "extension": 1020
@@ -253,7 +224,7 @@ if sys_number == 1:
                     "valor": "Conyuge"
                 },
                 "nacionalidades": [{
-                    "valor": "México",
+                    "valor": "MEXICO",
                     "codigo": "MX"
                 }],
                 "curp": "BEML920313HMCLNS09",
@@ -273,7 +244,7 @@ if sys_number == 1:
                 "tiene_intereses_mismo_sector_declarante": True,
                 "desarrolla_cabildeo_sector_declarante": {
                     "respuesta": True,
-                    "observaciones": "Esto es una observacion"
+                    "observaciones": lorem_ipsum()
                 },
                 "beneficiario_programa_publico": [{
                     "nombre_programa": "Prospera",
@@ -294,7 +265,7 @@ if sys_number == 1:
                 "id": 123,
                 "nombre_empresa_sociedad_asociacion": "DataIQ",
                 "pais_registro": {
-                    "valor": "México",
+                    "valor": "MEXICO",
                     "codigo": "MX"
                 },
                 "fecha_constitucion": get_bith_date(),
@@ -372,10 +343,12 @@ if sys_number == 1:
                 },
                 "nombre": "Augusto Fernandez Castro",
                 "fecha_inicio_representacion": get_bith_date(),
-                "nacionalidades": [{
-                    "valor": "México",
+                "nacionalidades": [
+                    {
+                    "valor": "MEXICO",
                     "codigo": "MX"
-                }],
+                    }
+                ],
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
                 "fecha_nacimiento": get_bith_date(),
@@ -398,11 +371,11 @@ if sys_number == 1:
                 "rfc": "GOAP780710RH7",
                 "lugar_nacimiento": {
                     "pais": {
-                        "valor": "México",
+                        "valor": "MEXICO",
                         "codigo": "MX"
                     },
                     "entidad": {
-                        "nom_agee": "México",
+                        "nom_agee": "MEXICO",
                         "cve_agee": "15"
                     }
                 },
@@ -438,7 +411,7 @@ if sys_number == 1:
                 "nombre_denominacion_parte": "Sergio Rodriguez",
                 "fecha_inicio_relacion": get_bith_date(),
                 "nacionalidades": [{
-                    "valor": "México",
+                    "valor": "MEXICO",
                     "codigo": "MX"
                 }],
                 "curp": "BEML920313HMCLNS09",
@@ -1107,7 +1080,7 @@ if sys_number == 1:
                         "moneda": "MXN"
                     }
                 },
-                "nombre_tercero_propietario": "Bansky Von Trier",
+                "nombre_tercero_propietario": get_name() +" "+ get_last_name() +" "+ get_last_name(),
                 "rfc_tercero_propietario": "GOAP780710RH7",
                 "curp_tercero_propietario": "BEML920313HMCLNS09",
                 "relacion_persona": {
@@ -1142,7 +1115,7 @@ if sys_number == 1:
                 },
                 "identificador_deuda": "CONT12354",
                 "nacional_extranjero": {
-                    "valor": "México",
+                    "valor": "MEXICO",
                     "codigo": "MX"
                 },
                 "nombre_acreedor": "PNBKSRIBAS SA DE CV",
@@ -1193,10 +1166,10 @@ if sys_number == 1:
                 },
                 "identificador_obligacion": "FONAET8945",
                 "nacional_extranjero": {
-                    "valor": "México",
+                    "valor": "MEXICO",
                     "codigo": "MX"
                 },
-                "nombre_acreedor": "Bansky Hola Adios",
+                "nombre_acreedor": get_name() +" "+ get_last_name() +" "+ get_last_name(),
                 "rfc_acreedor": "GOAP780710RH7",
                 "sector_industria": {
                     "codigo": "SFS",
@@ -1225,7 +1198,7 @@ if sys_number == 1:
                 },
                 "porcentaje_obligacion_titular": 70,
                 "garantia": rand_bool(),
-                "nombre_garante": "Banksy Von Tier",
+                "nombre_garante": get_name() +" "+ get_last_name() +" "+ get_last_name(),
                 "observaciones": lorem_ipsum()
             }]
         }
