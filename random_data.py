@@ -120,7 +120,7 @@ def get_position():
         'Director General',
         'Titular de Unidad'
     ]
-    return positions.choice(positions)
+    return random.choice(positions)
 
 
 def lorem_ipsum():
@@ -212,9 +212,11 @@ def citizenship():
             "codigo":"VE"
         }
     ]
-    return random.choice(countries)
 
+    c1 = random.choice(countries)
+    c2 = random.choice(countries)
 
+    return [c1, c2] if c1.get("codigo") != c2.get("codigo") else [c1]
 
 institutions = [
     "ADMINISTRACION DEL PATRIMONIO DE LA BENEFICENCIA PUBLICA",
