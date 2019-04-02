@@ -123,7 +123,7 @@ def get_address():
 
     return {
         "pais": {
-            "valor": "México",
+            "valor": "MEXICO",
             "codigo": "MX"
         },
         "entidad_federativa": {
