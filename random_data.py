@@ -165,6 +165,13 @@ def get_address():
     }
 
 
+def citizenship():
+    return [{
+        "valor": "México",
+        "codigo": "MX"
+    }]
+
+
 
 institutions = [
     "ADMINISTRACION DEL PATRIMONIO DE LA BENEFICENCIA PUBLICA",

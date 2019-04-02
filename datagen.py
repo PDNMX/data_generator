@@ -65,10 +65,7 @@ if sys_number == 1:
             "nombres": get_name(),
             "primer_apellido": get_last_name(),
             "segundo_apellido": get_last_name(),
-            "nacionalidades": [{
-                "valor": "México",
-                "codigo": "MX"
-            }],
+            "nacionalidades": citizenship(),
             "pais_nacimiento": {
                 "valor": "México",
                 "codigo": "MX"
@@ -223,10 +220,7 @@ if sys_number == 1:
                     "codigo": "CONY",
                     "valor": "Conyuge"
                 },
-                "nacionalidades": [{
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                }],
+                "nacionalidades": citizenship(),
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
                 "fecha_nacimiento": get_bith_date(),
@@ -343,12 +337,7 @@ if sys_number == 1:
                 },
                 "nombre": "Augusto Fernandez Castro",
                 "fecha_inicio_representacion": get_bith_date(),
-                "nacionalidades": [
-                    {
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                    }
-                ],
+                "nacionalidades": citizenship(),
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
                 "fecha_nacimiento": get_bith_date(),
@@ -410,10 +399,7 @@ if sys_number == 1:
                 },
                 "nombre_denominacion_parte": "Sergio Rodriguez",
                 "fecha_inicio_relacion": get_bith_date(),
-                "nacionalidades": [{
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                }],
+                "nacionalidades": citizenship(),
                 "curp": "BEML920313HMCLNS09",
                 "rfc": "GOAP780710RH7",
                 "fecha_nacimiento": get_bith_date(),
