@@ -225,36 +225,7 @@ if sys_number == 1:
                 },
                 "nombre_institucion": get_institution(),
                 "unidad_administrativa": "Unidad de Politica Regulatoria",
-                "direccion": {
-                    "pais": {
-                        "valor": "México",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_agee": "México",
-                        "cve_agee": "15"
-                    },
-                    "municipio": {
-                        "nom_agem": "Ecatepec de Morelos",
-                        "cve_agem": "033"
-                    },
-                    "cp": "55018",
-                    "localidad": {
-                        "nom_loc": "Ecatepec de Morelos",
-                        "cve_loc": "0001"
-                    },
-                    "asentamiento": {
-                      "cve_asen": 1,
-                      "nom_asen": "AGUA CLARA",
-                      "cve_tipo_asen": 16
-                    },
-                    "vialidad": {
-                        "tipo_vial": "CALLE",
-                        "nom_vial": "El Rosal"
-                    },
-                    "numExt": "24",
-                    "numInt": "48"
-                },
+                "direccion": get_address(),
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
@@ -867,11 +838,11 @@ if sys_number == 1:
                 "numero_serie": "6545243-4334",
                 "lugar_registro": {
                     "pais": {
-                        "valor": "México",
+                        "valor": "MEXICO",
                         "codigo": "MX"
                     },
                     "entidad": {
-                        "nom_agee": "México",
+                        "nom_agee": "MEXICO",
                         "cve_agee": "15"
                     }
                 },
@@ -906,7 +877,7 @@ if sys_number == 1:
                         "moneda": "MXN"
                     }
                 },
-                "observaciones": "Esto es una observacion"
+                "observaciones": lorem_ipsum()
             }],
             "bienes_muebles_no_registrables": [{
                 "id": 123,
@@ -1035,7 +1006,7 @@ if sys_number == 1:
                 "fecha_creacion": get_bith_date(),
                 "vigencia": get_bith_date(),
                 "residencia": {
-                    "valor": "México",
+                    "valor": "MEXICO",
                     "codigo": "MX"
                 },
                 "valor": 78555555,
