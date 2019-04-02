@@ -1,4 +1,5 @@
-import random, string
+import random
+import string
 import pandas as pd
 import uuid
 import os
@@ -17,11 +18,11 @@ apellidos = apellidos.values
 if not os.path.isdir('./catalogos'):
     print('Descargando repositorio de catálogos...')
     git.Git('.').clone('https://github.com/PDNMX/catalogos.git')
-    print ('Listo!')
+    print('Listo!')
 
 # (https://www.inegi.org.mx/app/ageeml/)
 if not os.path.isfile('./catun_localidad.xlsx'):
-    print ('Descargando catálogo de localidades...')
+    print('Descargando catálogo de localidades...')
     urllib.request.urlretrieve('https://www.inegi.org.mx/contenidos/app/ageeml/catuni/loc_mincona/catun_localidad.xlsx',
                                './catun_localidad.xlsx')
     print('Listo!')
@@ -31,19 +32,23 @@ catun = pd.read_excel('./catun_localidad.xlsx', header=3)
 # Marco Geoestadístico (https://www.inegi.org.mx/app/ageeml/)
 
 
-
 def get_id():
     return str(uuid.uuid1())
 
+
 def rand_bool():
     return random.choice([True, False])
+
+
 def get_name():
     gender = random.choice(['F', 'M'])
     return hombres[random.randint(0, (len(hombres))-1)][0] if gender is 'M' else\
         mujeres[random.randint(0, (len(mujeres))-1)][0]
 
+
 def get_last_name():
     return apellidos[random.randint(0, (len(apellidos)) - 1)][0]
+
 
 def get_email(domain):
     length = 12
@@ -51,9 +56,11 @@ def get_email(domain):
     user = ''.join(random.choice(letters) for i in range(length))
     return "{0}@{1}".format(user, domain)
 
+
 def get_telephone(type):
     prefix = '+52' + ('1' if type == 'celular' else '')
-    return prefix + str(random.randint(5500000000,7779999999))
+    return prefix + str(random.randint(5500000000, 7779999999))
+
 
 def get_bith_date():
     dia = (random.randint(1, 28))
@@ -67,7 +74,7 @@ def get_bith_date():
 
 def get_college():
 
-    colleges= [
+    colleges = [
         'Instituto Politécnico Nacional',
         'Instituto Tecnológico Autónomo de México',
         'Universidad Nacional Autónoma de México',
@@ -75,13 +82,15 @@ def get_college():
         'Universidad de Guadalajara'
     ]
 
-    return colleges[ random.randint(0, (len(colleges)-1))]
+    return colleges[random.randint(0, (len(colleges)-1))]
 
-def get_amount(a,b):
-    return round(random.uniform(a,b),2)
+
+def get_amount(a, b):
+    return round(random.uniform(a, b), 2)
+
 
 def get_degree():
-    degrees =[
+    degrees = [
         'Ingeniería en Sistemas Computacionales',
         'Licenciatura en Matemáticas Aplicadas',
         'Ingeniería en Computación',
@@ -100,6 +109,7 @@ def get_degree():
     ]
     return degrees[random.randint(0, (len(degrees) - 1))]
 
+
 def get_position():
     positions = [
         'Enlace de Alto Nivel de Responsabilidad',
@@ -112,8 +122,10 @@ def get_position():
     ]
     return positions[random.randint(0, (len(positions) - 1))]
 
+
 def lorem_ipsum():
     return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+
 
 def get_address():
 
@@ -127,17 +139,22 @@ def get_address():
             "codigo": "MX"
         },
         "entidad_federativa": {
-            "nom_ent":  loc['nom_ent'],
-            "cve_ent":  int(loc['cve_ent'])
+            "nom_agee":  loc['nom_ent'],
+            "cve_agee":  loc['cve_ent']
         },
         "municipio": {
-            "nom_mun": loc['nom_mun'],
-            "cve_mun": int(loc['cve_mun'])
+            "nom_agem": loc['nom_mun'],
+            "cve_agem": loc['cve_mun']
         },
         "cp": "55018",
         "localidad": {
             "nom_loc": loc['nom_loc'],
-            "cve_loc": int(loc['cve_loc'])
+            "cve_loc": loc['cve_loc']
+        },
+        "asentamiento": {
+            "cve_asen": 1,
+            "nom_asen": "AGUA CLARA",
+            "cve_tipo_asen": 16
         },
         "vialidad": {
             "tipo_vial": "CALLE",
@@ -149,7 +166,7 @@ def get_address():
 
 
 def get_institution():
-    institutions=[
+    institutions = [
         "ADMINISTRACION DEL PATRIMONIO DE LA BENEFICENCIA PUBLICA",
         "ADMINISTRACION FEDERAL DE SERVICIOS EDUCATIVOS EN EL DISTRITO FEDERAL",
         "ADMINISTRACION PORTUARIA INTEGRAL DE ALTAMIRA S.A. DE C.V.",
@@ -474,5 +491,3 @@ def get_institution():
         "XE-IPN CANAL 11"
     ]
     return institutions[random.randint(0, (len(institutions)-1))]
-
-

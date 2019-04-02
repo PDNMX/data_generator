@@ -11,8 +11,10 @@ from urllib.parse import quote_plus
 # import os
 
 parser = argparse.ArgumentParser(description='SESNA data generator')
-parser.add_argument('-s','--sys', default=0, type=int,  help='System number', choices=[1, 2, 3])
-parser.add_argument('-n', '--samples', default=10, type=int, help='Number of samples')
+parser.add_argument('-s', '--sys', default=0, type=int,
+                    help='System number', choices=[1, 2, 3])
+parser.add_argument('-n', '--samples', default=10,
+                    type=int, help='Number of samples')
 #parser.add_argument('-o','--out', default='JSON', help='Output format', choices= ['JSON', 'CSV'])
 args = parser.parse_args()
 
@@ -28,7 +30,8 @@ dbadmin = os.environ.get('DATAGEN_MONGO_DBADMIN', 'test')
 
 uri = "mongodb://%s:%s" % (host, port)
 if user is not None and password is not None:
-    uri = "mongodb://%s:%s@%s:%s/%s" % (quote_plus(user), quote_plus(password), host, port, dbadmin)
+    uri = "mongodb://%s:%s@%s:%s/%s" % (quote_plus(user),
+                                        quote_plus(password), host, port, dbadmin)
 
 print(uri)
 client = MongoClient(uri)
@@ -36,7 +39,7 @@ client = MongoClient(uri)
 db = client.datagen
 
 if sys_number == 1:
-    print ('Sistema 1 -> Declaraciones ')
+    print('Sistema 1 -> Declaraciones ')
 
     collection = db.s1
     # samples = []
@@ -71,8 +74,8 @@ if sys_number == 1:
                 "codigo": "MX"
             },
             "entidad_federativa_nacimiento": {
-                "nom_ent": "México",
-                "cve_ent": "15"
+                "nom_agee": "México",
+                "cve_agee": "15"
             },
             "curp": "BEML920313HMCLNS09",
             "rfc": "GOAP780710RH7",
@@ -99,22 +102,28 @@ if sys_number == 1:
         }
 
         sample['informacion_personal']['datos_curriculares'] = {
-            "grado_maximo_escolaridad": "Licenciatura",
+            "grado_maximo_escolaridad": {
+                "codigo": "LICE",
+                "valor": "Licenciatura"
+              },
             "grados_academicos": [{
-                "grado_obtenido": "Licenciatura",
+                "grado_obtenido": {
+                    "codigo": "LICE",
+                    "valor": "Licenciatura"
+                  },
                 "institucion_educativa": get_college(),
                 "lugar_institucion_educativa": {
                     "pais": {
                         "valor": "México",
                         "codigo": "MX"
                     },
-                    "entidad_federativa":{
-                        "nom_ent": "México",
-                        "cve_ent": "15"
+                    "entidad_federativa": {
+                        "nom_agee": "México",
+                        "cve_agee": "15"
                     },
                     "municipio": {
-                      "nom_mun": "Ecatepec de Morelos",
-                      "cve_mun": "033"
+                      "nom_agem": "Ecatepec de Morelos",
+                      "cve_agem": "033"
                     }
                 },
                 "carrera": get_degree(),
@@ -152,8 +161,8 @@ if sys_number == 1:
                     "codigo": "MX"
                 },
                 "entidad": {
-                    "nom_ent": "México",
-                    "cve_ent": "15"
+                    "nom_agee": "México",
+                    "cve_agee": "15"
                 }
             },
             "direccion_encargo": {
@@ -162,17 +171,22 @@ if sys_number == 1:
                     "codigo": "MX"
                 },
                 "entidad_federativa": {
-                    "nom_ent": "México",
-                    "cve_ent": "15"
+                    "nom_agee": "México",
+                    "cve_agee": "15"
                 },
                 "municipio": {
-                    "nom_mun": "Ecatepec de Morelos",
-                    "cve_mun": "033"
+                    "nom_agem": "Ecatepec de Morelos",
+                    "cve_agem": "033"
                 },
                 "cp": "55018",
                 "localidad": {
                     "nom_loc": "Ecatepec de Morelos",
                     "cve_loc": "0001"
+                },
+                "asentamiento": {
+                  "cve_asen": 1,
+                  "nom_asen": "AGUA CLARA",
+                  "cve_tipo_asen": 16
                 },
                 "vialidad": {
                     "tipo_vial": "CALLE",
@@ -217,17 +231,22 @@ if sys_number == 1:
                         "codigo": "MX"
                     },
                     "entidad_federativa": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
+                        "nom_agee": "México",
+                        "cve_agee": "15"
                     },
                     "municipio": {
-                        "nom_mun": "Ecatepec de Morelos",
-                        "cve_mun": "033"
+                        "nom_agem": "Ecatepec de Morelos",
+                        "cve_agem": "033"
                     },
                     "cp": "55018",
                     "localidad": {
                         "nom_loc": "Ecatepec de Morelos",
                         "cve_loc": "0001"
+                    },
+                    "asentamiento": {
+                      "cve_asen": 1,
+                      "nom_asen": "AGUA CLARA",
+                      "cve_tipo_asen": 16
                     },
                     "vialidad": {
                         "tipo_vial": "CALLE",
@@ -282,15 +301,15 @@ if sys_number == 1:
                 "proveedor_contratista_gobierno": True,
                 "tiene_intereses_mismo_sector_declarante": True,
                 "desarrolla_cabildeo_sector_declarante": {
-                    "respuesta" : True,
-                    "observaciones" : "Esto es una observacion"
+                    "respuesta": True,
+                    "observaciones": "Esto es una observacion"
                 },
                 "beneficiario_programa_publico": [{
                     "nombre_programa": "Prospera",
                     "institucion_otorga_apoyo": get_institution(),
                     "tipo_apoyo": {
-                      "codigo" : "OBRA",
-                      "valor" : "Obra"
+                      "codigo": "OBRA",
+                      "valor": "Obra"
                     },
                     "valor_apoyo": 4000
                 }],
@@ -380,9 +399,9 @@ if sys_number == 1:
                     "codigo": "APOD",
                     "valor": "Apoderado"
                 },
-                "nombre_representante": "Augusto Fernandez Castro",
+                "nombre": "Augusto Fernandez Castro",
                 "fecha_inicio_representacion": get_bith_date(),
-                "nacionalidades_representante": [{
+                "nacionalidades": [{
                     "valor": "México",
                     "codigo": "MX"
                 }],
@@ -412,8 +431,8 @@ if sys_number == 1:
                         "codigo": "MX"
                     },
                     "entidad": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
+                        "nom_agee": "México",
+                        "cve_agee": "15"
                     }
                 },
                 "fecha_nacimiento": get_bith_date(),
@@ -429,9 +448,9 @@ if sys_number == 1:
                 "nombre_negocio": "Nombre negocio",
                 "numero_registro": "HTC896DSFA",
                 "dueno_encargado": "Salvador Hernandez Torres",
-                "nombre_cliente": "AMEXSA",
-                "rfc_cliente": "GOAP780710RH7",
-                "domicilio_cliente": get_address(),
+                "nombre": "AMEXSA",
+                "rfc": "GOAP780710RH7",
+                "domicilio": get_address(),
                 "sector_industria": {
                     "codigo": "SFS",
                     "valor": "Servicios de salud y asistencia social"
@@ -852,8 +871,8 @@ if sys_number == 1:
                         "codigo": "MX"
                     },
                     "entidad": {
-                        "nom_ent": "México",
-                        "cve_ent": "15"
+                        "nom_agee": "México",
+                        "cve_agee": "15"
                     }
                 },
                 "titular_bien": {
@@ -987,13 +1006,13 @@ if sys_number == 1:
                     "codigo": "MXN",
                     "moneda": "MXN"
                 },
-                "monto_moneda": get_amount(70000,100000),
+                "monto_moneda": get_amount(70000, 100000),
                 "tipo_metal": {
                     "codigo": "ORO",
                     "valor": "Oro"
                 },
                 "unidades": 100,
-                "monto_metal": get_amount(70000,100000),
+                "monto_metal": get_amount(70000, 100000),
                 "forma_adquisicion": {
                     "codigo": "CES",
                     "valor": "Cesion"
@@ -1099,7 +1118,7 @@ if sys_number == 1:
                     "valor": "Servicios de salud y asistencia social"
                 },
                 "fecha_prestamo": get_bith_date(),
-                "monto_original_prestamo": get_amount(70000,100000),
+                "monto_original_prestamo": get_amount(70000, 100000),
                 "tasa_interes": 1001,
                 "saldo_pendiente": 4555,
                 "fecha_vencimiento": get_bith_date(),
@@ -1163,7 +1182,7 @@ if sys_number == 1:
                 },
                 "domicilio_acreedor": get_address(),
                 "fecha_adeudo": get_bith_date(),
-                "monto_original": get_amount(70000,100000),
+                "monto_original": get_amount(70000, 100000),
                 "tipo_moneda": {
                     "codigo": "MXN",
                     "moneda": "MXN"
@@ -1214,7 +1233,7 @@ if sys_number == 1:
                 },
                 "domicilio_acreedor": get_address(),
                 "fecha_obligacion": get_bith_date(),
-                "monto_original": get_amount(40000,500000),
+                "monto_original": get_amount(40000, 500000),
                 "tipo_moneda": {
                     "codigo": "MXN",
                     "moneda": "MXN"
@@ -1243,15 +1262,14 @@ if sys_number == 1:
         collection.insert_one(sample)
         #samples.append(sample)
 
-
     #with open('data.json', 'w') as outfile:
     #    json.dump(samples,outfile, indent=4)
 
 
 #conn.close()
 elif sys_number == 1:
-    print ('Sistema 2 -> Servidores públicos que intervienen en contrataciones')
+    print('Sistema 2 -> Servidores públicos que intervienen en contrataciones')
 elif sys_number == 2:
-    print ('Sistema 3 -> Servidores públicos y particulares sancionados')
+    print('Sistema 3 -> Servidores públicos y particulares sancionados')
 else:
     parser.print_help()
