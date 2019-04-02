@@ -82,7 +82,7 @@ def get_college():
         'Universidad de Guadalajara'
     ]
 
-    return colleges[random.randint(0, (len(colleges)-1))]
+    return random.choice(colleges)
 
 
 def get_amount(a, b):
@@ -107,7 +107,7 @@ def get_degree():
         "Ingeniería en Telecomunicaciones",
         "Ingeniería Química"
     ]
-    return degrees[random.randint(0, (len(degrees) - 1))]
+    return random.choice(degrees)
 
 
 def get_position():
@@ -120,7 +120,7 @@ def get_position():
         'Director General',
         'Titular de Unidad'
     ]
-    return positions[random.randint(0, (len(positions) - 1))]
+    return positions.choice(positions)
 
 
 def lorem_ipsum():
@@ -166,10 +166,53 @@ def get_address():
 
 
 def citizenship():
-    return [{
-        "valor": "México",
-        "codigo": "MX"
-    }]
+    countries = [
+        {
+            "valor": "Mexico",
+            "codigo": "MX"
+        },
+        {
+            "valor": "Australia",
+            "codigo": "AU"
+        },
+        {
+            "valor": "Bolivia",
+            "codigo": "BO"
+        },
+        {
+            "valor": "Brazil",
+            "codigo": "BR"
+        },
+        {
+            "valor": "Canada",
+            "codigo": "CA"
+        },
+        {
+            "valor": "Chile",
+            "codigo": "CL"
+        },
+        {
+            "valor": "China",
+            "codigo": "CN"
+        },
+        {
+            "valor": "Colombia",
+            "codigo": "CO"
+        },
+        {
+            "valor": "Cuba",
+            "codigo": "CU"
+        },
+        {
+            "valor": "Findland",
+            "codigo": "FI"
+        },
+        {
+            "valor":"Venezuela",
+            "codigo":"VE"
+        }
+    ]
+    return random.choice(countries)
 
 
 
@@ -499,4 +542,4 @@ institutions = [
 ]
 
 def get_institution():
-    return institutions[random.randint(0, (len(institutions)-1))]
+    return random.choice(institutions)
