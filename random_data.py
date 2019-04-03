@@ -549,7 +549,7 @@ def get_institution():
 
 def dependiente(tipo):
 
-    d = {
+    return {
         "nombre_personal": {
             "nombres": get_name(),
             "primer_apellido": get_last_name(),
@@ -591,7 +591,7 @@ def dependiente(tipo):
         "observaciones": lorem_ipsum()
     }
 
-    return d
+
 
 def bien_mueble_registrable():
     return {
