@@ -5,6 +5,7 @@ import uuid
 import os
 import git
 import urllib.request
+import json
 
 # nombres y apellidos
 hombres = pd.read_csv('./corpus/hombres.csv')
@@ -547,7 +548,13 @@ def get_institution():
     return random.choice(institutions)
 
 
-def dependiente(tipo):
+
+with open("./catalogos/catRelacionPersona.json") as relacion_persona:
+    cat_relacion_persona = json.load(relacion_persona)
+
+
+
+def dependiente():
 
     return {
         "nombre_personal": {
@@ -555,10 +562,7 @@ def dependiente(tipo):
             "primer_apellido": get_last_name(),
             "segundo_apellido": get_last_name()
         },
-        "tipo_relacion": {
-            "codigo": "CONY",
-            "valor": "Conyuge"
-        },
+        "tipo_relacion": random.choice(cat_relacion_persona),
         "nacionalidades": citizenship(),
         "curp": "BEML920313HMCLNS09",
         "rfc": "GOAP780710RH7",
@@ -633,10 +637,7 @@ def bien_mueble_registrable():
         },
         "nombre_denominacion_adquirio": "Monstr Inc",
         "rfc_quien_adquirio": "GOAP780710RH7",
-        "relacion_persona_quien_adquirio": {
-            "codigo": "CONY",
-            "valor": "Conyuge"
-        },
+        "relacion_persona_quien_adquirio": random.choice(cat_relacion_persona),
         "sector_industria": {
             "codigo": "SFS",
             "valor": "Servicios de salud y asistencia social"
@@ -652,59 +653,64 @@ def bien_mueble_registrable():
         "observaciones": lorem_ipsum()
     }
 
+
+with open('./catalogos/catTipoBienInmueble.json') as inmuebles:
+    cat_bien_inmueble = json.load(inmuebles)
+    #cat_bien_inmueble
+
+
 def bien_inmueble():
-    return  {
+
+    tipo_bien = random.choice( cat_bien_inmueble )
+
+    inmueble = {
         "id": 123,
         "tipo_operacion": {
             "codigo": "INCP",
             "valor": "Incorporacion"
         },
-        "tipo_bien": {
-            "codigo": "DPT",
-            "valor": "Departamento"
-        },
-        "superficie_terreno": 300,
-        "superficie_construccion": 100,
+        "tipo_bien": tipo_bien,
+        "superficie_terreno": random.randint(300, 600),
+        "superficie_construccion": random.randint(70, 150),
         "titular": {
             "codigo": "DECL",
             "valor": "Declarante"
         },
-        "porcentaje_propiedad": 70,
+        "porcentaje_propiedad": random.randint(10,70),
         "nombre_copropietario": {
-            "nombres": "Carlos",
-            "primer_apellido": "Perez",
-            "segundo_apellido": "Sanchez"
+            "nombres": get_name(),
+            "primer_apellido": get_last_name(),
+            "segundo_apellido": get_last_name()
         },
         "identificacion_bien": {
-            "numero_escritura_publica": 202020,
-            "numero_registro_publico": 404040,
-            "folio_real": "jsjs74747",
-            "fecha_contrato": "2010-07-26"
+            "numero_escritura_publica": random.randint(100000,99999999),
+            "numero_registro_publico": random.randint(100000,99999999),
+            "folio_real": "AAC"+ str(random.randint(10000, 100000)),
+            "fecha_contrato": "2010-07-26" ###
         },
         "domicilio_bien": get_address(),
         "forma_adquisicion": {
             "codigo": "CES",
             "valor": "Cesion"
         },
-        "nombre_denominacion_quien_adquirio": "Monster Inc",
+        "nombre_denominacion_quien_adquirio": get_name() + " " + get_last_name() + " " + get_last_name(),
         "rfc_quien_adquirio": "GOAP780710RH7",
         "curp_quien_adquirio": "BEML920313HMCLNS09",
-        "relacion_persona_adquirio": {
-            "codigo": "CONY",
-            "valor": "Conyuge"
-        },
+        "relacion_persona_adquirio": random.choice(cat_relacion_persona),
         "sector_industria": {
             "codigo": "SFS",
             "valor": "Servicios de salud y asistencia social"
         },
         "fecha_adquisicion": get_bith_date(),
         "precio_adquisicion": {
-            "valor": 4000,
+            "valor": random.randint(100000, 20000000),
             "moneda": {
                 "codigo": "MXN",
                 "moneda": "MXN"
             }
         },
-        "valor_catastral": 800,
-        "observaciones": "Esto es una observacion"
+        "valor_catastral": random.randint(100000, 20000000),
+        "observaciones": lorem_ipsum()
     }
+
+    return inmueble

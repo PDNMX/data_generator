@@ -210,7 +210,10 @@ if sys_number == 1:
         ]
 
         sample['informacion_personal']['dependientes_economicos'] = [
-           dependiente('CONY')
+           dependiente(),
+           dependiente(),
+           dependiente(),
+           dependiente()
         ]
 
         # Intereses
@@ -687,9 +690,13 @@ if sys_number == 1:
         # Activos
         sample['activos'] = {
             "bienes_inmuebles": [
+               bien_inmueble(),
+               bien_inmueble(),
                bien_inmueble()
             ],
             "bienes_muebles_registrables": [
+                bien_mueble_registrable(),
+                bien_mueble_registrable(),
                 bien_mueble_registrable()
             ],
             "bienes_muebles_no_registrables": [{
