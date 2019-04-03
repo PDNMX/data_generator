@@ -608,7 +608,7 @@ def bien_mueble_registrable():
             "codigo": "VEH",
             "valor": "Vehiculo"
         },
-        "marca": "NISSAN",
+        "marca": random.choice (["BMW", "MASERATI","NISSAN", "KIA", "FERRARI", "JAGUAR", "FORD", "JEEP"]),
         "submarca": "RS-122234",
         "modelo": 2018,
         "numero_serie": "6545243-4334",
@@ -628,7 +628,7 @@ def bien_mueble_registrable():
         },
         "porcentaje_propiedad": 70,
         "nombres_copropietarios": [
-            "Monstr Inc"
+            get_name()+" "+get_last_name()+" "+get_last_name()
         ],
         "numero_registro_vehicular": 455000,
         "forma_adquisicion": {
