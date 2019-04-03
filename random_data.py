@@ -545,3 +545,166 @@ institutions = [
 
 def get_institution():
     return random.choice(institutions)
+
+
+def dependiente(tipo):
+
+    d = {
+        "nombre_personal": {
+            "nombres": get_name(),
+            "primer_apellido": get_last_name(),
+            "segundo_apellido": get_last_name()
+        },
+        "tipo_relacion": {
+            "codigo": "CONY",
+            "valor": "Conyuge"
+        },
+        "nacionalidades": citizenship(),
+        "curp": "BEML920313HMCLNS09",
+        "rfc": "GOAP780710RH7",
+        "fecha_nacimiento": get_bith_date(),
+        "numero_identificacion_nacional": "ABCD1234",
+        "habita_domicilio_declarante": rand_bool(),
+        "domicilio": get_address(),
+        "medio_contacto": get_email('coldmailcom'),
+        "ingresos_propios": True,
+        "ocupacion_profesion": "Administrador de empresas",
+        "sector_industria": {
+            "codigo": "SFS",
+            "valor": "Servicios de salud y asistencia social"
+        },
+        "proveedor_contratista_gobierno": True,
+        "tiene_intereses_mismo_sector_declarante": True,
+        "desarrolla_cabildeo_sector_declarante": {
+            "respuesta": True,
+            "observaciones": lorem_ipsum()
+        },
+        "beneficiario_programa_publico": [{
+            "nombre_programa": "Prospera",
+            "institucion_otorga_apoyo": get_institution(),
+            "tipo_apoyo": {
+                "codigo": "OBRA",
+                "valor": "Obra"
+            },
+            "valor_apoyo": 4000
+        }],
+        "observaciones": lorem_ipsum()
+    }
+
+    return d
+
+def bien_mueble_registrable():
+    return {
+        "id": 123,
+        "tipo_operacion": {
+            "codigo": "INCP",
+            "valor": "Incorporacion"
+        },
+        "tipo_bien_mueble": {
+            "codigo": "VEH",
+            "valor": "Vehiculo"
+        },
+        "marca": "NISSAN",
+        "submarca": "RS-122234",
+        "modelo": 2018,
+        "numero_serie": "6545243-4334",
+        "lugar_registro": {
+            "pais": {
+                "valor": "MEXICO",
+                "codigo": "MX"
+            },
+            "entidad": {
+                "nom_agee": "MEXICO",
+                "cve_agee": "15"
+            }
+        },
+        "titular_bien": {
+            "codigo": "DECL",
+            "valor": "Declarante"
+        },
+        "porcentaje_propiedad": 70,
+        "nombres_copropietarios": [
+            "Monstr Inc"
+        ],
+        "numero_registro_vehicular": 455000,
+        "forma_adquisicion": {
+            "codigo": "CES",
+            "valor": "Cesion"
+        },
+        "nombre_denominacion_adquirio": "Monstr Inc",
+        "rfc_quien_adquirio": "GOAP780710RH7",
+        "relacion_persona_quien_adquirio": {
+            "codigo": "CONY",
+            "valor": "Conyuge"
+        },
+        "sector_industria": {
+            "codigo": "SFS",
+            "valor": "Servicios de salud y asistencia social"
+        },
+        "fecha_adquisicion": get_bith_date(),
+        "precio_adquisicion": {
+            "valor": 4000,
+            "moneda": {
+                "codigo": "MXN",
+                "moneda": "MXN"
+            }
+        },
+        "observaciones": lorem_ipsum()
+    }
+
+def bien_inmueble():
+    return  {
+        "id": 123,
+        "tipo_operacion": {
+            "codigo": "INCP",
+            "valor": "Incorporacion"
+        },
+        "tipo_bien": {
+            "codigo": "DPT",
+            "valor": "Departamento"
+        },
+        "superficie_terreno": 300,
+        "superficie_construccion": 100,
+        "titular": {
+            "codigo": "DECL",
+            "valor": "Declarante"
+        },
+        "porcentaje_propiedad": 70,
+        "nombre_copropietario": {
+            "nombres": "Carlos",
+            "primer_apellido": "Perez",
+            "segundo_apellido": "Sanchez"
+        },
+        "identificacion_bien": {
+            "numero_escritura_publica": 202020,
+            "numero_registro_publico": 404040,
+            "folio_real": "jsjs74747",
+            "fecha_contrato": "2010-07-26"
+        },
+        "domicilio_bien": get_address(),
+        "forma_adquisicion": {
+            "codigo": "CES",
+            "valor": "Cesion"
+        },
+        "nombre_denominacion_quien_adquirio": "Monster Inc",
+        "rfc_quien_adquirio": "GOAP780710RH7",
+        "curp_quien_adquirio": "BEML920313HMCLNS09",
+        "relacion_persona_adquirio": {
+            "codigo": "CONY",
+            "valor": "Conyuge"
+        },
+        "sector_industria": {
+            "codigo": "SFS",
+            "valor": "Servicios de salud y asistencia social"
+        },
+        "fecha_adquisicion": get_bith_date(),
+        "precio_adquisicion": {
+            "valor": 4000,
+            "moneda": {
+                "codigo": "MXN",
+                "moneda": "MXN"
+            }
+        },
+        "valor_catastral": 800,
+        "observaciones": "Esto es una observacion"
+    }
