@@ -756,7 +756,7 @@ if sys_number == 1:
                     "valor": "México",
                     "codigo": "MX"
                 },
-                "nombre_institucion": "Bank Inkc",
+                "nombre_institucion": random.choice (['Barclays', 'Citigroup', 'HSBC', 'BBVA', 'Bank of America' ]),
                 "rfc_institucion": "GOAP780710RH7",
                 "sector_industria": {
                     "codigo": "SFS",
