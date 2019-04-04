@@ -43,12 +43,17 @@ def rand_bool():
 
 def get_name():
     gender = random.choice(['F', 'M'])
-    return hombres[random.randint(0, (len(hombres))-1)][0] if gender is 'M' else\
-        mujeres[random.randint(0, (len(mujeres))-1)][0]
+
+    name = random.choice(hombres) if gender is 'M' else\
+        random.choice(mujeres)
+    name = str(name[0])
+    return name
 
 
 def get_last_name():
-    return apellidos[random.randint(0, (len(apellidos)) - 1)][0]
+    apellido = random.choice(apellidos)
+    apellido = str(apellido[0])
+    return apellido
 
 
 def get_email(domain):
