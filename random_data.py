@@ -553,6 +553,8 @@ with open("./catalogos/catRelacionPersona.json") as relacion_persona:
     cat_relacion_persona = json.load(relacion_persona)
 
 
+with open("./catalogos/catTipoApoyo.json") as tipo_apoyo:
+    cat_tipo_apoyo = json.load(tipo_apoyo)
 
 def dependiente():
 
@@ -586,11 +588,8 @@ def dependiente():
         "beneficiario_programa_publico": [{
             "nombre_programa": "Prospera",
             "institucion_otorga_apoyo": get_institution(),
-            "tipo_apoyo": {
-                "codigo": "OBRA",
-                "valor": "Obra"
-            },
-            "valor_apoyo": 4000
+            "tipo_apoyo": random.choice(cat_tipo_apoyo),
+            "valor_apoyo": random.randint(10000, 100000)
         }],
         "observaciones": lorem_ipsum()
     }
@@ -635,7 +634,7 @@ def bien_mueble_registrable():
             "codigo": "CES",
             "valor": "Cesion"
         },
-        "nombre_denominacion_adquirio": "Monstr Inc",
+        "nombre_denominacion_adquirio": get_name()+" "+get_last_name()+" "+get_last_name(),
         "rfc_quien_adquirio": "GOAP780710RH7",
         "relacion_persona_quien_adquirio": random.choice(cat_relacion_persona),
         "sector_industria": {
@@ -658,10 +657,10 @@ with open('./catalogos/catTipoBienInmueble.json') as inmuebles:
     cat_bien_inmueble = json.load(inmuebles)
     #cat_bien_inmueble
 
+with open('./catalogos/catFormaAdquisicion.json') as forma_adquisicion:
+    cat_forma_adquisicion = json.load(forma_adquisicion)
 
 def bien_inmueble():
-
-    tipo_bien = random.choice( cat_bien_inmueble )
 
     inmueble = {
         "id": 123,
@@ -669,7 +668,7 @@ def bien_inmueble():
             "codigo": "INCP",
             "valor": "Incorporacion"
         },
-        "tipo_bien": tipo_bien,
+        "tipo_bien": random.choice(cat_bien_inmueble),
         "superficie_terreno": random.randint(300, 600),
         "superficie_construccion": random.randint(70, 150),
         "titular": {
@@ -689,10 +688,7 @@ def bien_inmueble():
             "fecha_contrato": "2010-07-26" ###
         },
         "domicilio_bien": get_address(),
-        "forma_adquisicion": {
-            "codigo": "CES",
-            "valor": "Cesion"
-        },
+        "forma_adquisicion": random.choice(cat_forma_adquisicion),
         "nombre_denominacion_quien_adquirio": get_name() + " " + get_last_name() + " " + get_last_name(),
         "rfc_quien_adquirio": "GOAP780710RH7",
         "curp_quien_adquirio": "BEML920313HMCLNS09",
