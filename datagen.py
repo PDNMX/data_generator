@@ -42,6 +42,7 @@ if sys_number == 1:
     print('Sistema 1 -> Declaraciones ')
 
     collection = db.s1
+    collection.drop();
     # samples = []
 
     # conn = sqlite3.connect('corpus.db')
@@ -98,16 +99,12 @@ if sys_number == 1:
             "fecha_declaracion": "2010-07-26"
         }
 
+        grado_academico=grados_academicos();
+
         sample['informacion_personal']['datos_curriculares'] = {
-            "grado_maximo_escolaridad": {
-                "codigo": "LICE",
-                "valor": "Licenciatura"
-              },
+            "grado_maximo_escolaridad": grado_academico,
             "grados_academicos": [{
-                "grado_obtenido": {
-                    "codigo": "LICE",
-                    "valor": "Licenciatura"
-                  },
+                "grado_obtenido": grado_academico,
                 "institucion_educativa": get_college(),
                 "lugar_institucion_educativa": {
                     "pais": {
