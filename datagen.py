@@ -140,10 +140,7 @@ if sys_number == 1:
         sample['informacion_personal']['datos_encargo_actual'] = {
             "ente_publico": get_institution(),
             "empleo_cargo_comision": get_position(),
-            "nivel_gobierno": {
-                "codigo": "EST",
-                "valor": "Estatal"
-            },
+            "nivel_gobierno": nivel_gobierno(),
             "poder_juridico": {
                 "codigo": "JUD",
                 "valor": "Judicial"

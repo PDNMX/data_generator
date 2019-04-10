@@ -715,3 +715,21 @@ def bien_inmueble():
     }
 
     return inmueble
+
+def nivel_gobierno():
+    niveles = [
+        {
+            "codigo": "EST",
+            "valor": "Estatal"
+        },
+        {
+            "codigo": "FED",
+            "valor": "Federal"
+        },
+        {
+            "codigo": "MUN",
+            "valor": "Municipal"
+        }
+    ]
+
+    return random.choice(niveles)
