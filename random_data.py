@@ -733,3 +733,37 @@ def nivel_gobierno():
     ]
 
     return random.choice(niveles)
+
+def grados_academicos():
+    grados = [
+      {
+        "codigo": "PREE",
+        "valor": "Preescolar"
+      },
+      {
+        "codigo": "PRIM",
+        "valor": "Primaria"
+      },
+      {
+        "codigo": "SECU",
+        "valor": "Secundaria"
+      },
+      {
+        "codigo": "BACH",
+        "valor": "Bachillerato"
+      },
+      {
+        "codigo": "LICE",
+        "valor": "Licenciatura"
+      },
+      {
+        "codigo": "MAES",
+        "valor": "Maestría"
+      },
+      {
+        "codigo": "DOCT",
+        "valor": "Doctorado"
+      }
+    ]
+
+    return random.choice(grados)

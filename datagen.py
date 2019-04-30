@@ -1,4 +1,5 @@
 # data generator
+import random
 import json
 import argparse
 #import sqlite3
@@ -9,7 +10,7 @@ from urllib.parse import quote_plus
 # import urllib.request
 # import git
 # import os
-
+random.seed()
 parser = argparse.ArgumentParser(description='SESNA data generator')
 parser.add_argument('-s', '--sys', default=0, type=int,
                     help='System number', choices=[1, 2, 3])
@@ -42,6 +43,7 @@ if sys_number == 1:
     print('Sistema 1 -> Declaraciones ')
 
     collection = db.s1
+    collection.drop()
     # samples = []
 
     # conn = sqlite3.connect('corpus.db')
@@ -55,7 +57,7 @@ if sys_number == 1:
             "actualizacion": '2018-10-01T00:00:00Z',
             "institucion": "Secretaria de la Administracion de Declaraciones",
             "contacto": "usuario@dominio.org",
-            "persona_contacto": get_name() +" "+ get_last_name() +" "+ get_last_name(),
+            "persona_contacto": get_name() + " " + get_last_name() + " " + get_last_name(),
             "diccionario": "https://diccionariomx/archivocsv"
         }
 
@@ -98,16 +100,12 @@ if sys_number == 1:
             "fecha_declaracion": "2010-07-26"
         }
 
+        grado_academico = grados_academicos()
+
         sample['informacion_personal']['datos_curriculares'] = {
-            "grado_maximo_escolaridad": {
-                "codigo": "LICE",
-                "valor": "Licenciatura"
-              },
+            "grado_maximo_escolaridad": grado_academico,
             "grados_academicos": [{
-                "grado_obtenido": {
-                    "codigo": "LICE",
-                    "valor": "Licenciatura"
-                  },
+                "grado_obtenido": grado_academico,
                 "institucion_educativa": get_college(),
                 "lugar_institucion_educativa": {
                     "pais": {
@@ -394,7 +392,7 @@ if sys_number == 1:
                 },
                 "rfc": "GOAP780710RH7",
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -424,7 +422,7 @@ if sys_number == 1:
                 "descripcion_actividad_servicio": lorem_ipsum(),
                 "domicilio_persona_paga": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -454,7 +452,7 @@ if sys_number == 1:
                 "descripcion_actividad_servicio": lorem_ipsum(),
                 "domicilio_persona_paga": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -484,7 +482,7 @@ if sys_number == 1:
                 "descripcion_actividad_servicio": lorem_ipsum(),
                 "domicilio_actividad_empresarial": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -514,7 +512,7 @@ if sys_number == 1:
                 "descripcion_actividad_servicio": "Descripcion del servicio",
                 "domicilio_actividad": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -544,7 +542,7 @@ if sys_number == 1:
                 "descripcion_actividad_servicio": "Descripcion del servicio",
                 "domicilio_actividad": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -574,7 +572,7 @@ if sys_number == 1:
                 "descripcion_actividad_servicio": lorem_ipsum(),
                 "domicilio": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -604,7 +602,7 @@ if sys_number == 1:
                 "descripcion_premio": lorem_ipsum(),
                 "domicilio": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -638,7 +636,7 @@ if sys_number == 1:
                 "descripcion_bien": lorem_ipsum(),
                 "domicilio_bien_enajenado": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -668,7 +666,7 @@ if sys_number == 1:
                 "descripcion_actividad": lorem_ipsum(),
                 "domicilio_actividad": get_address(),
                 "ingreso_bruto_anual": {
-                    "valor": 10000,
+                    "valor": random.randint(10000,100000000),
                     "moneda": {
                         "codigo": "MXN",
                         "moneda": "MXN"
@@ -753,7 +751,7 @@ if sys_number == 1:
                     "valor": "México",
                     "codigo": "MX"
                 },
-                "nombre_institucion": random.choice (['Barclays', 'Citigroup', 'HSBC', 'BBVA', 'Bank of America' ]),
+                "nombre_institucion": random.choice(['Barclays', 'Citigroup', 'HSBC', 'BBVA', 'Bank of America']),
                 "rfc_institucion": "GOAP780710RH7",
                 "sector_industria": {
                     "codigo": "SFS",
@@ -924,7 +922,7 @@ if sys_number == 1:
                         "moneda": "MXN"
                     }
                 },
-                "nombre_tercero_propietario": get_name() +" "+ get_last_name() +" "+ get_last_name(),
+                "nombre_tercero_propietario": get_name() + " " + get_last_name() + " " + get_last_name(),
                 "rfc_tercero_propietario": "GOAP780710RH7",
                 "curp_tercero_propietario": "BEML920313HMCLNS09",
                 "relacion_persona": {
@@ -1013,7 +1011,7 @@ if sys_number == 1:
                     "valor": "MEXICO",
                     "codigo": "MX"
                 },
-                "nombre_acreedor": get_name() +" "+ get_last_name() +" "+ get_last_name(),
+                "nombre_acreedor": get_name() + " " + get_last_name() + " " + get_last_name(),
                 "rfc_acreedor": "GOAP780710RH7",
                 "sector_industria": {
                     "codigo": "SFS",
@@ -1042,7 +1040,7 @@ if sys_number == 1:
                 },
                 "porcentaje_obligacion_titular": 70,
                 "garantia": rand_bool(),
-                "nombre_garante": get_name() +" "+ get_last_name() +" "+ get_last_name(),
+                "nombre_garante": get_name() + " " + get_last_name() + " " + get_last_name(),
                 "observaciones": lorem_ipsum()
             }]
         }
