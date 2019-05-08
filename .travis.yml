@@ -12,5 +12,5 @@ before_install:
   - conda update --yes conda
 
 install:
-  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION  --file requirements.txt
+  - conda create --yes -n test python=3  --file requirements.txt
   - source activate test
