@@ -18,5 +18,5 @@ install:
   - conda install -y pandas
   - conda install -y xlrd
   - conda install -y gitpython
-scripts:
-  - python -V
+script:
+  - py.test
