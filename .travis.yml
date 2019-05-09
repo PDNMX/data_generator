@@ -14,7 +14,7 @@ before_install:
 install:
   - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
   - source activate test
-  - conda install pymongo
-  - conda install pandas
-  - conda install xlrd
-  - conda install gitpython
+  - conda install -y pymongo
+  - conda install -y pandas
+  - conda install -y xlrd
+  - conda install -y gitpython
