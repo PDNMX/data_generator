@@ -12,5 +12,9 @@ before_install:
   - conda update --yes conda
 
 install:
-  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION  --file requirements.txt
+  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
   - source activate test
+  - conda install pymongo
+  - conda install pandas
+  - conda install xlrd
+  - conda install gitpython
