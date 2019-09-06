@@ -18,5 +18,6 @@ install:
   - conda install -y pandas
   - conda install -y xlrd
   - conda install -y gitpython
+  - conda install -y unidecode
 script:
   - py.test
