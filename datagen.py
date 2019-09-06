@@ -1,12 +1,13 @@
-# data generator
 import random
 import json
 import argparse
-#import sqlite3
 from pymongo import MongoClient
 from random_data import *
 import os
 from urllib.parse import quote_plus
+from utilFechas import *
+from funGradosAcademicos import *
+
 # import urllib.request
 # import git
 # import os
@@ -16,12 +17,10 @@ parser.add_argument('-s', '--sys', default=0, type=int,
                     help='System number', choices=[1, 2, 3])
 parser.add_argument('-n', '--samples', default=10,
                     type=int, help='Number of samples')
-#parser.add_argument('-o','--out', default='JSON', help='Output format', choices= ['JSON', 'CSV'])
 args = parser.parse_args()
 
 sys_number = args.sys
 number_of_samples = args.samples
-
 
 host = os.environ.get('DATAGEN_MONGO_HOST', 'localhost')
 port = os.environ.get('DATAGEN_MONGO_PORT', 27017)
@@ -49,15 +48,17 @@ if sys_number == 1:
     # conn = sqlite3.connect('corpus.db')
 
     for x in range(0, number_of_samples):
-
         sample = dict()
+
+        _institucion = getInstitucion()
+
         # informacion personal
-        #sample['id'] = str(uuiduuid1())
+        # sample['id'] = str(uuiduuid1())
         sample['metadata'] = {
-            "actualizacion": '2018-10-01T00:00:00Z',
-            "institucion": "Secretaria de la Administracion de Declaraciones",
+            "actualizacion": getUTCDate(),
+            "institucion": _institucion,
             "contacto": "usuario@dominio.org",
-            "persona_contacto": get_name() + " " + get_last_name() + " " + get_last_name(),
+            "persona_contacto": get_full_name(),
             "diccionario": "https://diccionariomx/archivocsv"
         }
 
@@ -68,991 +69,90 @@ if sys_number == 1:
             "primer_apellido": get_last_name(),
             "segundo_apellido": get_last_name(),
             "nacionalidades": citizenship(),
-            "pais_nacimiento": {
-                "valor": "México",
-                "codigo": "MX"
-            },
-            "entidad_federativa_nacimiento": {
-                "nom_agee": "México",
-                "cve_agee": "15"
-            },
-            "curp": "BEML920313HMCLNS09",
-            "rfc": "GOAP780710RH7",
-            "fecha_nacimiento": get_bith_date(),
-            "numero_identificacion_oficial": "a1b2c3d4",
-            "correo_electronico": {
-                "personal": get_email('abcmailcom'),
-                "laboral": get_email('dependenciagobmx')
-            },
-            "telefono": {
-                "particular": get_telephone('fijo'),
-                "celular": get_telephone('celular')
-            },
+            "pais_nacimiento": {"valor": "México", "codigo": "MX"},
+            "entidad_federativa_nacimiento": get_entidad(),
+            "curp": get_curp(),
+            "rfc": get_rfc(),
+            "fecha_nacimiento": getFechaNacimiento(),
+            "numero_identificacion_oficial": get_identificacion(),
+            "correo_electronico": {"personal": get_email('abcmail.com'), "laboral": get_email('dependencia.gob.mx')},
+            "telefono": {"particular": get_telephone('fijo'), "celular": get_telephone('celular')},
             "domicilio": get_address(),
-            "estado_civil": {
-                "codigo": "CAS",
-                "valor": "Casado (a)"
-            },
-            "regimen_matrimonial": {
-                "codigo": "SBI",
-                "valor": "Separación de Bienes"
-            },
-            "fecha_declaracion": "2010-07-26"
+            "estado_civil": random.choice(cat_estado_civil),
+            "regimen_matrimonial": random.choice(cat_regimen_matrimonial),
+            "fecha_declaracion": getFecha()
         }
 
-        grado_academico = grados_academicos()
-
+        gradosAcademicos = getGradosAcademicos()
         sample['informacion_personal']['datos_curriculares'] = {
-            "grado_maximo_escolaridad": grado_academico,
-            "grados_academicos": [{
-                "grado_obtenido": grado_academico,
-                "institucion_educativa": get_college(),
-                "lugar_institucion_educativa": {
-                    "pais": {
-                        "valor": "MEXICO",
-                        "codigo": "MX"
-                    },
-                    "entidad_federativa": {
-                        "nom_agee": "México",
-                        "cve_agee": "15"
-                    },
-                    "municipio": {
-                      "nom_agem": "Ecatepec de Morelos",
-                      "cve_agem": "033"
-                    }
-                },
-                "carrera": get_degree(),
-                "estatus": {
-                    "codigo": "CURS",
-                    "valor": "Cursando"
-                },
-                "ano_conclusion": 2005,
-                "documento_obtenido": {
-                    "codigo": "BOL",
-                    "valor": "Boleta"
-                },
-                "cedula_profesional": "2094884"
-            }]
+            "grado_maximo_escolaridad": gradosAcademicos[0]["grado_obtenido"],
+            "grados_academicos": gradosAcademicos
         }
 
         sample['informacion_personal']['datos_encargo_actual'] = {
-            "ente_publico": get_institution(),
+            "ente_publico": _institucion,
             "empleo_cargo_comision": get_position(),
-            "nivel_gobierno": nivel_gobierno(),
-            "poder_juridico": {
-                "codigo": "JUD",
-                "valor": "Judicial"
-            },
+            "nivel_gobierno": getNivelGobierno(),
+            "poder_juridico": getPoder(),
             "contratado_honorarios": rand_bool(),
-            "nivel_encargo": "CA0001",
+            "nivel_encargo": "{}00{}".format(getMayusculas(2), getNumeros(2)),
             "area_adscripcion": "Unidad de Politica Regulatoria",
-            "fecha_posesion": get_bith_date(),
-            "lugar_ubicacion": {
-                "pais": {
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                },
-                "entidad": {
-                    "nom_agee": "MEXICO",
-                    "cve_agee": "15"
-                }
-            },
+            "fecha_posesion": getFecha(),
+            "lugar_ubicacion": {"pais": {"valor": "MEXICO", "codigo": "MX"}, "entidad": get_entidad()},
             "direccion_encargo": get_address(),
-            "telefono_laboral": {
-                "numero": get_telephone('fijo'),
-                "extension": 1020
-            },
-            "sector_industria": {
-                "codigo": "SFS",
-                "valor": "Servicios de salud y asistencia social"
-            },
-            "funciones_principales": [{
-                "codigo": "ABI",
-                "valor": "Administracion de bienes"
-            }]
+            "telefono_laboral": {"numero": get_telephone('fijo'), "extension": int(getNumeros(4))},
+            "sector_industria": getSectorIndustria(),
+            "funciones_principales": getFuncionesPrincipales()
         }
 
-        sample['informacion_personal']['experiencia_laboral'] = [
-            {
-                "ambito": {
-                    "codigo": "PUB",
-                    "valor": "Público"
-                },
-                "nivel_gobierno": {
-                    "codigo": "EST",
-                    "valor": "Estatal"
-                },
-                "poder_ente": {
-                    "codigo": "JUD",
-                    "valor": "Judicial"
-                },
-                "nombre_institucion": get_institution(),
-                "unidad_administrativa": "Unidad de Politica Regulatoria",
-                "direccion": get_address(),
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "jerarquia_rango": "string",
-                "cargo_puesto": get_position(),
-                "fecha_ingreso": get_bith_date(),
-                "fecha_salida": get_bith_date(),
-                "funciones_principales": [{
-                    "codigo": "ABI",
-                    "valor": "Administracion de bienes"
-                }]
-            }
-        ]
+        sample['informacion_personal']['experiencia_laboral'] = getExperienciasLaborales()
 
-        sample['informacion_personal']['dependientes_economicos'] = [
-           dependiente(),
-           dependiente(),
-           dependiente(),
-           dependiente()
-        ]
+        sample['informacion_personal']['dependientes_economicos'] = getDependientesEconomicos()
 
         # Intereses
         sample['intereses'] = {
-            "empresas_sociedades_asociaciones": [{
-                "id": 123,
-                "nombre_empresa_sociedad_asociacion": "DataIQ",
-                "pais_registro": {
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                },
-                "fecha_constitucion": get_bith_date(),
-                "numero_registro": "ABC123",
-                "rfc": "GOAP780710RH7",
-                "domicilio": get_address(),
-                "rol": "Dueño",
-                "actividad_economica": True,
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "porcentaje_participacion": 70
-            }],
-            "membresias": [{
-                "id": 123,
-                "tipo_institucion": {
-                    "codigo": "ASC",
-                    "valor": "Asociaciones civiles"
-                },
-                "nombre_institucion": "Asociacion AC",
-                "naturaleza_membresia": {
-                  "codigo": "ASC",
-                  "valor": "Asociacion Civil"
-                },
-                "domicilio": get_address(),
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "puesto_rol": "Titular",
-                "fecha_inicio": get_bith_date(),
-                "pagado": rand_bool(),
-                "observaciones": lorem_ipsum()
-            }],
-            "apoyos_beneficios_publicos": [{
-                "id": 123,
-                "es_beneficiario": True,
-                "programa": "Programa de Estimulos Economicos a Deportistas del Distrito Federal",
-                "institucion_otorgante": "Instituto del Deporte del Distrito Federal ",
-                "nivel_orden_gobierno": {
-                    "codigo": "EST",
-                    "valor": "Estatal"
-                },
-                "tipo_apoyo": {
-                    "codigo": "SERV",
-                    "valor": "Servicio"
-                },
-                "valor_anual_apoyo": 7500,
-                "observaciones": lorem_ipsum()
-            }],
-            "representacion_activa": [{
-                "id": 123,
-                "tipo_representacion": {
-                    "codigo": "APOD",
-                    "valor": "Apoderado"
-                },
-                "nombre_parte_representada": "Cecilia Gomez Urrutia",
-                "curp_parte": "BEML920313HMCLNS09",
-                "rfc_parte": "GOAP780710RH7",
-                "fecha_nacimiento_parte": get_bith_date(),
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "fecha_inicio": get_bith_date(),
-                "pagado": rand_bool(),
-                "observaciones": lorem_ipsum()
-            }],
-            "representacion_pasiva": [{
-                "id": 123,
-                "tipo_representacion": {
-                    "codigo": "APOD",
-                    "valor": "Apoderado"
-                },
-                "nombre": "Augusto Fernandez Castro",
-                "fecha_inicio_representacion": get_bith_date(),
-                "nacionalidades": citizenship(),
-                "curp": "BEML920313HMCLNS09",
-                "rfc": "GOAP780710RH7",
-                "fecha_nacimiento": get_bith_date(),
-                "tiene_intereses": rand_bool(),
-                "ocupacion_profesion": "Contador",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "socios_comerciales": [{
-                "id": 123,
-                "nombre_actividad": "Actividad",
-                "tipo_vinculo": "Socio",
-                "antiguedad_vinculo": 20,
-                "rfc_entidad": "GOAP780710RH7",
-                "nombre": "Armando Rodriguez Saes",
-                "curp": "BEML920313HMCLNS09",
-                "rfc": "GOAP780710RH7",
-                "lugar_nacimiento": {
-                    "pais": {
-                        "valor": "MEXICO",
-                        "codigo": "MX"
-                    },
-                    "entidad": {
-                        "nom_agee": "MEXICO",
-                        "cve_agee": "15"
-                    }
-                },
-                "fecha_nacimiento": get_bith_date(),
-                "porcentaje_participacion": 70,
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "clientes_principales": [{
-                "id": 123,
-                "nombre_negocio": "Nombre negocio",
-                "numero_registro": "HTC896DSFA",
-                "dueno_encargado": "Salvador Hernandez Torres",
-                "nombre": "AMEXSA",
-                "rfc": "GOAP780710RH7",
-                "domicilio": get_address(),
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "porcentaje_participacion": 70,
-                "observaciones": lorem_ipsum()
-            }],
-            "otras_partes": [{
-                "id": 123,
-                "tipo_relacion": {
-                    "codigo": "GPR",
-                    "valor": "Garantes de Préstamos Recibidos"
-                },
-                "nombre_denominacion_parte": "Sergio Rodriguez",
-                "fecha_inicio_relacion": get_bith_date(),
-                "nacionalidades": citizenship(),
-                "curp": "BEML920313HMCLNS09",
-                "rfc": "GOAP780710RH7",
-                "fecha_nacimiento": get_bith_date(),
-                "ocupacion": "Administrador de empresas",
-                "tiene_interes": True,
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "beneficios_gratuitos": [{
-                "id": 123,
-                "tipo_beneficio": "Tarjetas o monederos electronicos",
-                "origen_beneficio": "Prestacion laboral",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "valor_beneficio": 1256,
-                "observaciones": lorem_ipsum()
-            }]
+            "empresas_sociedades_asociaciones": getEmpresas(),
+            "membresias": getMembresias(),
+            "apoyos_beneficios_publicos": getApoyos(),
+            "representacion_activa": getRepresentacionActiva(),
+            "representacion_pasiva": getRepresentacionPasiva(),
+            "socios_comerciales": getSociosComerciales(),
+            "clientes_principales": getClientesPrincipales(),
+            "otras_partes": getOtrasPartes(),
+            "beneficios_gratuitos": getBeneficiosGratuitos()
         }
 
         # Ingresos
-        sample['ingresos'] = {
-            "sueldos_salarios_publicos": [{
-                "id": 123,
-                "ente_publico": {
-                  "valor": "SECRETARIA DE GOBERNACION",
-                  "codigo": "SEGOB"
-                },
-                "rfc": "GOAP780710RH7",
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "sueldos_salarios_otros_empleos": [{
-                "id": 123,
-                "nombre_denominacion_razon_social": "Max Power Inc",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio_persona_paga": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "actividad_profesional": [{
-                "id": 123,
-                "nombre_denominacion_razon_social": "Nombre",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio_persona_paga": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "actividad_empresarial": [{
-                "id": 123,
-                "nombre_denominacion_razon_social": "Empresa SA",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio_actividad_empresarial": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": "Esto es una observacion"
-            }],
-            "actividad_economica_menor": [{
-                "id": 123,
-                "nombre_denominacion_razon_social": "Nombre",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_actividad_servicio": "Descripcion del servicio",
-                "domicilio_actividad": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "arrendamiento": [{
-                "id": 123,
-                "nombre_denominacion_razon_social": "ABC Inc",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_actividad_servicio": "Descripcion del servicio",
-                "domicilio_actividad": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "intereses": [{
-                "id": 123,
-                "nombre_denominacion_razon_social": "BANC SA",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_actividad_servicio": lorem_ipsum(),
-                "domicilio": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "premios": [{
-                "id": 123,
-                "nombre_denominacion": "Loteria Nacional",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_premio": lorem_ipsum(),
-                "domicilio": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "enajenacion_bienes": [{
-                "id": 123,
-                "nombre_denominacion": "Loteria Nacional",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "tipo_bien": {
-                  "codigo": "BAR",
-                  "valor": "Barco"
-                },
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad_servicio": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_bien": lorem_ipsum(),
-                "domicilio_bien_enajenado": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "otros_ingresos": [{
-                "id": 123,
-                "nombre_denominacion": "Centro Educativo",
-                "rfc": "GOAP780710RH7",
-                "curp": "BEML920313HMCLNS09",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "tipo_actividad": {
-                    "codigo": "SAL",
-                    "valor": "Salud"
-                },
-                "descripcion_actividad": lorem_ipsum(),
-                "domicilio_actividad": get_address(),
-                "ingreso_bruto_anual": {
-                    "valor": random.randint(10000,100000000),
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    },
-                    "unidad_temporal": {
-                        "codigo": "MESS",
-                        "valor": "Meses"
-                    },
-                    "duracion_frecuencia": 10,
-                    "fecha_transaccion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }]
-        }
+        sample['ingresos'] = getIngresos()
 
         # Activos
         sample['activos'] = {
-            "bienes_inmuebles": [
-               bien_inmueble(),
-               bien_inmueble(),
-               bien_inmueble()
-            ],
-            "bienes_muebles_registrables": [
-                bien_mueble_registrable(),
-                bien_mueble_registrable(),
-                bien_mueble_registrable()
-            ],
-            "bienes_muebles_no_registrables": [{
-                "id": 123,
-                "tipo_operacion": {
-                    "codigo": "INCP",
-                    "valor": "Incorporacion"
-                },
-                "tipo_bien": {
-                    "codigo": "VEH",
-                    "valor": "Vehiculo"
-                },
-                "descripcion": "Con descripcion",
-                "titular_bien": {
-                    "codigo": "DECL",
-                    "valor": "Declarante"
-                },
-                "porcentaje_propiedad": 70,
-                "nombres_copropietarios": [
-                    "Monstr Inc"
-                ],
-                "forma_adquisicion": {
-                    "codigo": "CES",
-                    "valor": "Cesion"
-                },
-                "nombre_denominacion_adquirio": "Tesl Mtr Inc",
-                "relacion_quien_adquirio": {
-                    "codigo": "CONY",
-                    "valor": "Conyuge"
-                },
-                "fecha_adquisicion": get_bith_date(),
-                "precio_adquisicion": {
-                    "valor": 4000,
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    }
-                },
-                "observaciones": "Esto es una observacion"
-            }],
-            "inversiones_cuentas_valores": [{
-                "id": 123,
-                "tipo_operacion": {
-                    "codigo": "INCP",
-                    "valor": "Incorporacion"
-                },
-                "tipo_inversion": {
-                    "codigo": "VALS",
-                    "valor": "Valores"
-                },
-                "tipo_especifico_inversion": {
-                    "codigo": "VALRS",
-                    "valor": "Valores"
-                },
-                "numero_cuenta": "GFHRTY788778",
-                "nacional_extranjero": {
-                    "valor": "México",
-                    "codigo": "MX"
-                },
-                "nombre_institucion": random.choice(['Barclays', 'Citigroup', 'HSBC', 'BBVA', 'Bank of America']),
-                "rfc_institucion": "GOAP780710RH7",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "domicilio_institucion": get_address(),
-                "forma_adquisicion": {
-                    "codigo": "CES",
-                    "valor": "Cesion"
-                },
-                "fecha_inicio": get_bith_date(),
-                "monto_original": get_amount(80000, 100000),
-                "tipo_moneda": {
-                    "codigo": "MXN",
-                    "moneda": "MXN"
-                },
-                "tasa_interes": 10,
-                "saldo_anual": 5000,
-                "plazo": 6,
-                "unidad_medida_plazo": {
-                    "codigo": "MESS",
-                    "valor": "Meses"
-                },
-                "titular_bien": {
-                    "codigo": "DECL",
-                    "valor": "Declarante"
-                },
-                "porcentaje_inversion": 70,
-                "observaciones": lorem_ipsum()
-            }],
-            "efectivo_metales": [{
-                "id": 123,
-                "tipo_operacion": {
-                    "codigo": "INCP",
-                    "valor": "Incorporacion"
-                },
-                "tipo_moneda": {
-                    "codigo": "MXN",
-                    "moneda": "MXN"
-                },
-                "monto_moneda": get_amount(70000, 100000),
-                "tipo_metal": {
-                    "codigo": "ORO",
-                    "valor": "Oro"
-                },
-                "unidades": 100,
-                "monto_metal": get_amount(70000, 100000),
-                "forma_adquisicion": {
-                    "codigo": "CES",
-                    "valor": "Cesion"
-                },
-                "observaciones_comentarios": lorem_ipsum()
-            }],
-            "fideicomisos": [{
-                "id": 123,
-                "tipo_operacion": {
-                    "codigo": "INCP",
-                    "valor": "Incorporacion"
-                },
-                "identificador_fideicomiso": "93232",
-                "tipo_fideicomiso": {
-                    "codigo": "GARNT",
-                    "valor": "Garantia"
-                },
-                "objetivo": "Objetivo del fideicomiso",
-                "numero_registro": "788544abc",
-                "fecha_creacion": get_bith_date(),
-                "vigencia": get_bith_date(),
-                "residencia": {
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                },
-                "valor": 78555555,
-                "moneda": {
-                    "codigo": "MXN",
-                    "moneda": "MXN"
-                },
-                "porcentaje_propiedad_derechos_fiduciarios": 70,
-                "ingreso_monetario_obtenido": 56666,
-                "institucion_fiduciaria": "Banco de México",
-                "fideicomitente": {
-                  "nombre": "Banco Robmen1",
-                  "rfc": "GOAP780710RH7",
-                  "curp": "BEML920313HMCLNS09",
-                  "domicilio": get_address(),
-                  "fecha_constitucion": "2010-07-26"
-                },
-                "fideicomisario": {
-                  "nombre": "Banco Robmen1",
-                  "rfc": "GOAP780710RH7",
-                  "curp": "BEML920313HMCLNS09",
-                  "domicilio": get_address(),
-                  "fecha_constitucion": "2010-07-26"
-                },
-                "fiduciario": {
-                  "nombre": "Banco Robmen1",
-                  "rfc": "GOAP780710RH7",
-                  "curp": "BEML920313HMCLNS09",
-                  "domicilio": get_address(),
-                  "fecha_constitucion": "2010-07-26"
-                },
-                "observaciones": lorem_ipsum()
-            }],
-            "bienes_intangibles": [{
-                "id": 123,
-                "tipo_operacion": {
-                    "codigo": "INCP",
-                    "valor": "Incorporacion"
-                },
-                "propietario_registrado": ["Sergio Perez"],
-                "descripcion": lorem_ipsum(),
-                "ente_publico_encargado": get_institution(),
-                "numero_registro": 754444,
-                "fecha_registro": get_bith_date(),
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "precio_adquisicion": {
-                    "valor": 4000,
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    }
-                },
-                "forma_adquisicion": {
-                    "codigo": "CES",
-                    "valor": "Cesion"
-                },
-                "fecha_vencimiento": get_bith_date(),
-                "porcentaje_copropiedad": 70,
-                "precio_total_copropiedad": {
-                    "valor": 4000,
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    }
-                },
-                "nombre_copropietario": "Vien Incorporation",
-                "porcentaje_propiedad_copropietario": 70,
-                "observaciones": lorem_ipsum()
-            }],
-            "cuentas_por_cobrar": [{
-                "id": 123,
-                "nombre_prestatario": "Max Power Tier",
-                "numero_registro": "488755avvv",
-                "domicilio_prestatarios": get_address(),
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "fecha_prestamo": get_bith_date(),
-                "monto_original_prestamo": get_amount(70000, 100000),
-                "tasa_interes": 1001,
-                "saldo_pendiente": 4555,
-                "fecha_vencimiento": get_bith_date(),
-                "porcentaje_copropiedad": 70,
-                "nombre_copropietario": "Max Power Bansky",
-                "observaciones": lorem_ipsum()
-            }],
-            "uso_especie_propiedad_tercero": [{
-                "id": 123,
-                "tipo_bien": "Bien Inmueble",
-                "valor_mercado": {
-                    "valor": 4000,
-                    "moneda": {
-                        "codigo": "MXN",
-                        "moneda": "MXN"
-                    }
-                },
-                "nombre_tercero_propietario": get_name() + " " + get_last_name() + " " + get_last_name(),
-                "rfc_tercero_propietario": "GOAP780710RH7",
-                "curp_tercero_propietario": "BEML920313HMCLNS09",
-                "relacion_persona": {
-                    "codigo": "CONY",
-                    "valor": "Conyuge"
-                },
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "fecha_inicio": get_bith_date(),
-                "domicilio_persona": get_address(),
-                "observaciones": lorem_ipsum()
-            }]
+            "bienes_inmuebles": getBienesInmuebles(),
+            "bienes_muebles_registrables": getBienMuebleRegistrable(),
+            "bienes_muebles_no_registrables": getBienMuebleNoRegistrable(),
+            "inversiones_cuentas_valores": getInversionesCuentasValores(),
+            "efectivo_metales": getEfectivoMetales(),
+            "fideicomisos": getFideicomisos(),
+            "bienes_intangibles": getBienesIntangibles(),
+            "cuentas_por_cobrar": getCuentasXCobrar(),
+            "uso_especie_propiedad_tercero": getUsoEspeciePropietarioTercero()
         }
 
         # Pasivos
         sample['pasivos'] = {
-            "deudas": [{
-                "id": 123,
-                "tipo_operacion": {
-                    "codigo": "INCP",
-                    "valor": "Incorporacion"
-                },
-                "tipo_acreedor": {
-                    "codigo": "INSTF",
-                    "valor": "Institucion Financiera"
-                },
-                "tipo_adeudo": {
-                      "codigo": "CH",
-                      "valor": "Crédito hipotecario"
-                },
-                "identificador_deuda": "CONT12354",
-                "nacional_extranjero": {
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                },
-                "nombre_acreedor": "PNBKSRIBAS SA DE CV",
-                "rfc_acreedor": "GOAP780710RH7",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "domicilio_acreedor": get_address(),
-                "fecha_adeudo": get_bith_date(),
-                "monto_original": get_amount(70000, 100000),
-                "tipo_moneda": {
-                    "codigo": "MXN",
-                    "moneda": "MXN"
-                },
-                "tasa_interes": 12,
-                "saldo_pendiente": 28000,
-                "montos_abonados": [
-                    get_amount(7000, 10000)
-                ],
-                "plazo_adeudo": 24,
-                "unidad_medida_adeudo": {
-                    "codigo": "MESS",
-                    "valor": "Meses"
-                },
-                "titularidad_deuda": {
-                    "codigo": "DECL",
-                    "valor": "Declarante"
-                },
-                "porcentaje_adeudo_titular": 70,
-                "garantia": rand_bool(),
-                "nombre_garante": "Bansky Von Tier",
-                "observaciones": "Esto es una observacion"
-            }],
-            "otras_obligaciones": [{
-                "id": 123,
-                "tipo_operacion": {
-                    "codigo": "INCP",
-                    "valor": "Incorporacion"
-                },
-                "tipo_acreedor": {
-                    "codigo": "INSTF",
-                    "valor": "Institucion Financiera"
-                },
-                "tipo_obligacion": {
-                  "codigo": "CVH",
-                  "valor": "Compra de vehiculo"
-                },
-                "identificador_obligacion": "FONAET8945",
-                "nacional_extranjero": {
-                    "valor": "MEXICO",
-                    "codigo": "MX"
-                },
-                "nombre_acreedor": get_name() + " " + get_last_name() + " " + get_last_name(),
-                "rfc_acreedor": "GOAP780710RH7",
-                "sector_industria": {
-                    "codigo": "SFS",
-                    "valor": "Servicios de salud y asistencia social"
-                },
-                "domicilio_acreedor": get_address(),
-                "fecha_obligacion": get_bith_date(),
-                "monto_original": get_amount(40000, 500000),
-                "tipo_moneda": {
-                    "codigo": "MXN",
-                    "moneda": "MXN"
-                },
-                "tasa_interes": 12,
-                "saldo_pendiente": 297000,
-                "montos_abonados": [
-                    28000
-                ],
-                "plazo_obligacion": 360,
-                "unidad_medida_plazo": {
-                    "codigo": "MESS",
-                    "valor": "Meses"
-                },
-                "titularidad_obligacion": {
-                    "codigo": "DECL",
-                    "valor": "Declarante"
-                },
-                "porcentaje_obligacion_titular": 70,
-                "garantia": rand_bool(),
-                "nombre_garante": get_name() + " " + get_last_name() + " " + get_last_name(),
-                "observaciones": lorem_ipsum()
-            }]
+            "deudas": getDeudas(),
+            "otras_obligaciones": getOtrasObligaciones()
         }
 
+        #print(sample)
         collection.insert_one(sample)
-        #samples.append(sample)
+        # samples.append(sample)
 
-    #with open('data.json', 'w') as outfile:
+    # with open('data.json', 'w') as outfile:
     #    json.dump(samples,outfile, indent=4)
 
 
-#conn.close()
+# conn.close()
 elif sys_number == 1:
     print('Sistema 2 -> Servidores públicos que intervienen en contrataciones')
 elif sys_number == 2:

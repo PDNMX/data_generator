@@ -1,4 +1,5 @@
 import random
+import unidecode
 import string
 import pandas as pd
 import uuid
@@ -6,6 +7,7 @@ import os
 import git
 import urllib.request
 import json
+from utilFechas import *
 
 # nombres y apellidos
 hombres = pd.read_csv('./corpus/hombres.csv')
@@ -30,6 +32,7 @@ if not os.path.isfile('./catun_localidad.xlsx'):
 
 catun = pd.read_excel('./catun_localidad.xlsx', header=3)
 
+
 # Marco Geoestadístico (https://www.inegi.org.mx/app/ageeml/)
 
 
@@ -44,7 +47,7 @@ def rand_bool():
 def get_name():
     gender = random.choice(['F', 'M'])
 
-    name = random.choice(hombres) if gender is 'M' else\
+    name = random.choice(hombres) if gender is 'M' else \
         random.choice(mujeres)
     name = str(name[0])
     return name
@@ -56,11 +59,43 @@ def get_last_name():
     return apellido
 
 
+def get_full_name():
+    return "{} {} {}".format(get_name(), get_last_name(), get_last_name())
+
+
 def get_email(domain):
     length = 12
     letters = string.ascii_lowercase
     user = ''.join(random.choice(letters) for i in range(length))
     return "{0}@{1}".format(user, domain)
+
+
+def getMayusculas(total):
+    letters = string.ascii_uppercase
+    return ''.join(random.choice(letters) for i in range(total))
+
+
+def getNumeros(total):
+    return ''.join("{}".format(random.choice([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])) for i in range(total))
+
+
+# BEML920313HMCLNS09
+def get_curp():
+    return "{}{}{}{}".format(getMayusculas(4), getNumeros(6), getMayusculas(6), getNumeros(2))
+
+
+# GOAP780710RH7
+def get_rfc():
+    return "{}{}{}{}".format(getMayusculas(4), getNumeros(6), getMayusculas(2), getNumeros(1))
+
+
+# IDMEX1710783604
+def get_identificacion():
+    return "IDMEX{}".format(getNumeros(10))
+
+
+def getIdentificacionNacional():
+    return "{}{}".format(getMayusculas(4), getNumeros(6))
 
 
 def get_telephone(type):
@@ -79,7 +114,6 @@ def get_bith_date():
 
 
 def get_college():
-
     colleges = [
         'Instituto Politécnico Nacional',
         'Instituto Tecnológico Autónomo de México',
@@ -92,7 +126,7 @@ def get_college():
 
 
 def get_amount(a, b):
-    return round(random.uniform(a, b), 2)
+    return round(random.randint(a, b), 2)
 
 
 def get_degree():
@@ -133,10 +167,20 @@ def lorem_ipsum():
     return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
 
-def get_address():
-
+def get_entidad():
     rows = len(catun)
-    index = random.randint(0, rows - 1)
+    index = random.randint(1, rows - 1)
+    loc = catun.iloc[index]
+
+    return {
+        "nom_agee": loc['nom_ent'],
+        "cve_agee": str(loc['cve_ent'])
+    }
+
+
+def getLugarInstitucionEducativa():
+    rows = len(catun)
+    index = random.randint(1, rows - 1)
     loc = catun.iloc[index]
 
     return {
@@ -145,8 +189,29 @@ def get_address():
             "codigo": "MX"
         },
         "entidad_federativa": {
-            "nom_agee":  loc['nom_ent'],
-            "cve_agee":  str(loc['cve_ent'])
+            "nom_agee": loc['nom_ent'],
+            "cve_agee": str(loc['cve_ent'])
+        },
+        "municipio": {
+            "nom_agem": loc['nom_mun'],
+            "cve_agem": str(loc['cve_mun'])
+        },
+    }
+
+
+def get_address():
+    rows = len(catun)
+    index = random.randint(1, rows - 1)
+    loc = catun.iloc[index]
+
+    return {
+        "pais": {
+            "valor": "MEXICO",
+            "codigo": "MX"
+        },
+        "entidad_federativa": {
+            "nom_agee": loc['nom_ent'],
+            "cve_agee": str(loc['cve_ent'])
         },
         "municipio": {
             "nom_agem": loc['nom_mun'],
@@ -214,556 +279,1197 @@ def citizenship():
             "codigo": "FI"
         },
         {
-            "valor":"Venezuela",
-            "codigo":"VE"
+            "valor": "Venezuela",
+            "codigo": "VE"
         }
     ]
 
-    c1 = random.choice(countries)
+    c1 = {
+        "valor": "Mexico",
+        "codigo": "MX"
+    }
     c2 = random.choice(countries)
 
     return [c1, c2] if c1.get("codigo") != c2.get("codigo") else [c1]
 
-institutions = [
-    "ADMINISTRACION DEL PATRIMONIO DE LA BENEFICENCIA PUBLICA",
-    "ADMINISTRACION FEDERAL DE SERVICIOS EDUCATIVOS EN EL DISTRITO FEDERAL",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE ALTAMIRA S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE COATZACOALCOS S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE DOS BOCAS S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE ENSENADA S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE GUAYMAS S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE LAZARO CARDENAS S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE MANZANILLO S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE MAZATLAN S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE PROGRESO S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE PUERTO MADERO, S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE PUERTO VALLARTA S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE SALINA CRUZ S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE TAMPICO S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE TOPOLOBAMPO S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE TUXPAN S.A. DE C.V.",
-    "ADMINISTRACION PORTUARIA INTEGRAL DE VERACRUZ S.A. DE C.V.",
-    "AEROPUERTO INTERNACIONAL DE LA CIUDAD DE MEXICO S.A. DE C.V.",
-    "AEROPUERTOS Y SERVICIOS AUXILIARES",
-    "AGENCIA ESPACIAL MEXICANA",
-    "AGENCIA MEXICANA DE COOPERACIÓN INTERNACIONAL PARA EL DESARROLLO",
-    "AGENCIA NACIONAL DE SEGURIDAD INDUSTRIAL Y DE PROTECCIÓN AL MEDIO AMBIENTE DEL SECTOR HIDROCARBUROS",
-    "AGROASEMEX S.A.",
-    "APOYOS Y SERVICIOS A LA COMERCIALIZACION AGROPECUARIA",
-    "ARCHIVO GENERAL DE LA NACION",
-    "AUTORIDAD FEDERAL PARA EL DESARROLLO DE LAS ZONAS ECONÓMICAS ESPECIALES",
-    "BANCO DEL AHORRO NACIONAL Y SERVICIOS FINANCIEROS S N C",
-    "BANCO NACIONAL DE COMERCIO EXTERIOR S.N.C.",
-    "BANCO NACIONAL DE CREDITO RURAL S.N.C.",
-    "BANCO NACIONAL DE OBRAS Y SERVICIOS PUBLICOS S.N.C.",
-    "BANCO NACIONAL DEL EJERCITO FUERZA AEREA Y ARMADA S.N.C.",
-    "CAMINOS Y PUENTES FEDERALES DE INGRESOS Y SERVICIOS CONEXOS",
-    "CASA DE MONEDA DE MEXICO",
-    "CENTRO DE CAPACITACION CINEMATOGRAFICA A.C.",
-    "CENTRO DE ENSEÑANZA TECNICA INDUSTRIAL.",
-    "CENTRO DE ESTUDIOS SUPERIORES EN TURISMO",
-    "CENTRO DE EVALUACION Y DESARROLLO HUMANO",
-    "CENTRO DE INGENIERIA Y DESARROLLO INDUSTRIAL",
-    "CENTRO DE INVESTIGACION CIENTIFICA DE YUCATAN A.C.",
-    "CENTRO DE INVESTIGACION CIENTIFICA Y DE EDUCACION SUPERIOR DE ENSENADA B.C.",
-    "CENTRO DE INVESTIGACION EN ALIMENTACION Y DESARROLLO A.C.",
-    "CENTRO DE INVESTIGACION EN GEOGRAFIA Y GEOMATICA ING. JORGE L. TAMAYO A.C.",
-    "CENTRO DE INVESTIGACION EN MATEMATICAS A.C.",
-    "CENTRO DE INVESTIGACION EN MATERIALES AVANZADOS S.C.",
-    "CENTRO DE INVESTIGACION EN QUIMICA APLICADA",
-    "CENTRO DE INVESTIGACION Y ASISTENCIA EN TECNOLOGIA Y DISEÑO DEL ESTADO DE JALISCO A.C.",
-    "CENTRO DE INVESTIGACION Y DE ESTUDIOS AVANZADOS DEL INSTITUTO POLITECNICO NACIONAL",
-    "CENTRO DE INVESTIGACION Y DESARROLLO TECNOLOGICO EN ELECTROQUIMICA S.C.",
-    "CENTRO DE INVESTIGACION Y DOCENCIA ECONOMICAS A.C.",
-    "CENTRO DE INVESTIGACION Y SEGURIDAD NACIONAL",
-    "CENTRO DE INVESTIGACIONES BIOLOGICAS DEL NOROESTE S.C.",
-    "CENTRO DE INVESTIGACIONES EN OPTICA A.C.",
-    "CENTRO DE INVESTIGACIONES Y ESTUDIOS SUPERIORES EN ANTROPOLOGIA SOCIAL",
-    "CENTRO DE PRODUCCION DE PROGRAMAS INFORMATIVOS Y ESPECIALES",
-    "CENTRO NACIONAL DE CONTROL DE ENERGÍA",
-    "CENTRO NACIONAL DE CONTROL DE GAS NATURAL",
-    "CENTRO NACIONAL DE EQUIDAD DE GENERO Y SALUD REPRODUCTIVA",
-    "CENTRO NACIONAL DE EXCELENCIA TECNOLOGICA EN SALUD",
-    "CENTRO NACIONAL DE LA TRANSFUSION SANGUINEA",
-    "CENTRO NACIONAL DE METROLOGIA",
-    "CENTRO NACIONAL DE PLANEACION, ANALISIS E INFORMACION PARA EL COMBATE A LA DELINCUENCIA",
-    "CENTRO NACIONAL DE PREVENCION DE DESASTRES",
-    "CENTRO NACIONAL DE TRASPLANTES",
-    "CENTRO NACIONAL DE VIGILANCIA EPIDEMIOLOGICA Y CONTRTOL DE ENFERMEDADES",
-    "CENTRO NACIONAL PARA LA PREVENCION Y CONTROL DEL VIH/SIDA",
-    "CENTRO NACIONAL PARA LA PREVENCIÓN Y EL CONTROL DE LAS ADICCIONES",
-    "CENTRO NACIONAL PARA LA SALUD DE LA INFANCIA Y ADOLESCENCIA",
-    "CENTRO REGIONAL DE ALTA ESPECIALIDAD EN CHIAPAS",
-    "CENTROS DE INTEGRACION JUVENIL A.C.",
-    "CFE CORPORATIVO",
-    "CFE DISTRIBUCIÓN",
-    "CFE GENERACIÓN I",
-    "CFE GENERACIÓN II",
-    "CFE GENERACIÓN III",
-    "CFE GENERACIÓN IV",
-    "CFE GENERACIÓN V",
-    "CFE GENERACIÓN VI",
-    "CFE SUMINISTRADOR DE SERVICIOS BÁSICOS",
-    "CFE TRANSMISIÓN",
-    "CIATEC, A.C. CENTRO DE INNOVACION APLICADA EN TECNOLOGIAS COMPETITIVAS",
-    "CIATEQ, A.C. CENTRO DE TECNOLOGIA AVANZADA",
-    "COLEGIO DE BACHILLERES",
-    "COLEGIO DE POSTGRADUADOS",
-    "COLEGIO NACIONAL DE EDUCACION PROFESIONAL TECNICA",
-    "COLEGIO SUPERIOR AGROPECUARIO DEL ESTADO DE GUERRERO",
-    "COMISION DE APELACION Y ARBITRAJE DEL DEPORTE",
-    "COMISION DE OPERACION Y FOMENTO DE ACTIVIDADES ACADEMICAS DEL INSTITUTO POLITECNICO NACIONAL",
-    "COMISIÓN EJECUTIVA DE ATENCIÓN A VÍCTIMAS",
-    "COMISION FEDERAL DE ELECTRICIDAD",
-    "COMISION FEDERAL DE MEJORA REGULATORIA",
-    "COMISION FEDERAL DE TELECOMUNICACIONES",
-    "COMISION FEDERAL PARA LA PROTECCION CONTRA RIESGOS SANITARIOS",
-    "COMISION NACIONAL BANCARIA Y DE VALORES",
-    "COMISION NACIONAL DE ACUACULTURA Y PESCA",
-    "COMISION NACIONAL DE ARBITRAJE MEDICO",
-    "COMISION NACIONAL DE AREAS NATURALES PROTEGIDAS",
-    "COMISION NACIONAL DE BIOETICA",
-    "COMISION NACIONAL DE CULTURA FISICA Y DEPORTE",
-    "COMISIÓN NACIONAL DE HIDROCARBUROS",
-    "COMISION NACIONAL DE LAS ZONAS ARIDAS",
-    "COMISION NACIONAL DE LIBROS DE TEXTO GRATUITOS",
-    "COMISION NACIONAL DE LOS SALARIOS MINIMOS",
-    "COMISION NACIONAL DE PROTECCION SOCIAL EN SALUD",
-    "COMISION NACIONAL DE SEGURIDAD NUCLEAR Y SALVAGUARDIAS",
-    "COMISION NACIONAL DE SEGUROS Y FIANZAS",
-    "COMISION NACIONAL DE VIVIENDA",
-    "COMISION NACIONAL DEL AGUA",
-    "COMISION NACIONAL DEL SISTEMA DE AHORRO PARA EL RETIRO",
-    "COMISION NACIONAL FORESTAL",
-    "COMISION NACIONAL PARA EL DESARROLLO DE LOS PUEBLOS INDIGENAS",
-    "COMISION NACIONAL PARA EL USO EFICIENTE DE LA ENERGIA",
-    "COMISION NAL. PARA LA PROTECCION Y DEFENSA DE LOS USUARIOS DE SERVICIOS FINANCIEROS",
-    "COMISION PARA LA REGULARIZACION DE LA TENENCIA DE LA TIERRA",
-    "COMISION PARA PREVENIR Y ERRADICAR LA VIOLENCIA CONTRA LAS MUJERES",
-    "COMISION REGULADORA DE ENERGIA",
-    "COMITE NACIONAL MIXTO DE PROTECCION AL SALARIO",
-    "COMITÉ NACIONAL PARA EL DESARROLLO SUSTENTABLE DE LA CAÑA DE AZÚCAR",
-    "COMPAÑIA MEXICANA DE EXPLORACIONES S.A. DE C.V.",
-    "COMPAÑIA OPERADORA DEL CENTRO CULTURAL Y TURISTICO DE TIJUANA S.A. DE C.V.",
-    "CONSEJERIA JURIDICA DEL EJECUTIVO FEDERAL",
-    "CONSEJO DE MENORES",
-    "CONSEJO DE PROMOCION TURISTICA DE MEXICO S.A. DE C.V.",
-    "CONSEJO NACIONAL DE CIENCIA Y TECNOLOGIA",
-    "CONSEJO NACIONAL DE EVALUACION DE LA POLITICA DE DESARROLLO SOCIAL",
-    "CONSEJO NACIONAL DE FOMENTO EDUCATIVO",
-    "CONSEJO NACIONAL DE NORMALIZACION Y CERTIFICACION DE COMPETENCIA LABORALES",
-    "CONSEJO NACIONAL PARA EL DESARROLLO Y LA INCLUSIÓN DE LAS PERSONAS CON DISCAPACIDAD",
-    "CONSEJO NACIONAL PARA LA CULTURA Y LAS ARTES",
-    "CONSEJO NACIONAL PARA PREVENIR LA DISCRIMINACION",
-    "COORDINACION GENERAL DE LA COMISION MEXICANA DE AYUDA A REFUGIADOS",
-    "COORDINACION NACIONAL DEL PROGRAMA DE DESARROLLO HUMANO OPORTUNIDADES",
-    "CORPORACIÓN ÁNGELES VERDES",
-    "CORPORACION MEXICANA DE INVESTIGACION EN MATERIALES S.A. DE C.V.",
-    "DICONSA S.A. DE C.V.",
-    "EDUCAL S.A. DE C.V.",
-    "EL COLEGIO DE LA FRONTERA NORTE A.C.",
-    "EL COLEGIO DE LA FRONTERA SUR",
-    "EL COLEGIO DE MEXICO, A.C.",
-    "EL COLEGIO DE MICHOACAN A.C.",
-    "EL COLEGIO DE SAN LUIS A.C",
-    "ESTUDIOS CHURUBUSCO AZTECA S.A.",
-    "EXPORTADORA DE SAL S.A.DE C.V.",
-    "FERROCARRIL DEL ISTMO DE TEHUANTEPEC S.A. DE C.V.",
-    "FERROCARRILES NACIONALES DE MEXICO",
-    "FIDEICOMISO DE FOMENTO MINERO",
-    "FIDEICOMISO DE FORMACION Y CAPACITACION PARA EL PERSONAL DE LA MARINA MERCANTE NACIONAL",
-    "FIDEICOMISO DE RIESGO COMPARTIDO",
-    "FIDEICOMISO FONDO DE CAPITALIZACION E INVERSION DEL SECTOR RURAL",
-    "FIDEICOMISO FONDO NACIONAL DE FOMENTO EJIDAL",
-    "FIDEICOMISO FONDO NACIONAL DE HABITACIONES POPULARES",
-    "FIDEICOMISO PARA LA CINETECA NACIONAL",
-    "FIDEICOMISO PROMEXICO",
-    "FINANCIERA RURAL",
-    "FONATUR CONSTRUCTORA, S.A. DE C.V.",
-    "FONATUR MANTENIMIENTO TURISTICO, S.A. DE C.V.",
-    "FONATUR OPERADORA PORTUARIA, S.A. DE C.V.",
-    "FONATUR PRESTADORA DE SERVICIOS, S.A. DE C.V.",
-    "FONDO DE CULTURA ECONOMICA",
-    "FONDO DE EMPRESAS EXPROPIADAS DEL SECTOR AZUCARERO",
-    "FONDO DE GARANTIA Y FOMENTO PARA LA AGRICULTURA, GANADERIA Y AVICULTURA",
-    "FONDO DE GARANTIA Y FOMENTO PARA LAS ACTIVIDADES PESQUERAS",
-    "FONDO DE INFORMACION Y DOCUMENTACION PARA LA INDUSTRIA",
-    "FONDO DE LA VIVIENDA DEL ISSSTE",
-    "FONDO DE OPERACION Y FINANCIAMIENTO BANCARIO A LA VIVIENDA",
-    "FONDO ESPECIAL DE ASISTENCIA TECNICA Y GARANTIA PARA LOS CREDITOS AGROPECUARIOS",
-    "FONDO ESPECIAL PARA FINANCIAMIENTOS AGROPECUARIOS",
-    "FONDO NACIONAL DE FOMENTO AL TURISMO",
-    "FONDO NACIONAL PARA EL FOMENTO DE LAS ARTESANIAS",
-    "FONDO PARA EL DESARROLLO DE LOS RECURSOS HUMANOS",
-    "GRUPO AEROPORTUARIO DE LA CIUDAD DE MEXICO S.A. DE C.V.",
-    "HOSPITAL GENERAL DE MEXICO",
-    "HOSPITAL GENERAL DR. MANUEL GEA GONZALEZ",
-    "HOSPITAL INFANTIL DE MEXICO FEDERICO GOMEZ",
-    "HOSPITAL JUAREZ DE MEXICO",
-    "HOSPITAL REGIONAL DE ALTA ESPECIALIDAD DE CIUDAD VICTORIA BICENTENARIO 2010",
-    "HOSPITAL REGIONAL DE ALTA ESPECIALIDAD DE IXTAPALUCA",
-    "HOSPITAL REGIONAL DE ALTA ESPECIALIDAD DE LA PENINSULA DE YUCATAN",
-    "HOSPITAL REGIONAL DE ALTA ESPECIALIDAD DE OAXACA",
-    "HOSPITAL REGIONAL DE ALTA ESPECIALIDAD DEL BAJIO",
-    "I.I.I. SERVICIOS S.A. DE C.V.",
-    "IMPRESORA Y ENCUADERNADORA PROGRESO S.A. DE C.V.",
-    "INSTALACIONES INMOBILIARIAS PARA INDUSTRIAS, S.A. DE C.V.",
-    "INSTITUTO DE ADMINISTRACION Y AVALUOS DE BIENES NACIONALES",
-    "INSTITUTO DE CAPACITACION Y PROFESIONALIZACION EN PROCURACION DE JUSTICIA FEDERAL",
-    "INSTITUTO DE ECOLOGIA A.C. (INV)",
-    "INSTITUTO DE INVESTIGACIONES DR. JOSE MARIA LUIS MORA",
-    "INSTITUTO DE INVESTIGACIONES ELECTRICAS",
-    "INSTITUTO DE LOS MEXICANOS EN EL EXTERIOR",
-    "INSTITUTO DE SEGURIDAD SOCIAL PARA LAS FUERZAS ARMADAS MEXICANAS",
-    "INSTITUTO DE SEGURIDAD Y SERVICIOS SOCIALES DE LOS TRABAJADORES DEL ESTADO",
-    "INSTITUTO DEL FONDO NACIONAL PARA EL CONSUMO DE LOS TRABAJADORES",
-    "INSTITUTO FEDERAL DE ACCESO A LA INFORMACION PUBLICA",
-    "INSTITUTO FEDERAL DE TELECOMUNICACIONES",
-    "INSTITUTO MATIAS ROMERO DE ESTUDIOS DIPLOMATICOS",
-    "INSTITUTO MEXICANO DE CINEMATOGRAFIA",
-    "INSTITUTO MEXICANO DE LA JUVENTUD",
-    "INSTITUTO MEXICANO DE LA PROPIEDAD INDUSTRIAL",
-    "INSTITUTO MEXICANO DE LA RADIO",
-    "INSTITUTO MEXICANO DE TECNOLOGIA DEL AGUA",
-    "INSTITUTO MEXICANO DEL PETROLEO",
-    "INSTITUTO MEXICANO DEL SEGURO SOCIAL",
-    "INSTITUTO MEXICANO DEL TRANSPORTE",
-    "INSTITUTO NACIONAL DE ANTROPOLOGIA E HISTORIA",
-    "INSTITUTO NACIONAL DE ASTROFISICA OPTICA Y ELECTRONICA",
-    "INSTITUTO NACIONAL DE BELLAS ARTES Y LITERATURA",
-    "INSTITUTO NACIONAL DE CANCEROLOGIA",
-    "INSTITUTO NACIONAL DE CARDIOLOGIA IGNACIO CHAVEZ",
-    "INSTITUTO NACIONAL DE CIENCIAS MEDICAS Y NUTRICION SALVADOR ZUBIRAN (INV)",
-    "INSTITUTO NACIONAL DE CIENCIAS PENALES",
-    "INSTITUTO NACIONAL DE DESARROLLO SOCIAL",
-    "INSTITUTO NACIONAL DE ECOLOGIA",
-    "INSTITUTO NACIONAL DE ECOLOGÍA Y CAMBIO CLIMÁTICO",
-    "INSTITUTO NACIONAL DE ENFERMEDADES RESPIRATORIAS",
-    "INSTITUTO NACIONAL DE ESTUDIOS HISTORICOS DE LAS REVOLUCIONES DE MEXICO",
-    "INSTITUTO NACIONAL DE GERIATRÍA",
-    "INSTITUTO NACIONAL DE INFRAESTRUCTURA FÍSICA EDUCATIVA",
-    "INSTITUTO NACIONAL DE INVESTIGACIONES FORESTALES AGRICOLAS Y PECUARIAS",
-    "INSTITUTO NACIONAL DE INVESTIGACIONES NUCLEARES",
-    "INSTITUTO NACIONAL DE LA ECONOMÍA SOCIAL",
-    "INSTITUTO NACIONAL DE LA PESCA",
-    "INSTITUTO NACIONAL DE LAS MUJERES",
-    "INSTITUTO NACIONAL DE LAS PERSONAS ADULTAS MAYORES",
-    "INSTITUTO NACIONAL DE LENGUAS INDIGENAS",
-    "INSTITUTO NACIONAL DE MEDICINA GENOMICA",
-    "INSTITUTO NACIONAL DE MIGRACION",
-    "INSTITUTO NACIONAL DE NEUROLOGIA Y NEUROCIRUGIA DR. MANUEL VELASCO SUAREZ",
-    "INSTITUTO NACIONAL DE PEDIATRIA",
-    "INSTITUTO NACIONAL DE PERINATOLOGIA ISIDRO ESPINOSA DE LOS REYES",
-    "INSTITUTO NACIONAL DE PSIQUIATRIA RAMON DE LA FUENTE MUÑIZ",
-    "INSTITUTO NACIONAL DE REHABILITACION",
-    "INSTITUTO NACIONAL DE SALUD PUBLICA",
-    "INSTITUTO NACIONAL DEL DERECHO DE AUTOR",
-    "INSTITUTO NACIONAL PARA EL DESARROLLO DE CAPACIDADES DEL SECTOR RURAL A.C.",
-    "INSTITUTO NACIONAL PARA EL FEDERALISMO Y EL DESARROLLO MUNICIPAL",
-    "INSTITUTO NACIONAL PARA LA EDUCACION DE LOS ADULTOS",
-    "INSTITUTO NACIONAL PARA LA EVALUACION DE LA EDUCACION",
-    "INSTITUTO PARA EL DESARROLLO TECNICO DE LAS HACIENDAS PUBLICAS",
-    "INSTITUTO PARA LA PROTECCION AL AHORRO BANCARIO",
-    "INSTITUTO POLITECNICO NACIONAL",
-    "INSTITUTO POTOSINO DE INVESTIGACION CIENTIFICA Y TECNOLOGICA, A.C.",
-    "LABORATORIOS DE BIOLOGICOS Y REACTIVOS DE MEXICO S.A. DE C.V.",
-    "LICONSA S.A. DE C.V.",
-    "LOTERIA NACIONAL PARA LA ASISTENCIA PUBLICA",
-    "NACIONAL FINANCIERA S.N.C.",
-    "NOTIMEX, AGENCIA DE NOTICIAS DEL ESTADO MEXICANO",
-    "NOTIMEX S.A. DE C.V.",
-    "PATRONATO DE OBRAS E INSTALACIONES DEL INSTITUTO POLITECNICO NACIONAL",
-    "PEMEX-EXPLORACION Y PRODUCCION",
-    "PEMEX-GAS Y PETROQUIMICA BASICA",
-    "PEMEX-PETROQUIMICA",
-    "PEMEX-REFINACION",
-    "PETROLEOS MEXICANOS",
-    "P.M.I. COMERCIO INTERNACIONAL S.A. DE C.V.",
-    "POLICIA FEDERAL",
-    "PRESIDENCIA DE LA REPUBLICA",
-    "PREVENCION Y READAPTACION SOCIAL",
-    "PROCURADURIA AGRARIA",
-    "PROCURADURIA DE LA DEFENSA DEL CONTRIBUYENTE",
-    "PROCURADURIA FEDERAL DE LA DEFENSA DEL TRABAJO",
-    "PROCURADURIA FEDERAL DE PROTECCION AL AMBIENTE",
-    "PROCURADURIA FEDERAL DEL CONSUMIDOR",
-    "PROCURADURIA GENERAL DE LA REPUBLICA",
-    "PRODUCTORA NACIONAL DE BIOLOGICOS VETERINARIOS",
-    "PRONOSTICOS PARA LA ASISTENCIA PUBLICA",
-    "RADIO EDUCACION",
-    "REGISTRO AGRARIO NACIONAL",
-    "SECCION MEXICANA DE LA COMISION INTERNACIONAL DE LIMITES Y AGUAS MEXICO-ESTADOS UNIDOS DE AMERICA",
-    "SECCION MEXICANA DE LA COMISION INTERNACIONAL DE LIMITES Y AGUAS MEXICO-GUATEMALA-BELICE",
-    "SECRETARIA DE AGRICULTURA GANADERIA DESARROLLO RURAL PESCA Y ALIMENTACION",
-    "SECRETARIA DE COMUNICACIONES Y TRANSPORTES",
-    "SECRETARÍA DE CULTURA",
-    "SECRETARIA DE DESARROLLO AGRARIO, TERRITORIAL Y URBANO",
-    "SECRETARIA DE DESARROLLO SOCIAL",
-    "SECRETARIA DE ECONOMIA",
-    "SECRETARIA DE EDUCACION PUBLICA",
-    "SECRETARIA DE ENERGIA",
-    "SECRETARIA DE GOBERNACION",
-    "SECRETARIA DE HACIENDA Y CREDITO PUBLICO",
-    "SECRETARIA DE LA DEFENSA NACIONAL",
-    "SECRETARIA DE LA FUNCION PUBLICA",
-    "SECRETARIA DE MARINA",
-    "SECRETARIA DE MEDIO AMBIENTE Y RECURSOS NATURALES",
-    "SECRETARIA DE RELACIONES EXTERIORES",
-    "SECRETARIA DE SALUD",
-    "SECRETARIA DE TURISMO",
-    "SECRETARIA DEL TRABAJO Y PREVISION SOCIAL",
-    "SECRETARÍA EJECUTIVA DEL SISTEMA NACIONAL ANTICORRUPCIÓN",
-    "SECRETARIA GENERAL DEL CONSEJO NACIONAL DE POBLACION",
-    "SECRETARIA TECNICA DE LA COMISION CALIFICADORA DE PUBLICACIONES Y REVISTAS ILUSTRADAS",
-    "SECRETARIADO EJECUTIVO DEL SISTEMA NACIONAL ANTICORRUPCIÓN",
-    "SECRETARIADO EJECUTIVO DEL SISTEMA NACIONAL DE SEGURIDAD PUBLICA",
-    "SERVICIO DE ADMINISTRACION TRIBUTARIA",
-    "SERVICIO DE ADMINISTRACION Y ENAJENACION DE BIENES",
-    "SERVICIO DE INFORMACION AGROALIMENTARIA Y PESQUERA",
-    "SERVICIO DE PROTECCIÓN FEDERAL",
-    "SERVICIO GEOLOGICO MEXICANO",
-    "SERVICIO NACIONAL DE INSPECCION Y CERTIFICACION DE SEMILLAS",
-    "SERVICIO NACIONAL DE SANIDAD INOCUIDAD Y CALIDAD AGROALIMENTARIA",
-    "SERVICIO POSTAL MEXICANO",
-    "SERVICIOS A LA NAVEGACION EN EL ESPACIO AEREO MEXICANO",
-    "SERVICIOS AEROPORTUARIOS DE LA CIUDAD DE MEXICO S.A. DE C.V.",
-    "SERVICIOS DE ALMACENAMIENTO DEL NORTE S.A.",
-    "SERVICIOS DE ATENCION PSIQUIATRICA",
-    "SISTEMA NACIONAL PARA EL DESARROLLO INTEGRAL DE LA FAMILIA",
-    "SISTEMA PÚBLICO DE RADIODIFUSIÓN DEL ESTADO MEXICANO",
-    "SOCIEDAD HIPOTECARIA FEDERAL S.N.C.",
-    "TALLERES GRAFICOS DE MEXICO",
-    "TECNOLOGICO NACIONAL DE MEXICO",
-    "TELECOMUNICACIONES DE MEXICO",
-    "TELEVISION METROPOLITANA S.A. DE C.V.",
-    "TRANSPORTADORA DE SAL S.A. DE C.V.",
-    "TRIBUNAL FEDERAL DE CONCILIACION Y ARBITRAJE",
-    "TRIBUNAL FEDERAL DE JUSTICIA FISCAL Y ADMINISTRATIVA CON SEDE EN EL DISTRITO FEDERAL",
-    "TRIBUNAL SUPERIOR AGRARIO.",
-    "TRIBUNALES UNITARIOS AGRARIOS",
-    "UNIVERSIDAD ABIERTA Y A DISTANCIA DE MÉXICO",
-    "UNIVERSIDAD AUTONOMA AGRARIA ANTONIO NARRO",
-    "UNIVERSIDAD AUTONOMA DE CHAPINGO",
-    "UNIVERSIDAD AUTONOMA METROPOLITANA",
-    "UNIVERSIDAD PEDAGOGICA NACIONAL",
-    "XE-IPN CANAL 11"
-]
 
-def get_institution():
-    return random.choice(institutions)
+with open("./instituciones.json") as instituciones:
+    cat_instituciones = json.load(instituciones)
 
+
+def getInstitucion():
+    return random.choice(cat_instituciones)
+
+
+with open("./catalogos/catTipoApoyo.json") as tipo_apoyo:
+    cat_tipo_apoyo = json.load(tipo_apoyo)
+
+
+def getTipoApoyo():
+    return random.choice(cat_tipo_apoyo)
+
+
+with open("./catalogos/catRegimenMatrimonial.json") as regimen_matrimonial:
+    cat_regimen_matrimonial = json.load(regimen_matrimonial)
+
+with open("./catalogos/catEstadoCivil.json") as estado_civil:
+    cat_estado_civil = json.load(estado_civil)
+
+with open('./catalogos/catTipoBienInmueble.json') as inmuebles:
+    cat_bien_inmueble = json.load(inmuebles)
+    # cat_bien_inmueble
+
+with open('./catalogos/catFormaAdquisicion.json') as forma_adquisicion:
+    cat_forma_adquisicion = json.load(forma_adquisicion)
+
+
+def getFormaAdquision():
+    return random.choice(cat_forma_adquisicion)
+
+
+with open("./catalogos/catPoder.json") as poder:
+    cat_poder = json.load(poder)
+
+
+def getPoder():
+    return random.choice(cat_poder)
+
+
+with open("./catalogos/catSectorIndustria.json") as sector_industria:
+    cat_sector_industria = json.load(sector_industria)
+
+
+def getSectorIndustria():
+    return random.choice(cat_sector_industria)
+
+
+with open("./catalogos/catFunciones.json") as funciones:
+    cat_funciones = json.load(funciones)
+
+
+def getFuncionesPrincipales():
+    list = []
+    for x in range(random.randint(1, 10)):
+        funcion = random.choice(cat_funciones)
+        if funcion["codigo"] != "OTRO":
+            list.append(funcion)
+
+    return list
+
+
+with open("./catalogos/catAmbito.json") as ambito:
+    cat_ambito = json.load(ambito)
+
+
+def getAmbitos():
+    return random.choice(cat_ambito)
+
+
+with open("./catalogos/catNivelOrdenGobierno.json") as nivel_gobierno:
+    cat_nivel_gobierno = json.load(nivel_gobierno)
+
+
+def getNivelGobierno():
+    return random.choice(cat_nivel_gobierno)
+
+
+def getExperienciaLaboral():
+    return {
+        "ambito": getAmbitos(),
+        "nivel_gobierno": getNivelGobierno(),
+        "poder_ente": getPoder(),
+        "nombre_institucion": getInstitucion(),
+        "unidad_administrativa": "Unidad de Politica Regulatoria",
+        "direccion": get_address(),
+        "sector_industria": getSectorIndustria(),
+        "jerarquia_rango": "string",
+        "cargo_puesto": get_position(),
+        "fecha_ingreso": getFecha(),
+        "fecha_salida": getFecha(),
+        "funciones_principales": getFuncionesPrincipales()
+    }
+
+
+def getExperienciasLaborales():
+    list = []
+    for x in range(random.randint(1, 4)):
+        list.append(getExperienciaLaboral())
+
+    return list
 
 
 with open("./catalogos/catRelacionPersona.json") as relacion_persona:
     cat_relacion_persona = json.load(relacion_persona)
 
 
-with open("./catalogos/catTipoApoyo.json") as tipo_apoyo:
-    cat_tipo_apoyo = json.load(tipo_apoyo)
+def getRelacionPersona(number):
+    return cat_relacion_persona[number % 12]
 
-def dependiente():
 
+with open("./catalogos/catRelacionPersona1.json") as relacion_persona1:
+    cat_relacion_persona1 = json.load(relacion_persona1)
+
+
+def getRelacionPersona1(number):
+    return cat_relacion_persona1[number % 5]
+
+
+with open("./catalogos/catRelacionPersona2.json") as relacion_persona2:
+    cat_relacion_persona2 = json.load(relacion_persona2)
+
+
+def getRelacionPersona2(number):
+    return cat_relacion_persona2[number % 12]
+
+
+with open("./catalogos/catRelacionPersona3.json") as relacion_persona3:
+    cat_relacion_persona3 = json.load(relacion_persona3)
+
+
+def getRelacionPersona3(number):
+    return cat_relacion_persona3[number % 4]
+
+
+def getDependiente(number):
     return {
         "nombre_personal": {
             "nombres": get_name(),
             "primer_apellido": get_last_name(),
             "segundo_apellido": get_last_name()
         },
-        "tipo_relacion": random.choice(cat_relacion_persona),
+        "tipo_relacion": getRelacionPersona1(number),
         "nacionalidades": citizenship(),
-        "curp": "BEML920313HMCLNS09",
-        "rfc": "GOAP780710RH7",
-        "fecha_nacimiento": get_bith_date(),
-        "numero_identificacion_nacional": "ABCD1234",
+        "curp": get_curp(),
+        "rfc": get_rfc(),
+        "fecha_nacimiento": getFecha(),
+        "numero_identificacion_nacional": getIdentificacionNacional(),
         "habita_domicilio_declarante": rand_bool(),
         "domicilio": get_address(),
-        "medio_contacto": get_email('coldmailcom'),
+        "medio_contacto": get_email('coldmail.com'),
         "ingresos_propios": True,
         "ocupacion_profesion": "Administrador de empresas",
-        "sector_industria": {
-            "codigo": "SFS",
-            "valor": "Servicios de salud y asistencia social"
-        },
-        "proveedor_contratista_gobierno": True,
-        "tiene_intereses_mismo_sector_declarante": True,
+        "sector_industria": getSectorIndustria(),
+        "proveedor_contratista_gobierno": rand_bool(),
+        "tiene_intereses_mismo_sector_declarante": rand_bool(),
         "desarrolla_cabildeo_sector_declarante": {
             "respuesta": True,
             "observaciones": lorem_ipsum()
         },
         "beneficiario_programa_publico": [{
             "nombre_programa": "Prospera",
-            "institucion_otorga_apoyo": get_institution(),
-            "tipo_apoyo": random.choice(cat_tipo_apoyo),
-            "valor_apoyo": random.randint(10000, 100000)
+            "institucion_otorga_apoyo": getInstitucion(),
+            "tipo_apoyo": getTipoApoyo(),
+            "valor_apoyo": random.randint(10000, 999999)
         }],
         "observaciones": lorem_ipsum()
     }
 
 
+def getDependientesEconomicos():
+    list = []
+    number = random.randint(1, 10000)
+    for x in range(random.randint(1, 6)):
+        list.append(getDependiente(number + x))
 
-def bien_mueble_registrable():
+    return list
+
+
+with open("./empresas.json") as empresas:
+    cat_empresas = json.load(empresas)
+
+
+def getEmpresa():
+    return unidecode.unidecode(random.choice(cat_empresas))
+
+
+def getEmpresas():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_empresa_sociedad_asociacion": getEmpresa(),
+            "pais_registro": {"valor": "MEXICO", "codigo": "MX"},
+            "fecha_constitucion": getFecha(),
+            "numero_registro": getIdentificacionNacional(),
+            "rfc": get_rfc(),
+            "domicilio": get_address(),
+            "rol": "Dueño",
+            "actividad_economica": rand_bool(),
+            "sector_industria": getSectorIndustria(),
+            "porcentaje_participacion": random.randint(10, 100)
+        })
+
+    return list
+
+
+with open("./catalogos/catTipoInstitucion.json") as tipo_institucion:
+    cat_tipo_institucion = json.load(tipo_institucion)
+
+
+def getTipoInstitucion():
+    return random.choice(cat_tipo_institucion)
+
+
+with open("./catalogos/catNaturalezaMembresia.json") as naturaleza_membresia:
+    cat_naturaleza_membresia = json.load(naturaleza_membresia)
+
+
+def getNatualezaMembresia():
+    return random.choice(cat_naturaleza_membresia)
+
+
+def getMembresias():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_institucion": getTipoInstitucion(),
+            "nombre_institucion": getEmpresa(),
+            "naturaleza_membresia": getNatualezaMembresia(),
+            "domicilio": get_address(),
+            "sector_industria": getSectorIndustria(),
+            "puesto_rol": "Titular",
+            "fecha_inicio": getFecha(),
+            "pagado": rand_bool(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open("./apoyos.json") as apoyos:
+    cat_apoyos = json.load(apoyos)
+
+
+def getApoyo():
+    return random.choice(cat_apoyos)
+
+
+def getApoyos():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "es_beneficiario": rand_bool(),
+            "programa": getApoyo(),
+            "institucion_otorgante": getInstitucion(),
+            "nivel_orden_gobierno": getNivelGobierno(),
+            "tipo_apoyo": getTipoApoyo(),
+            "valor_anual_apoyo": random.randint(1, 999999),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open("./catalogos/catTipoRepresentacion.json") as tipo_representacion:
+    cat_tipo_representacion = json.load(tipo_representacion)
+
+
+def getTipoRepresentacion():
+    return random.choice(cat_tipo_representacion)
+
+
+def getRepresentacionActiva():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_representacion": getTipoRepresentacion(),
+            "nombre_parte_representada": get_full_name(),
+            "curp_parte": get_curp(),
+            "rfc_parte": get_rfc(),
+            "fecha_nacimiento_parte": get_bith_date(),
+            "sector_industria": getSectorIndustria(),
+            "fecha_inicio": get_bith_date(),
+            "pagado": rand_bool(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getRepresentacionPasiva():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_representacion": getTipoRepresentacion(),
+            "nombre": get_full_name(),
+            "fecha_inicio_representacion": getFecha(),
+            "nacionalidades": citizenship(),
+            "curp": get_curp(),
+            "rfc": get_rfc(),
+            "fecha_nacimiento": get_bith_date(),
+            "tiene_intereses": rand_bool(),
+            "ocupacion_profesion": "Contador",
+            "sector_industria": getSectorIndustria(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getSociosComerciales():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_actividad": "Actividad",
+            "tipo_vinculo": getRelacionPersona(random.randint(1, 100))["valor"],
+            "antiguedad_vinculo": random.randint(1, 30),
+            "rfc_entidad": get_rfc(),
+            "nombre": get_full_name(),
+            "curp": get_curp(),
+            "rfc": get_rfc(),
+            "lugar_nacimiento": {
+                "pais": {
+                    "valor": "MEXICO",
+                    "codigo": "MX"
+                },
+                "entidad": get_entidad()
+            },
+            "fecha_nacimiento": get_bith_date(),
+            "porcentaje_participacion": random.randint(10, 100),
+            "sector_industria": getSectorIndustria(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getClientesPrincipales():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_negocio": getEmpresa(),
+            "numero_registro": get_rfc(),
+            "dueno_encargado": get_full_name(),
+            "nombre": get_full_name(),
+            "rfc": get_rfc(),
+            "domicilio": get_address(),
+            "sector_industria": getSectorIndustria(),
+            "porcentaje_participacion": random.randint(10, 100),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getOtrasPartes():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_relacion": getRelacionPersona3(random.randint(1, 100)),
+            "nombre_denominacion_parte": get_full_name(),
+            "fecha_inicio_relacion": getFecha(),
+            "nacionalidades": citizenship(),
+            "curp": get_curp(),
+            "rfc": get_rfc(),
+            "fecha_nacimiento": get_bith_date(),
+            "ocupacion": "Administrador de empresas",
+            "tiene_interes": True,
+            "sector_industria": getSectorIndustria(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getBeneficiosGratuitos():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_beneficio": "Tarjetas o monederos electronicos",
+            "origen_beneficio": "Prestacion laboral",
+            "sector_industria": getSectorIndustria(),
+            "valor_beneficio": 1256,
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open("./catalogos/catUnidadMedidaPlazo.json") as unidad_medida:
+    cat_unidad_medida = json.load(unidad_medida)
+
+
+def getUnidadMedida():
+    return random.choice(cat_unidad_medida)
+
+
+def getIngreso():
+    valor = random.randint(10000, 999999)
+    unidad_temporal = getUnidadMedida()
+
+    if valor > 999999:
+        unidad_temporal = {
+            "codigo": "TUNI",
+            "valor": "Transacción única"
+        }
+
     return {
-        "id": 123,
-        "tipo_operacion": {
-            "codigo": "INCP",
-            "valor": "Incorporacion"
+        "valor": valor,
+        "moneda": {
+            "codigo": "MXN",
+            "moneda": "MXN"
         },
-        "tipo_bien_mueble": {
-            "codigo": "VEH",
-            "valor": "Vehiculo"
-        },
-        "marca": random.choice (["BMW", "MASERATI","NISSAN", "KIA", "FERRARI", "JAGUAR", "FORD", "JEEP"]),
-        "submarca": "RS-122234",
-        "modelo": 2018,
-        "numero_serie": "6545243-4334",
-        "lugar_registro": {
-            "pais": {
+        "unidad_temporal": unidad_temporal,
+        "duracion_frecuencia": random.randint(1, 12),
+        "fecha_transaccion": getFecha()
+    }
+
+
+#######################################
+############## INGRESOS ###############
+#######################################
+
+
+def getSalariosPublicos():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "ente_publico": {
+                "valor": "SECRETARIA DE GOBERNACION",
+                "codigo": "SEGOB"
+            },
+            "rfc": get_rfc(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getSalariosOtrosEmpleos():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion_razon_social": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_actividad_servicio": lorem_ipsum(),
+            "domicilio_persona_paga": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open("./catalogos/catTipoActividadServicio.json") as actividad_servicio:
+    cat_actividad_servicio = json.load(actividad_servicio)
+
+
+def getActividadServicio():
+    return random.choice(cat_actividad_servicio)
+
+
+def getActividadProfesional():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion_razon_social": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_actividad_servicio": lorem_ipsum(),
+            "domicilio_persona_paga": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getActividadEmpresarial():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion_razon_social": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_actividad_servicio": lorem_ipsum(),
+            "domicilio_actividad_empresarial": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getActividadEconomicaMenor():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion_razon_social": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_actividad_servicio": lorem_ipsum(),
+            "domicilio_actividad": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getArrendamiento():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion_razon_social": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_actividad_servicio": lorem_ipsum(),
+            "domicilio_actividad": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getIntereses():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion_razon_social": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_actividad_servicio": lorem_ipsum(),
+            "domicilio": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getPremios():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_premio": lorem_ipsum(),
+            "domicilio": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open("./catalogos/catTipoBien_enajenacion_bienes.json") as tipo_bien:
+    cat_tipo_bien = json.load(tipo_bien)
+
+
+def getTipoBien():
+    return random.choice(cat_tipo_bien)
+
+
+with open("./catalogos/catTipoBien_propiedad_tercero.json") as tipo_bien2:
+    cat_tipo_bien2 = json.load(tipo_bien2)
+
+
+def getTipoBien2():
+    return random.choice(cat_tipo_bien2)
+
+
+def getEnajenacionBienes():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "tipo_bien": getTipoBien(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad_servicio": getActividadServicio(),
+            "descripcion_bien": lorem_ipsum(),
+            "domicilio_bien_enajenado": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getOtrosIngresos():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_denominacion": getEmpresa(),
+            "rfc": get_rfc(),
+            "curp": get_curp(),
+            "sector_industria": getSectorIndustria(),
+            "tipo_actividad": getActividadServicio(),
+            "descripcion_actividad": lorem_ipsum(),
+            "domicilio_actividad": get_address(),
+            "ingreso_bruto_anual": getIngreso(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getIngresos():
+    return {
+        "sueldos_salarios_publicos": getSalariosPublicos(),
+        "sueldos_salarios_otros_empleos": getSalariosOtrosEmpleos(),
+        "actividad_profesional": getActividadProfesional(),
+        "actividad_empresarial": getActividadEmpresarial(),
+        "actividad_economica_menor": getActividadEconomicaMenor(),
+        "arrendamiento": getArrendamiento(),
+        "intereses": getIntereses(),
+        "premios": getPremios(),
+        "enajenacion_bienes": getEnajenacionBienes(),
+        "otros_ingresos": getOtrosIngresos()
+    }
+
+
+#######################################
+############## activos ################
+#######################################
+
+with open('./catalogos/catTipoOperacion1.json') as tipo_operacion1:
+    cat_tipo_operacion1 = json.load(tipo_operacion1)
+
+
+def getTipoOperacion1():
+    return random.choice(cat_tipo_operacion1)
+
+
+with open('./catalogos/catTitulaBien.json') as titular_bien:
+    cat_titular_bien = json.load(titular_bien)
+
+
+def getTitularBien():
+    return random.choice(cat_titular_bien)
+
+
+def getBienesInmuebles():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion1(),
+            "tipo_bien": random.choice(cat_bien_inmueble),
+            "superficie_terreno": random.randint(1, 999),
+            "superficie_construccion": random.randint(1, 999),
+            "titular": getTitularBien(),
+            "porcentaje_propiedad": random.randint(10, 100),
+            "nombre_copropietario": {
+                "nombres": get_name(),
+                "primer_apellido": get_last_name(),
+                "segundo_apellido": get_last_name()
+            },
+            "identificacion_bien": {
+                "numero_escritura_publica": int(getNumeros(10)),
+                "numero_registro_publico": int(getNumeros(10)),
+                "folio_real": "{}-{}".format(getMayusculas(4), getNumeros(6)),
+                "fecha_contrato": getFecha()
+            },
+            "domicilio_bien": get_address(),
+            "forma_adquisicion": random.choice(cat_forma_adquisicion),
+            "nombre_denominacion_quien_adquirio": get_full_name(),
+            "rfc_quien_adquirio": get_rfc(),
+            "curp_quien_adquirio": get_curp(),
+            "relacion_persona_adquirio": getRelacionPersona2(random.randint(1, 1000)),
+            "sector_industria": getSectorIndustria(),
+            "fecha_adquisicion": getFecha(),
+            "precio_adquisicion": {
+                "valor": random.randint(1, 999999),
+                "moneda": {
+                    "codigo": "MXN",
+                    "moneda": "MXN"
+                }
+            },
+            "valor_catastral": random.randint(1, 999999),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+#######################################
+############## pasivos ################
+#######################################
+
+def getMarcas():
+    return random.choice(["ALFA-ROMERO",
+                          "AUDI",
+                          "BMW",
+                          "CHEVROLET",
+                          "DODGE",
+                          "HONDA",
+                          "ISUZU",
+                          "JAGUAR",
+                          "MAZDA",
+                          "MERCEDES-BENZ",
+                          "MERCURY",
+                          "MITSUBISHI",
+                          "NISSAN",
+                          "PEUGOT",
+                          "PLYMOUTH",
+                          "PORSCHE",
+                          "RENAULT",
+                          "SAAB",
+                          "SUBARU",
+                          "TOYOTA",
+                          "VOLKSWAGEN",
+                          "VOLVO"])
+
+
+def getCopropietarios():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append(get_full_name())
+
+    return list
+
+
+def getBienMuebleRegistrable():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion1(),
+            "tipo_bien_mueble": getTipoBien2(),
+            "marca": getMarcas(),
+            "submarca": "{}-{}".format(getMayusculas(4), getNumeros(6)),
+            "modelo": random.randint(1995, 2020),
+            "numero_serie": "{}-{}-{}".format(getNumeros(6), getMayusculas(4), getNumeros(6)),
+            "lugar_registro": {
+                "pais": {
+                    "valor": "MEXICO",
+                    "codigo": "MX"
+                },
+                "entidad": get_entidad()
+            },
+            "titular_bien": getTitularBien(),
+            "porcentaje_propiedad": random.randint(10, 100),
+            "nombres_copropietarios": getCopropietarios(),
+            "numero_registro_vehicular": int(getNumeros(10)),
+            "forma_adquisicion": getFormaAdquision(),
+            "nombre_denominacion_adquirio": get_full_name(),
+            "rfc_quien_adquirio": get_rfc(),
+            "relacion_persona_quien_adquirio": getRelacionPersona2(random.randint(1, 10000)),
+            "sector_industria": getSectorIndustria(),
+            "fecha_adquisicion": get_bith_date(),
+            "precio_adquisicion": {
+                "valor": random.randint(1, 999999),
+                "moneda": {
+                    "codigo": "MXN",
+                    "moneda": "MXN"
+                }
+            },
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getBienMuebleNoRegistrable():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion1(),
+            "tipo_bien": getTipoBien2(),
+            "descripcion": lorem_ipsum(),
+            "titular_bien": getTitularBien(),
+            "porcentaje_propiedad": random.randint(1, 100),
+            "nombres_copropietarios": getCopropietarios(),
+            "forma_adquisicion": getFormaAdquision(),
+            "nombre_denominacion_adquirio": get_full_name(),
+            "relacion_quien_adquirio": getRelacionPersona2(random.randint(1, 999999)),
+            "fecha_adquisicion": getFecha(),
+            "precio_adquisicion": {
+                "valor": random.randint(10000, 999999),
+                "moneda": {
+                    "codigo": "MXN",
+                    "moneda": "MXN"
+                }
+            },
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open('./catalogos/catTipoOperacion2.json') as tipo_operacion2:
+    cat_tipo_operacion2 = json.load(tipo_operacion2)
+
+
+def getTipoOperacion2():
+    return random.choice(cat_tipo_operacion2)
+
+
+with open('./catalogos/catTipoInversion.json') as tipo_inversion:
+    cat_tipo_inversion = json.load(tipo_inversion)
+
+
+def getTipoInversion():
+    return random.choice(cat_tipo_inversion)
+
+
+with open('./catalogos/catTipoEspecificoInversion.json') as tipo_especifico_inversion:
+    cat_tipo_especifico_inversion = json.load(tipo_especifico_inversion)
+
+
+def getTipoEspecificoInversion():
+    return random.choice(cat_tipo_especifico_inversion)
+
+
+def getInversionesCuentasValores():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion2(),
+            "tipo_inversion": getTipoInversion(),
+            "tipo_especifico_inversion": getTipoEspecificoInversion(),
+            "numero_cuenta": "{}{}".format(getMayusculas(6), getNumeros(6)),
+            "nacional_extranjero": {
+                "valor": "México",
+                "codigo": "MX"
+            },
+            "nombre_institucion": random.choice(['Barclays', 'Citigroup', 'HSBC', 'BBVA', 'Bank of America']),
+            "rfc_institucion": get_rfc(),
+            "sector_industria": getSectorIndustria(),
+            "domicilio_institucion": get_address(),
+            "forma_adquisicion": getFormaAdquision(),
+            "fecha_inicio": getFecha(),
+            "monto_original": get_amount(1, 999999),
+            "tipo_moneda": {
+                "codigo": "MXN",
+                "moneda": "MXN"
+            },
+            "tasa_interes": random.randint(10, 70),
+            "saldo_anual": get_amount(1, 999999),
+            "plazo": random.randint(1, 52),
+            "unidad_medida_plazo": getUnidadMedida(),
+            "titular_bien": getTitularBien(),
+            "porcentaje_inversion": random.randint(1, 100),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open('./catalogos/catTipoMetal.json') as tipo_metal:
+    cat_tipo_metal = json.load(tipo_metal)
+
+
+def getTipoMetal():
+    return random.choice(cat_tipo_metal)
+
+
+def getEfectivoMetales():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion2(),
+            "tipo_moneda": {
+                "codigo": "MXN",
+                "moneda": "MXN"
+            },
+            "monto_moneda": get_amount(1, 999999),
+            "tipo_metal": getTipoMetal(),
+            "unidades": random.randint(1, 999999),
+            "monto_metal": get_amount(1, 999999),
+            "forma_adquisicion": getFormaAdquision(),
+            "observaciones_comentarios": lorem_ipsum()
+        })
+
+    return list
+
+
+with open('./catalogos/catTipoFideicomiso.json') as tipo_fideicomiso:
+    tipo_fideicomiso = json.load(tipo_fideicomiso)
+
+
+def getTipoFideicomiso():
+    return random.choice(tipo_fideicomiso)
+
+
+def getFideicomisos():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion2(),
+            "identificador_fideicomiso": "{}{}".format(getMayusculas(4), getNumeros(6)),
+            "tipo_fideicomiso": getTipoFideicomiso(),
+            "objetivo": lorem_ipsum(),
+            "numero_registro": "{}{}".format(getMayusculas(4), getNumeros(6)),
+            "fecha_creacion": getFecha(),
+            "vigencia": get_bith_date(),
+            "residencia": {
                 "valor": "MEXICO",
                 "codigo": "MX"
             },
-            "entidad": {
-                "nom_agee": "MEXICO",
-                "cve_agee": "15"
-            }
-        },
-        "titular_bien": {
-            "codigo": "DECL",
-            "valor": "Declarante"
-        },
-        "porcentaje_propiedad": 70,
-        "nombres_copropietarios": [
-            get_name()+" "+get_last_name()+" "+get_last_name()
-        ],
-        "numero_registro_vehicular": 455000,
-        "forma_adquisicion": {
-            "codigo": "CES",
-            "valor": "Cesion"
-        },
-        "nombre_denominacion_adquirio": get_name()+" "+get_last_name()+" "+get_last_name(),
-        "rfc_quien_adquirio": "GOAP780710RH7",
-        "relacion_persona_quien_adquirio": random.choice(cat_relacion_persona),
-        "sector_industria": {
-            "codigo": "SFS",
-            "valor": "Servicios de salud y asistencia social"
-        },
-        "fecha_adquisicion": get_bith_date(),
-        "precio_adquisicion": {
-            "valor": 4000,
+            "valor": random.randint(1, 999999),
             "moneda": {
                 "codigo": "MXN",
                 "moneda": "MXN"
-            }
-        },
-        "observaciones": lorem_ipsum()
-    }
+            },
+            "porcentaje_propiedad_derechos_fiduciarios": random.randint(1, 100),
+            "ingreso_monetario_obtenido": random.randint(1, 999999),
+            "institucion_fiduciaria": "Banco de México",
+            "fideicomitente": {
+                "nombre": get_full_name(),
+                "rfc": get_rfc(),
+                "curp": get_curp(),
+                "domicilio": get_address(),
+                "fecha_constitucion": getFecha()
+            },
+            "fideicomisario": {
+                "nombre": get_full_name(),
+                "rfc": get_rfc(),
+                "curp": get_curp(),
+                "domicilio": get_address(),
+                "fecha_constitucion": getFecha()
+            },
+            "fiduciario": {
+                "nombre": get_full_name(),
+                "rfc": get_rfc(),
+                "curp": get_curp(),
+                "domicilio": get_address(),
+                "fecha_constitucion": getFecha()
+            },
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
 
 
-with open('./catalogos/catTipoBienInmueble.json') as inmuebles:
-    cat_bien_inmueble = json.load(inmuebles)
-    #cat_bien_inmueble
+def getBienesIntangibles():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion2(),
+            "propietario_registrado": getCopropietarios(),
+            "descripcion": lorem_ipsum(),
+            "ente_publico_encargado": getInstitucion(),
+            "numero_registro": int(getNumeros(10)),
+            "fecha_registro": getFecha(),
+            "sector_industria": getSectorIndustria(),
+            "precio_adquisicion": {
+                "valor": random.randint(1, 999999),
+                "moneda": {
+                    "codigo": "MXN",
+                    "moneda": "MXN"
+                }
+            },
+            "forma_adquisicion": getFormaAdquision(),
+            "fecha_vencimiento": getFecha(),
+            "porcentaje_copropiedad": random.randint(1, 100),
+            "precio_total_copropiedad": {
+                "valor": random.randint(1, 999999),
+                "moneda": {
+                    "codigo": "MXN",
+                    "moneda": "MXN"
+                }
+            },
+            "nombre_copropietario": get_full_name(),
+            "porcentaje_propiedad_copropietario": random.randint(1, 100),
+            "observaciones": lorem_ipsum()
+        })
 
-with open('./catalogos/catFormaAdquisicion.json') as forma_adquisicion:
-    cat_forma_adquisicion = json.load(forma_adquisicion)
+    return list
 
-def bien_inmueble():
 
-    inmueble = {
-        "id": 123,
-        "tipo_operacion": {
-            "codigo": "INCP",
-            "valor": "Incorporacion"
-        },
-        "tipo_bien": random.choice(cat_bien_inmueble),
-        "superficie_terreno": random.randint(300, 600),
-        "superficie_construccion": random.randint(70, 150),
-        "titular": {
-            "codigo": "DECL",
-            "valor": "Declarante"
-        },
-        "porcentaje_propiedad": random.randint(10,70),
-        "nombre_copropietario": {
-            "nombres": get_name(),
-            "primer_apellido": get_last_name(),
-            "segundo_apellido": get_last_name()
-        },
-        "identificacion_bien": {
-            "numero_escritura_publica": random.randint(100000,99999999),
-            "numero_registro_publico": random.randint(100000,99999999),
-            "folio_real": "AAC"+ str(random.randint(10000, 100000)),
-            "fecha_contrato": "2010-07-26" ###
-        },
-        "domicilio_bien": get_address(),
-        "forma_adquisicion": random.choice(cat_forma_adquisicion),
-        "nombre_denominacion_quien_adquirio": get_name() + " " + get_last_name() + " " + get_last_name(),
-        "rfc_quien_adquirio": "GOAP780710RH7",
-        "curp_quien_adquirio": "BEML920313HMCLNS09",
-        "relacion_persona_adquirio": random.choice(cat_relacion_persona),
-        "sector_industria": {
-            "codigo": "SFS",
-            "valor": "Servicios de salud y asistencia social"
-        },
-        "fecha_adquisicion": get_bith_date(),
-        "precio_adquisicion": {
-            "valor": random.randint(100000, 20000000),
-            "moneda": {
+def getCuentasXCobrar():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "nombre_prestatario": get_full_name(),
+            "numero_registro": "{}{}".format(getMayusculas(4), getNumeros(6)),
+            "domicilio_prestatarios": get_address(),
+            "sector_industria": getSectorIndustria(),
+            "fecha_prestamo": getFecha(),
+            "monto_original_prestamo": get_amount(1, 999999),
+            "tasa_interes": random.randint(10, 100),
+            "saldo_pendiente": random.randint(1, 999999),
+            "fecha_vencimiento": getFecha(),
+            "porcentaje_copropiedad": random.randint(1, 100),
+            "nombre_copropietario": get_full_name(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+def getUsoEspeciePropietarioTercero():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_bien": getTipoBien()["valor"],
+            "valor_mercado": {
+                "valor": random.randint(1, 999999),
+                "moneda": {
+                    "codigo": "MXN",
+                    "moneda": "MXN"
+                }
+            },
+            "nombre_tercero_propietario": get_full_name(),
+            "rfc_tercero_propietario": get_rfc(),
+            "curp_tercero_propietario": get_curp(),
+            "relacion_persona": getRelacionPersona2(random.randint(1, 1000)),
+            "sector_industria": getSectorIndustria(),
+            "fecha_inicio": getFecha(),
+            "domicilio_persona": get_address(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
+
+
+with open('./catalogos/catTipoOperacion3.json') as tipo_operacion3:
+    cat_tipo_operacion3 = json.load(tipo_operacion3)
+
+
+def getTipoOperacion3():
+    return random.choice(cat_tipo_operacion3)
+
+
+with open('./catalogos/catTipoAcreedor.json') as tipo_acreedor:
+    cat_tipo_acreedor = json.load(tipo_acreedor)
+
+
+def getTipoAcreedor():
+    return random.choice(cat_tipo_acreedor)
+
+
+with open('./catalogos/catTipoAdeudo.json') as tipo_adeudo:
+    cat_tipo_adeudo = json.load(tipo_adeudo)
+
+
+def getTipoAdeudo():
+    return random.choice(cat_tipo_adeudo)
+
+
+def getMontosAbonados():
+    list = []
+    for x in range(random.randint(1, 100)):
+        list.append(random.randint(1, 999999))
+
+    return list
+
+
+def getDeudas():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion3(),
+            "tipo_acreedor": getTipoAcreedor(),
+            "tipo_adeudo": getTipoAdeudo(),
+            "identificador_deuda": "{}{}".format(getMayusculas(4), getNumeros(6)),
+            "nacional_extranjero": {
+                "valor": "MEXICO",
+                "codigo": "MX"
+            },
+            "nombre_acreedor": get_full_name(),
+            "rfc_acreedor": get_rfc(),
+            "sector_industria": getSectorIndustria(),
+            "domicilio_acreedor": get_address(),
+            "fecha_adeudo": getFecha(),
+            "monto_original": get_amount(1, 999999),
+            "tipo_moneda": {
                 "codigo": "MXN",
                 "moneda": "MXN"
-            }
-        },
-        "valor_catastral": random.randint(100000, 20000000),
-        "observaciones": lorem_ipsum()
-    }
+            },
+            "tasa_interes": random.randint(1, 100),
+            "saldo_pendiente": random.randint(1, 999999),
+            "montos_abonados": getMontosAbonados(),
+            "plazo_adeudo": random.randint(1, 72),
+            "unidad_medida_adeudo": getUnidadMedida(),
+            "titularidad_deuda": getTitularBien(),
+            "porcentaje_adeudo_titular": random.randint(1, 100),
+            "garantia": rand_bool(),
+            "nombre_garante": get_full_name(),
+            "observaciones": lorem_ipsum()
+        })
 
-    return inmueble
+    return list
 
-def nivel_gobierno():
-    niveles = [
-        {
-            "codigo": "EST",
-            "valor": "Estatal"
-        },
-        {
-            "codigo": "FED",
-            "valor": "Federal"
-        },
-        {
-            "codigo": "MUN",
-            "valor": "Municipal"
-        }
-    ]
 
-    return random.choice(niveles)
+with open('./catalogos/catTipoObligacion.json') as tipo_obligacion:
+    cat_tipo_obligacion = json.load(tipo_obligacion)
 
-def grados_academicos():
-    grados = [
-      {
-        "codigo": "PREE",
-        "valor": "Preescolar"
-      },
-      {
-        "codigo": "PRIM",
-        "valor": "Primaria"
-      },
-      {
-        "codigo": "SECU",
-        "valor": "Secundaria"
-      },
-      {
-        "codigo": "BACH",
-        "valor": "Bachillerato"
-      },
-      {
-        "codigo": "LICE",
-        "valor": "Licenciatura"
-      },
-      {
-        "codigo": "MAES",
-        "valor": "Maestría"
-      },
-      {
-        "codigo": "DOCT",
-        "valor": "Doctorado"
-      }
-    ]
 
-    return random.choice(grados)
+def getTipoObligacion():
+    return random.choice(cat_tipo_obligacion)
+
+
+def getOtrasObligaciones():
+    list = []
+    for x in range(random.randint(1, 6)):
+        list.append({
+            "id": int(getNumeros(10)),
+            "tipo_operacion": getTipoOperacion3(),
+            "tipo_acreedor": getTipoAcreedor(),
+            "tipo_obligacion": getTipoObligacion(),
+            "identificador_obligacion": "{}{}".format(getMayusculas(4), getNumeros(6)),
+            "nacional_extranjero": {
+                "valor": "MEXICO",
+                "codigo": "MX"
+            },
+            "nombre_acreedor": get_full_name(),
+            "rfc_acreedor": get_rfc(),
+            "sector_industria": getSectorIndustria(),
+            "domicilio_acreedor": get_address(),
+            "fecha_obligacion": getFecha(),
+            "monto_original": get_amount(1, 999999),
+            "tipo_moneda": {
+                "codigo": "MXN",
+                "moneda": "MXN"
+            },
+            "tasa_interes": random.randint(1, 100),
+            "saldo_pendiente": random.randint(1, 999999),
+            "montos_abonados": getMontosAbonados(),
+            "plazo_adeudo": random.randint(1, 72),
+            "unidad_medida_adeudo": getUnidadMedida(),
+            "titularidad_obligacion": getTitularBien(),
+            "porcentaje_obligacion_titular": random.randint(1, 100),
+            "garantia": rand_bool(),
+            "nombre_garante": get_full_name(),
+            "observaciones": lorem_ipsum()
+        })
+
+    return list
