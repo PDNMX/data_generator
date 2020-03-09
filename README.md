@@ -1,4 +1,4 @@
-# Generador de datos sintéticos [![Build Status](https://travis-ci.org/PDNMX/data_generator.svg?branch=master)](https://travis-ci.org/PDNMX/data_generator)
+# Generador de datos sintéticos 
 
 ## ¿Qué es y para qué sirve?
 Es un generador de datos sintético para los 6 sistemas de la PDN. 
